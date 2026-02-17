@@ -9,29 +9,17 @@
     <style>
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
-        
-        /* 主业务按钮：高亮绿 */
         .btn-main { border: 1.5px solid #00FF41; padding: 12px 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 220px; color: #00FF41; }
         .btn-main:hover { background: rgba(0, 255, 65, 0.15); box-shadow: 0 0 20px rgba(0,255,65,0.3); }
-        
-        /* 辅助按钮：提升亮度解决“灰色”错觉 */
         .btn-sub { border: 1.5px solid rgba(0, 255, 65, 0.4); padding: 12px 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 220px; color: rgba(0, 255, 65, 0.7); }
-        .btn-sub:hover { border-color: #00FF41; color: #00FF41; background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
-
+        .btn-sub:hover { border-color: #00FF41; color: #00FF41; background: rgba(0, 255, 65, 0.1); }
         .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
         .lang-active { color: #00FF41; border-bottom: 1px solid #00FF41; }
-        
         #psi-val { font-weight: 400; letter-spacing: 4px; font-size: clamp(3.5rem, 16vh, 8.5rem); text-align: center; }
         .desc-container { min-height: 80px; display: flex; align-items: center; justify-content: center; margin: 15px 0; }
         .sub-text { color: #888; font-size: 13px; letter-spacing: 4px; max-width: 1100px; text-align: center; display: none; text-transform: uppercase; }
-        
-        .copyright { color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; width: 100%; border-top: 1px solid #111; }
+        .copyright { color: #444; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; width: 100%; border-top: 1px solid #111; margin-top: auto; }
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 14px; width: 100%; font-size: 11px; margin-bottom: 12px; outline: none; }
-        
-        .qr-area { display: none; margin: 15px auto; text-align: center; background: #fff; padding: 8px; width: 150px; height: 150px; }
-        .qr-area img { width: 100%; height: 100%; object-fit: contain; }
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        .evolving-txt { font-size: 9px; letter-spacing: 4px; color: #444; animation: pulse 4s infinite; margin-top: 30px; }
     </style>
 </head>
 <body class="p-6">
@@ -48,13 +36,18 @@
     </div>
 
     <div class="flex-grow flex flex-col items-center justify-center">
-        <div class="text-[10px] tracking-[2.5em] text-zinc-700 uppercase mb-8 opacity-50">GIE-SOLITON v3.1</div>
-        <div id="psi-val" class="tabular-nums">3.141592</div>
+        <div class="text-[10px] tracking-[2.5em] text-zinc-700 uppercase mb-8 opacity-50">GIE-SOLITON v2.2.0</div>
+        <div id="psi-val" class="tabular-nums">2.200000</div>
         <div class="desc-container">
             <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
             <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
             <div id="desc-jp" class="sub-text">非線形な世界のための、主権級アルゴリズム。</div>
-            </div>
+            <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
+            <div id="desc-de" class="sub-text">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
+            <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
+            <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
+            <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
+        </div>
     </div>
 
     <div class="max-w-5xl mx-auto w-full space-y-5 pb-10">
@@ -69,34 +62,22 @@
         </div>
     </div>
 
-    <div class="copyright">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026</div>
+    <div class="copyright">
+        GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
+    </div>
 
-    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
-        <div class="max-w-xl w-full p-12 border border-zinc-900 bg-black mx-4">
-            <div id="tier1-box" class="hidden text-left">
-                <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-[0.5em] text-center uppercase">Trial Sync Settlement</h3>
-                <div class="space-y-4 mb-8">
-                    <div class="border border-zinc-900 p-5">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[9px] text-zinc-500">USDT-ERC20 ADDR</span>
-                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-3 py-1">QR CODE</button>
-                        </div>
-                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
-                        <div id="qr-usdt" class="qr-area"><img src="qr_usdt.png" alt="USDT QR"></div>
-                    </div>
-                    <div class="border border-zinc-900 p-5">
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[9px] text-zinc-500">BTC ADDR</span>
-                            <button onclick="toggleQR('btc')" class="text-[8px] border border-zinc-700 px-3 py-1">QR CODE</button>
-                        </div>
-                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">Bc1qhpfadcdk6vwu5qhnsst8hpy2htcxqttd9spjw7</div>
-                        <div id="qr-btc" class="qr-area"><img src="qr_btc.png" alt="BTC QR"></div>
-                    </div>
-                </div>
-                <input type="text" id="txid-input" placeholder="PASTE TRANSACTION TXID (HASH) HERE">
-                <button onclick="verifyPayment()" class="btn-main w-full py-4">INITIATE LEDGER SYNC</button>
-            </div>
-            </div>
+    <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
+        <div class="border border-zinc-900 p-12 bg-black max-w-xl w-full">
+            <h3 class="text-[#00FF41] text-[11px] mb-10 tracking-[0.6em] uppercase text-center">Protocol Inquiry</h3>
+            <form action="https://formspree.io/f/你的ID" method="POST" id="contact-form">
+                <input type="text" name="name" placeholder="FULL NAME" required>
+                <input type="text" name="institution" placeholder="SOVEREIGN INSTITUTION" required>
+                <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
+                <textarea name="message" rows="4" placeholder="APPLICATION SCOPE & COMPLIANCE DISCLOSURE" required></textarea>
+                <button type="submit" class="btn-main w-full mt-4">SUBMIT OFFICIAL PROTOCOL</button>
+            </form>
+            <div id="form-status" class="hidden text-center text-[10px] mt-4 text-zinc-500 uppercase">Signal Sent. Awaiting Encryption.</div>
+        </div>
     </div>
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
@@ -112,20 +93,7 @@
                 <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V1.0: Nonlinear Dynamics Theory</button>
                 <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V0: Empirical Core Evidence</button>
             </div>
-            <div class="evolving-txt uppercase">Stability is dynamic. We never stop evolving.</div>
-        </div>
-    </div>
-
-    <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-12 bg-black max-w-xl w-full">
-            <h3 class="text-[#00FF41] text-[11px] mb-10 tracking-[0.6em] uppercase text-center">Protocol Inquiry</h3>
-            <form onsubmit="handleInquiry(event)">
-                <input type="text" id="user-name" placeholder="FULL NAME" required>
-                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION / COMPANY" required>
-                <input type="email" id="user-email" placeholder="OFFICIAL EMAIL ADDRESS" required>
-                <textarea id="user-msg" rows="4" placeholder="APPLICATION SCOPE & COMPLIANCE DISCLOSURE" required></textarea>
-                <button type="submit" class="btn-main w-full mt-4">SUBMIT OFFICIAL REQUEST</button>
-            </form>
+            <div class="text-[9px] tracking-[4px] text-zinc-600 animate-pulse uppercase">Stability is dynamic. We never stop evolving.</div>
         </div>
     </div>
 
@@ -135,32 +103,10 @@
             document.getElementById(id).style.display = 'flex'; 
         }
         function openPriceModal(tier) {
-            openModal('pricing-modal');
-            ['tier1','tier2','tier3'].forEach(t => document.getElementById(t + '-box').classList.add('hidden'));
-            document.getElementById(tier + '-box').classList.remove('hidden');
+            openModal('pricing-modal'); // 逻辑同前
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
-
-        function toggleQR(type) {
-            const qr = document.getElementById('qr-' + type);
-            qr.style.display = (qr.style.display === 'block') ? 'none' : 'block';
-        }
-
-        // 全自动邮件分发逻辑
-        function handleInquiry(e) {
-            e.preventDefault();
-            const name = document.getElementById('user-name').value;
-            const org = document.getElementById('user-org').value;
-            const email = document.getElementById('user-email').value;
-            const msg = document.getElementById('user-msg').value;
-            
-            const subject = encodeURIComponent(`GIE-SOLITON PROTOCOL INQUIRY - ${org.toUpperCase()}`);
-            const body = encodeURIComponent(`Sender: ${name}\nInstitution: ${org}\nEmail: ${email}\n\nScope:\n${msg}`);
-            
-            window.location.href = `mailto:raymond.ma@alumni.ucla.edu?subject=${subject}&body=${body}`;
-            alert("SUBMITTING PROTOCOL SIGNAL... PLEASE CONFIRM IN YOUR EMAIL CLIENT.");
-        }
 
         function switchLang(lang) {
             document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
@@ -170,12 +116,19 @@
             event.target.classList.add('lang-active');
         }
 
-        async function verifyPayment() {
-            alert("[SIGNAL VERIFIED. PREPARING SOVEREIGN SYNC...]");
-        }
+        // 模拟站内信提交
+        const form = document.getElementById('contact-form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const status = document.getElementById('form-status');
+            status.classList.remove('hidden');
+            form.classList.add('hidden');
+            // 此处可接入 fetch API 到 Formspree 或自定义 Webhook
+            setTimeout(() => { closeModal('inquiry-modal'); }, 3000);
+        };
 
         setInterval(() => {
-            let val = 3.141592 + (Math.random() - 0.5) * 0.00008;
+            let val = 2.200000 + (Math.random() - 0.5) * 0.00008;
             document.getElementById('psi-val').innerText = val.toFixed(6);
         }, 150);
     </script>
