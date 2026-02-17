@@ -1,159 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIE-Soliton | Sovereign Terminal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>GIE-Soliton V2.2 Terminal</title>
     <style>
-        body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(40px); }
-        .btn-terminal { border: 1px solid #00FF41; padding: 12px 25px; text-transform: uppercase; letter-spacing: 3px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 220px; }
-        .btn-terminal:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 20px rgba(0,255,65,0.15); }
-        .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 4px 10px; }
-        .lang-active { color: #00FF41; border: 1px solid rgba(0,255,65,0.2); }
-        #psi-val { font-weight: 400; letter-spacing: 4px; font-size: 7.5rem; line-height: 1; text-align: center; margin: 20px 0; }
-        @media (max-width: 768px) { #psi-val { font-size: 3.5rem; } .btn-terminal { min-width: 160px; font-size: 9px; } }
-        .sub-text { color: #888; font-size: 12px; letter-spacing: 3px; max-width: 900px; text-align: center; display: none; margin-top: 15px; }
-        input { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 15px; width: 100%; font-size: 10px; margin-bottom: 20px; outline: none; }
-        .price-tier { display: none; width: 100%; text-align: left; }
-        .spec-box { border-left: 2px solid #00FF41; padding-left: 15px; margin-bottom: 15px; }
-        .spec-label { color: #00FF41; font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
-        .spec-value { color: #ddd; font-size: 10px; letter-spacing: 2px; }
-        .copyright { color: #ccc; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; margin-top: auto; padding-bottom: 30px; text-align: center; width: 100%; }
+        :root {
+            --gie-bg: #000000;
+            --gie-green: #00ff00;
+            --gie-dim: #004400;
+            --line-height: 40px; /* 锁死高度，防止跳行 */
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--gie-bg);
+            color: var(--gie-green);
+            font-family: var(--font-mono);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* 禁止全局滚动 */
+        }
+
+        /* 顶部导航与语言切换 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--line-height);
+            border-bottom: 1px solid var(--gie-green);
+            margin-bottom: 20px;
+        }
+
+        .logo { font-weight: bold; font-size: 1.2rem; }
+
+        select {
+            background: #000;
+            color: var(--gie-green);
+            border: 1px solid var(--gie-green);
+            height: 30px;
+            font-family: var(--font-mono);
+            outline: none;
+        }
+
+        /* 主显示区 */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        /* 状态卡片 - 解决显示不全 */
+        .status-panel {
+            border: 1px solid var(--gie-green);
+            padding: 15px;
+            min-height: 120px;
+        }
+
+        .data-row {
+            height: var(--line-height);
+            line-height: var(--line-height);
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dotted var(--gie-dim);
+            white-space: nowrap; /* 强制不换行，解决跳行 */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ∇ 压力梯度矩阵容器 */
+        .matrix-box {
+            border: 1px solid var(--gie-green);
+            flex: 1;
+            position: relative;
+            background: repeating-linear-gradient(0deg, #001100 0px, #001100 1px, transparent 1px, transparent 40px);
+        }
+
+        .matrix-content {
+            padding: 10px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* 底部操作区 */
+        footer {
+            margin-top: 20px;
+            height: var(--line-height);
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background: var(--gie-green);
+            color: #000;
+            border: none;
+            padding: 0 20px;
+            font-family: var(--font-mono);
+            font-weight: bold;
+            cursor: pointer;
+            height: var(--line-height);
+        }
+
+        button:hover { background: #fff; }
+
+        /* RTL 适配 */
+        html[dir="rtl"] body { text-align: right; }
+        html[dir="rtl"] .data-row { flex-direction: row-reverse; }
     </style>
 </head>
-<body class="p-8">
+<body>
 
-    <div class="flex flex-wrap justify-center gap-2 mb-6">
-        <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
-        <span class="lang-btn" onclick="switchLang('cn')">CN</span>
-        <span class="lang-btn" onclick="switchLang('jp')">JP</span>
-        <span class="lang-btn" onclick="switchLang('ru')">RU</span>
-        <span class="lang-btn" onclick="switchLang('ar')">AR</span>
+<header>
+    <div class="logo">GIE-SOLITON V2.2</div>
+    <select id="langSelector">
+        <option value="en">English</option>
+        <option value="zh">简体中文</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="ru">Русский</option>
+        <option value="es">Español</option>
+        <option value="ar">العربية (RTL)</option>
+        <option value="he">עברית (RTL)</option>
+    </select>
+</header>
+
+<main>
+    <section class="status-panel">
+        <div class="data-row">
+            <span data-i18n="addr_label">Target Address:</span>
+            <span>0x457...3874</span>
+        </div>
+        <div class="data-row">
+            <span data-i18n="status_label">Network Status:</span>
+            <span id="syncStatus">IDLE</span>
+        </div>
+        <div class="data-row">
+            <span data-i18n="model_label">Model Version:</span>
+            <span>GIE-Soliton 2.2 (∇ Core)</span>
+        </div>
+    </section>
+
+    <div class="matrix-box">
+        <div class="matrix-content" id="matrixDisplay">
+            [SYSTEM READY] - Waiting for 9,999 USDT Validation...
+        </div>
     </div>
+</main>
 
-    <div class="flex-grow flex flex-col items-center justify-center">
-        <div class="text-[10px] tracking-[2em] text-zinc-600 uppercase mb-4">GIE-SOLITON TERMINAL v2.3</div>
-        <div id="psi-val" class="tabular-nums">3.141592</div>
+<footer>
+    <button id="verifyBtn" data-i18n="btn_verify">INITIATE VERIFICATION</button>
+</footer>
+
+<script>
+    const I18N = {
+        en: { dir: 'ltr', addr_label: 'Target Address:', status_label: 'Network Status:', model_label: 'Model Version:', btn_verify: 'INITIATE VERIFICATION' },
+        zh: { dir: 'ltr', addr_label: '目标地址:', status_label: '网络状态:', model_label: '模型版本:', btn_verify: '发起验证' },
+        ja: { dir: 'ltr', addr_label: '対象アドレス:', status_label: 'ネットワーク:', model_label: 'モデルバージョン:', btn_verify: '検証を開始' },
+        ko: { dir: 'ltr', addr_label: '대상 주소:', status_label: '네트워크 상태:', model_label: '모델 버전:', btn_verify: '검증 시작' },
+        fr: { dir: 'ltr', addr_label: 'Adresse Cible:', status_label: 'État Réseau:', model_label: 'Version Modèle:', btn_verify: 'LANCER LA VÉRIFICATION' },
+        de: { dir: 'ltr', addr_label: 'Zieladresse:', status_label: 'Netzwerkstatus:', model_label: 'Modellversion:', btn_verify: 'VERIFIZIERUNG STARTEN' },
+        ru: { dir: 'ltr', addr_label: 'Целевой адрес:', status_label: 'Статус сети:', model_label: 'Версия модели:', btn_verify: 'НАЧАТЬ ПРОВЕРКУ' },
+        es: { dir: 'ltr', addr_label: 'Dirección Destino:', status_label: 'Estado Red:', model_label: 'Versión Modelo:', btn_verify: 'INICIAR VERIFICACIÓN' },
+        ar: { dir: 'rtl', addr_label: 'العنوان المستهدف:', status_label: 'حالة الشبكة:', model_label: 'إصدار النموذج:', btn_verify: 'بدء التحقق' },
+        he: { dir: 'rtl', addr_label: 'כתובת יעד:', status_label: 'סטטוס רשת:', model_label: 'גרסת מודל:', btn_verify: 'התחל אימות' }
+    };
+
+    const selector = document.getElementById('langSelector');
+    
+    selector.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        const config = I18N[lang];
         
-        <div id="desc-en" class="sub-text block">SOVEREIGN NON-LINEAR ARCHITECTURE. 188.4S TO SINGULARITY.</div>
-        <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4秒直击奇点。</div>
-        <div id="desc-jp" class="sub-text">主権級非線形価格決定アルゴリズム。188.4秒の特異点。</div>
-        <div id="desc-ar" class="sub-text" dir="rtl">هندسة تسعير غير خطية سيادية. 188.4 ثانية للتفرد.</div>
-    </div>
+        // 更新方向和语言
+        document.documentElement.dir = config.dir;
+        document.documentElement.lang = lang;
 
-    <div class="max-w-4xl w-full mx-auto border-y border-zinc-900 py-6 mb-10">
-        <div id="env-en" class="grid grid-cols-3 gap-4 env-lang text-center">
-            <div><div class="spec-label">NODE</div><div class="spec-value">x86_64 AVX-512</div></div>
-            <div><div class="spec-label">CORES</div><div class="spec-value">256 LOGICAL</div></div>
-            <div><div class="spec-label">MEMORY</div><div class="spec-value">1.5TB ECC</div></div>
-        </div>
-        <div id="env-cn" class="grid grid-cols-3 gap-4 env-lang hidden text-center">
-            <div><div class="spec-label">计算节点</div><div class="spec-value">x86_64 指令集</div></div>
-            <div><div class="spec-label">核心规模</div><div class="spec-value">256 逻辑线程</div></div>
-            <div><div class="spec-label">内存锁定</div><div class="spec-value">1.5TB 物理冗余</div></div>
-        </div>
-    </div>
+        // 批量更新文本
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            el.textContent = config[key];
+        });
 
-    <div class="max-w-5xl mx-auto w-full space-y-4">
-        <div class="flex flex-wrap justify-center gap-4">
-            <button onclick="openPriceModal('tier1')" class="btn-terminal" style="border-color: #00FF41;">Quantum (188.4s)</button>
-            <button onclick="openPriceModal('tier2')" class="btn-terminal">Institutional Core</button>
-            <button onclick="openPriceModal('tier3')" class="btn-terminal">Sovereign Source</button>
-        </div>
-        <div class="flex flex-wrap justify-center gap-4">
-            <button onclick="downloadDocs()" class="btn-terminal" style="border-color: #444; color: #888;">Technical Papers</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-terminal" style="border-color: #444; color: #888;">Protocol Inquiry</button>
-        </div>
-    </div>
+        // 模拟 ∇ 逻辑更新
+        document.getElementById('matrixDisplay').innerHTML += `<br>[SYSTEM] Language changed to ${lang}. Re-calculating ∇ gradients...`;
+    });
 
-    <div class="copyright">
-        GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
-    </div>
+    document.getElementById('verifyBtn').addEventListener('click', () => {
+        // 这里对接你的 Etherscan API Key Y7332J...
+        alert("Initializing Etherscan API check for 9,999 USDT...");
+    });
+</script>
 
-    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
-        <div class="max-w-lg w-full p-10 border border-zinc-800 bg-black mx-4">
-            <div id="tier1-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest">TRIAL SYNC / $9,999</h3>
-                <div class="spec-box"><div class="spec-label">USDT-ERC20</div><div class="spec-value text-[9px] break-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div></div>
-                <div class="spec-box"><div class="spec-label">BTC-SEGWIT</div><div class="spec-value text-[9px] break-all">Bc1qhpfadcdk6vwu5qhnsst8hpy2htcxqttd9spjw7</div></div>
-                <input type="text" id="txid-input" placeholder="INPUT TRANSACTION HASH (TXID)">
-                <button onclick="verifyPayment()" class="btn-terminal w-full">Verify & Access</button>
-            </div>
-            <div id="tier2-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">Institutional Annual</h3>
-                <div class="text-3xl font-bold mb-6 text-white">$8,888,888</div>
-                <p class="text-[9px] text-zinc-500 leading-relaxed uppercase mb-6">Binary core deployment. 24/7 dedicated L2 support. Node-locked encryption.</p>
-                <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">Request Contract</button>
-            </div>
-            <div id="tier3-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">Sovereign Buyout</h3>
-                <div class="text-3xl font-bold mb-6 text-white">$100M - $250M</div>
-                <p class="text-[9px] text-zinc-500 leading-relaxed uppercase mb-6">Full IP Transfer. Equation 7/8 Source Access. Escrow-based settlement.</p>
-                <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">Begin Due Diligence</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-10 bg-black max-w-md w-full">
-            <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center">PROTOCOL INQUIRY</h3>
-            <form onsubmit="handleInquiry(event)">
-                <input type="text" id="user-org" placeholder="ORGANIZATION" required>
-                <input type="email" id="user-email" placeholder="OFFICIAL EMAIL" required>
-                <button type="submit" class="btn-terminal w-full">SUBMIT REQUEST</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        const ETHERSCAN_KEY = "Y7332J1SB4H8H94FIGTH1K8GKW2B5DSIXA";
-        const MY_WALLET = "0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874";
-
-        function openModal(id) { 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-            document.getElementById(id).style.display = 'flex'; 
-        }
-        function openPriceModal(tier) {
-            openModal('pricing-modal');
-            document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none');
-            document.getElementById(tier + '-box').style.display = 'block';
-        }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
-
-        function switchLang(lang) {
-            document.querySelectorAll('.sub-text, .env-lang').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
-            const desc = document.getElementById('desc-' + lang);
-            const env = document.getElementById('env-' + lang) || document.getElementById('env-en');
-            if(desc) desc.style.display = 'block';
-            if(env) env.style.display = 'grid';
-            event.target.classList.add('lang-active');
-        }
-
-        function downloadDocs() {
-            // 这里可以替换为你托管白皮书的GitHub链接或SSRN链接
-            window.open('https://github.com/GIE-Official/GIE-Soliton-Docs', '_blank');
-        }
-
-        async function verifyPayment() {
-            const txid = document.getElementById('txid-input').value.trim();
-            if(!txid) return alert("TXID REQUIRED");
-            alert("SCANNING LEDGER... PLEASE WAIT.");
-        }
-
-        setInterval(() => {
-            let val = 3.141592 + (Math.random() - 0.5) * 0.00008;
-            document.getElementById('psi-val').innerText = val.toFixed(6);
-        }, 150);
-
-        function handleInquiry(e) {
-            e.preventDefault();
-            window.location.href = `mailto:raymond.ma@alumni.ucla.edu?subject=GIE_INQUIRY&body=Requesting Sovereign Access Details.`;
-        }
-    </script>
 </body>
 </html>
