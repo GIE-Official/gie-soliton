@@ -10,27 +10,28 @@
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        /* 按钮视觉：彻底拒绝灰色 */
-        .btn-green { border: 1.5px solid #00FF41; padding: 12px 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 220px; color: #00FF41; }
-        .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
+        /* 按钮视觉：极致荧光绿 */
+        .btn-green { border: 1.5px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 210px; color: #00FF41; }
+        .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 20px rgba(0,255,65,0.4); }
 
         .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
         .lang-active { color: #00FF41; border-bottom: 1px solid #00FF41; }
         
-        /* 魏神核心不等式：N-S 增强耗散控制 */
-        .formula-container { text-align: center; margin-top: -30px; }
-        .formula-main { font-size: clamp(1.1rem, 4vh, 2.2rem); color: #00FF41; filter: drop-shadow(0 0 12px rgba(0,255,65,0.5)); line-height: 1.6; font-family: 'Times New Roman', serif; }
-        .formula-tag { font-size: 9px; color: #1a3a1e; letter-spacing: 0.8em; margin-top: 25px; }
+        /* 公式区优化：缩小并上提 */
+        .formula-container { text-align: center; margin-top: -60px; }
+        .formula-main { font-size: clamp(0.9rem, 3vh, 1.6rem); color: #00FF41; filter: drop-shadow(0 0 8px rgba(0,255,65,0.5)); line-height: 1.6; font-family: 'Times New Roman', serif; }
+        .formula-tag { font-size: 8px; color: #1a3a1e; letter-spacing: 0.6em; margin-top: 15px; text-transform: uppercase; }
         
-        .desc-container { min-height: 80px; display: flex; align-items: center; justify-content: center; margin-top: 15px; }
-        .sub-text { color: #888; font-size: 13px; letter-spacing: 4px; max-width: 1100px; text-align: center; display: none; text-transform: uppercase; }
+        .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 5px; }
+        .sub-text { color: #888; font-size: 12px; letter-spacing: 4px; max-width: 1000px; text-align: center; display: none; text-transform: uppercase; }
         
-        /* Copyright 绝对底部锁定 */
-        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #666; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        /* 按钮整体布局上提 */
+        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 80px; }
+
+        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 20px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
         
-        input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 14px; width: 100%; font-size: 11px; margin-bottom: 12px; outline: none; }
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        .evolving-txt { font-size: 9px; letter-spacing: 4px; color: #333; animation: pulse 4s infinite; margin-top: 40px; }
+        input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
+        .price-tier { display: none; width: 100%; text-align: left; }
     </style>
 </head>
 <body class="p-6">
@@ -51,22 +52,20 @@
             <div class="formula-main italic">
                 ||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}
             </div>
-            <div class="formula-tag uppercase">Hyper-Dissipative Regularity Control</div>
+            <div class="formula-tag">Hyper-Dissipative Regularity Control</div>
         </div>
 
         <div class="desc-container">
             <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
             <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
             <div id="desc-jp" class="sub-text">非線形な世界のための、主権級アルゴリズム。</div>
-            <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
-            <div id="desc-de" class="sub-text">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
             <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
             <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
             <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
         </div>
     </div>
 
-    <div class="max-w-5xl mx-auto w-full space-y-5 pb-24">
+    <div class="action-zone space-y-5">
         <div class="flex flex-wrap justify-center gap-5">
             <button onclick="openPriceModal('tier1')" class="btn-green">Quantum Window ($9,999)</button>
             <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier</button>
@@ -82,33 +81,74 @@
         GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
     </div>
 
+    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
+        <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
+            <div id="tier1-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center uppercase">Trial Sync Settlement</h3>
+                <div class="space-y-4 mb-6">
+                    <div class="border border-zinc-900 p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] text-zinc-500">USDT-ERC20 ADDR</span>
+                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
+                        </div>
+                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
+                        <div id="qr-usdt" class="hidden mt-4 text-center"><img src="qr_usdt.png" class="mx-auto w-32 h-32"></div>
+                    </div>
+                    <div class="border border-zinc-900 p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] text-zinc-500">BTC ADDR</span>
+                            <button onclick="toggleQR('btc')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
+                        </div>
+                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">Bc1qhpfadcdk6vwu5qhnsst8hpy2htcxqttd9spjw7</div>
+                        <div id="qr-btc" class="hidden mt-4 text-center"><img src="qr_btc.png" class="mx-auto w-32 h-32"></div>
+                    </div>
+                </div>
+                <input type="text" id="txid-input" placeholder="PASTE TXID (HASH) HERE">
+                <button onclick="verifyPayment()" class="btn-green w-full py-4">VERIFY & INITIATE SYNC</button>
+            </div>
+
+            <div id="tier2-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase text-center">Institutional (Binary Core)</h3>
+                <div class="text-3xl font-bold mb-4 text-white text-center">$8,888,888</div>
+                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Pre-compiled binaries (.so/.dll). Node-locked. No source access.</p>
+                <button onclick="openModal('inquiry-modal')" class="btn-green w-full">INITIATE INSTITUTIONAL INQUIRY</button>
+            </div>
+
+            <div id="tier3-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase text-center">Sovereign (Full Source)</h3>
+                <div class="text-4xl font-bold mb-4 text-white text-center">$100M — $250M</div>
+                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Full source code disclosure (EQ 7/8). Comprehensive IP transfer.</p>
+                <button onclick="openModal('inquiry-modal')" class="btn-green w-full">INITIATE SOVEREIGN DUE DILIGENCE</button>
+            </div>
+        </div>
+    </div>
+
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-12 bg-black max-w-xl w-full">
-            <h3 class="text-[#00FF41] text-[11px] mb-10 tracking-[0.6em] uppercase text-center">Protocol Inquiry</h3>
-            <form action="https://formspree.io/f/mzdagonr" method="POST" id="contact-form">
+        <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full">
+            <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-widest uppercase text-center">Protocol Inquiry</h3>
+            <form action="https://formspree.io/f/mzdagonr" method="POST">
                 <input type="text" name="name" placeholder="FULL NAME" required>
                 <input type="text" name="institution" placeholder="SOVEREIGN INSTITUTION" required>
                 <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
-                <textarea name="message" rows="4" placeholder="APPLICATION SCOPE & COMPLIANCE DISCLOSURE" required></textarea>
-                <button type="submit" class="btn-green w-full mt-4">SUBMIT SIGNAL</button>
+                <textarea name="message" rows="3" placeholder="APPLICATION SCOPE" required></textarea>
+                <button type="submit" class="btn-green w-full mt-2">SUBMIT SIGNAL</button>
             </form>
         </div>
     </div>
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
-        <div class="max-w-4xl w-full p-12 border border-zinc-900 bg-black text-center mx-4">
-            <h3 class="text-[#00FF41] text-[11px] mb-12 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V2.2: Unified Vector Dynamics (CORE)</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">WP: V2.2 Engineering Specification</button>
-                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V2.1: Numerical Stability Patch</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">WP: V2.1 Robustness Spec</button>
-                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V2.0: High-Frequency Detection</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">WP: V2.0 Algorithmic Architecture</button>
-                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V1.0: Nonlinear Dynamics Theory</button>
-                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V0: Empirical Core Evidence</button>
+        <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
+            <h3 class="text-[#00FF41] text-[11px] mb-10 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
+                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">V2.2: Unified Vector Dynamics (CORE)</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">WP: V2.2 Engineering Specification</button>
+                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">V2.1: Numerical Stability Patch</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">WP: V2.1 Robustness Spec</button>
+                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">V2.0: High-Frequency Detection</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">WP: V2.0 Algorithmic Architecture</button>
+                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">V1.0: Nonlinear Dynamics Theory</button>
+                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">V0: Empirical Core Evidence</button>
             </div>
-            <div class="evolving-txt uppercase">Stability is dynamic. We never stop evolving.</div>
         </div>
     </div>
 
@@ -118,10 +158,17 @@
             document.getElementById(id).style.display = 'flex'; 
         }
         function openPriceModal(tier) {
-            alert("Locking Manifold Reference: 5061.19...");
+            openModal('pricing-modal');
+            document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none');
+            document.getElementById(tier + '-box').style.display = 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
+
+        function toggleQR(type) {
+            const qr = document.getElementById('qr-' + type);
+            qr.classList.toggle('hidden');
+        }
 
         function switchLang(lang) {
             document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
@@ -129,6 +176,10 @@
             const desc = document.getElementById('desc-' + lang);
             if(desc) desc.style.display = 'block';
             event.target.classList.add('lang-active');
+        }
+
+        async function verifyPayment() {
+            alert("Locking Manifold Reference: 5061.19...");
         }
     </script>
 </body>
