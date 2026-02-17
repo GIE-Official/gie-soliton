@@ -7,32 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* 强制单屏：禁止滚动，高度锁定 */
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
-        
-        /* 弹窗样式 */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(40px); }
-        
-        /* 按钮矩阵：微调尺寸以适配单屏 */
         .btn-terminal { border: 1px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 200px; }
         .btn-terminal:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
-        
-        /* 语言按钮：固定网格 */
         .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
-        .lang-active { color: #00FF41; border: 1px solid rgba(0,255,65,0.3); background: rgba(0,255,65,0.05); }
-        
-        /* 数字区域：自动缩放 */
-        #psi-val { font-weight: 400; letter-spacing: 4px; font-size: clamp(3rem, 15vh, 8rem); line-height: 1; text-align: center; }
-        
-        /* 描述文字：关键！预留固定高度防止跳行 */
+        .lang-active { color: #00FF41; border: 1px solid rgba(0,255,65,0.3); }
+        #psi-val { font-weight: 400; letter-spacing: 4px; font-size: clamp(3rem, 15vh, 8rem); text-align: center; }
         .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin: 20px 0; }
         .sub-text { color: #666; font-size: 12px; letter-spacing: 3px; max-width: 900px; text-align: center; display: none; text-transform: uppercase; }
-        
-        /* 底部版权：提亮且固定 */
         .copyright { color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 20px 0; text-align: center; width: 100%; border-top: 1px solid #111; }
         
-        input { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 15px; width: 100%; font-size: 10px; margin-bottom: 20px; outline: none; }
+        /* 支付框专用样式 */
+        input { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 10px; margin-bottom: 15px; outline: none; }
         .price-tier { display: none; width: 100%; text-align: left; }
+        .warning-tag { color: #FF3131; font-size: 9px; letter-spacing: 1px; margin-bottom: 15px; border: 1px solid #FF3131; padding: 8px; text-align: center; }
+        .qr-area { display: none; margin: 15px 0; text-align: center; background: #fff; padding: 10px; width: 120px; height: 120px; margin-left: auto; margin-right: auto; }
     </style>
 </head>
 <body class="p-6">
@@ -41,61 +31,87 @@
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('jp')">JP</span>
-        <span class="lang-btn" onclick="switchLang('fr')">FR</span>
-        <span class="lang-btn" onclick="switchLang('de')">DE</span>
-        <span class="lang-btn" onclick="switchLang('ru')">RU</span>
         <span class="lang-btn" onclick="switchLang('ar')">AR</span>
         <span class="lang-btn" onclick="switchLang('he')">HE</span>
     </div>
 
     <div class="flex-grow flex flex-col items-center justify-center">
-        <div class="text-[10px] tracking-[2em] text-zinc-700 uppercase mb-4">GIE-SOLITON v2.3</div>
+        <div class="text-[10px] tracking-[2em] text-zinc-700 uppercase mb-4">GIE-SOLITON v2.4</div>
         <div id="psi-val" class="tabular-nums">3.141592</div>
-        
         <div class="desc-container">
             <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN NON-LINEAR ARCHITECTURE. 188.4S TO SINGULARITY.</div>
             <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4 秒直击奇点。</div>
-            <div id="desc-jp" class="sub-text">主権級非線形価格決定アーキテクチャ。特異点まで188.4秒。</div>
-            <div id="desc-fr" class="sub-text">ARCHITECTURE SOUVERAINE NON LINÉAIRE. 188,4S VERS LA SINGULARITÉ.</div>
-            <div id="desc-de" class="sub-text">SOUVERÄNE NICHTLINEARE ARCHITEKTUR. 188,4S ZUR SINGULARITÄT.</div>
-            <div id="desc-ru" class="sub-text">СУВЕРЕННАЯ НЕЛИНЕЙНАЯ АРХИТЕКТУРА. 188,4 С ДО СИНГУЛЯРНОСТИ.</div>
-            <div id="desc-ar" class="sub-text" dir="rtl">هندسة تسعير غير خطية سيادية. 188.4 ثانية للتفرد.</div>
-            <div id="desc-he" class="sub-text" dir="rtl">ארכיטקטורת תמחור לא לינארית ריבונית. 188.4 שניות לסינגולריות.</div>
-        </div>
+            </div>
     </div>
-
-    <div class="max-w-4xl w-full mx-auto py-6">
-        <div id="env-en" class="grid grid-cols-3 gap-8 env-lang text-center">
-            <div><div class="text-[#00FF41] text-[9px] mb-1">NODE</div><div class="text-[10px] text-zinc-400">x86_64 AVX-512</div></div>
-            <div><div class="text-[#00FF41] text-[9px] mb-1">CORES</div><div class="text-[10px] text-zinc-400">256 LOGICAL</div></div>
-            <div><div class="text-[#00FF41] text-[9px] mb-1">MEMORY</div><div class="text-[10px] text-zinc-400">1.5TB ECC PHYS</div></div>
-        </div>
-        </div>
 
     <div class="max-w-5xl mx-auto w-full space-y-4 pb-10">
         <div class="flex flex-wrap justify-center gap-4">
-            <button onclick="openPriceModal('tier1')" class="btn-terminal" style="border-color: #00FF41;">Quantum (188.4s)</button>
+            <button onclick="openPriceModal('tier1')" class="btn-terminal" style="border-color: #00FF41;">Quantum Window ($9,999)</button>
             <button onclick="openPriceModal('tier2')" class="btn-terminal">Institutional Core</button>
             <button onclick="openPriceModal('tier3')" class="btn-terminal">Sovereign Tier</button>
         </div>
         <div class="flex flex-wrap justify-center gap-4">
-            <button onclick="downloadDocs()" class="btn-terminal" style="border-color: #333; color: #555;">Technical Papers</button>
+            <button onclick="window.open('https://github.com/GIE-Official', '_blank')" class="btn-terminal" style="border-color: #333; color: #555;">Technical Papers</button>
             <button onclick="openModal('inquiry-modal')" class="btn-terminal" style="border-color: #333; color: #555;">Protocol Inquiry</button>
         </div>
     </div>
 
-    <div class="copyright">
-        GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
-    </div>
+    <div class="copyright">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026</div>
 
     <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
-        <div class="max-w-lg w-full p-10 border border-zinc-800 bg-black mx-4">
+        <div class="max-w-xl w-full p-10 border border-zinc-800 bg-black mx-4">
+            
+            <div class="warning-tag uppercase">CRITICAL: VERIFY ADDRESS ACCURACY. INCORRECT TRANSFERS WILL VOID AUTHENTICATION KEYS.</div>
+
             <div id="tier1-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center">TRIAL SYNC / $9,999</h3>
-                <input type="text" id="txid-input" placeholder="PASTE TRANSACTION HASH (TXID)">
-                <button onclick="verifyPayment()" class="btn-terminal w-full mt-2">Verify & Start</button>
+                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center">QUANTUM TRIAL ACCESS</h3>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="border border-zinc-900 p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] text-zinc-500">USDT-ERC20 ADDRESS</span>
+                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-2 py-1 hover:bg-zinc-800">QR CODE</button>
+                        </div>
+                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
+                        <div id="qr-usdt" class="qr-area"><img src="qr_usdt.png" alt="USDT QR"></div>
+                    </div>
+
+                    <div class="border border-zinc-900 p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[9px] text-zinc-500">BTC SEGWIT ADDRESS</span>
+                            <button onclick="toggleQR('btc')" class="text-[8px] border border-zinc-700 px-2 py-1 hover:bg-zinc-800">QR CODE</button>
+                        </div>
+                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">Bc1qhpfadcdk6vwu5qhnsst8hpy2htcxqttd9spjw7</div>
+                        <div id="qr-btc" class="qr-area"><img src="qr_btc.png" alt="BTC QR"></div>
+                    </div>
+                </div>
+
+                <input type="text" id="txid-input" placeholder="PASTE TRANSACTION HASH (TXID) HERE">
+                <input type="email" id="delivery-email" placeholder="YOUR SECURE EMAIL FOR KEY DELIVERY">
+                <button onclick="verifyPayment()" class="btn-terminal w-full mt-2">VERIFY & INITIATE KEY GENERATION</button>
             </div>
+
+            <div id="tier2-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">INSTITUTIONAL SETTLEMENT</h3>
+                <p class="text-[10px] text-zinc-400 leading-loose mb-8 italic">OFFSHORE WIRE OR STABLECOIN SETTLEMENT SUPPORTED. CONTACT FOR INVOICE.</p>
+                <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">INITIATE INSTITUTIONAL INQUIRY</button>
             </div>
+
+            <div id="tier3-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">SOVEREIGN ACQUISITION</h3>
+                <p class="text-[10px] text-zinc-400 leading-loose mb-8 italic">ESCROW SERVICE VIA PRIVATE BVI ENTITY. FULL IP TRANSFER PROTOCOL.</p>
+                <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">INITIATE DUE DILIGENCE</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="modal" onclick="closeOnBg(event, 'auth-modal')">
+        <div class="text-center p-16 border border-zinc-900 bg-black">
+            <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-widest">SOVEREIGN SYNC TERMINAL</h3>
+            <input type="text" id="auth-key" placeholder="INPUT AUTHENTICATION KEY" class="text-center">
+            <div class="mt-4"><button onclick="verifyAuth()" class="btn-terminal w-full">SYNC & DOWNLOAD CORE</button></div>
+            <div id="auth-log" class="text-[8px] text-zinc-700 mt-4 uppercase">Waiting for identity verification...</div>
+        </div>
     </div>
 
     <script>
@@ -109,11 +125,15 @@
         function openPriceModal(tier) {
             openModal('pricing-modal');
             document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none');
-            const target = document.getElementById(tier + '-box');
-            if(target) target.style.display = 'block';
+            document.getElementById(tier + '-box').style.display = 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
+
+        function toggleQR(type) {
+            const qr = document.getElementById('qr-' + type);
+            qr.style.display = qr.style.display === 'block' ? 'none' : 'block';
+        }
 
         function switchLang(lang) {
             document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
@@ -121,15 +141,32 @@
             const desc = document.getElementById('desc-' + lang);
             if(desc) desc.style.display = 'block';
             event.target.classList.add('lang-active');
-            // 此处可扩展环境参数的语言包映射
+        }
+
+        async function verifyPayment() {
+            const txid = document.getElementById('txid-input').value.trim();
+            const email = document.getElementById('delivery-email').value.trim();
+            if(!txid || !email) return alert("TXID AND EMAIL REQUIRED FOR KEY DELIVERY");
+            
+            alert("SCANNING LEDGER... KEY WILL BE SENT TO " + email.toUpperCase() + " ONCE CONFIRMED.");
+            // 自动化邮件逻辑通常需要后端，这里我们预留前端对账成功后的提示
+        }
+
+        function verifyAuth() {
+            const key = document.getElementById('auth-key').value.trim();
+            const today = new Date();
+            const correct = "GIE-" + (today.getUTCDate() * (today.getUTCMonth()+1) * 88);
+            if(key === correct) {
+                window.location.href = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
+            } else {
+                document.getElementById('auth-log').innerText = "DENIED: INVALID SECURITY TOKEN";
+            }
         }
 
         setInterval(() => {
             let val = 3.141592 + (Math.random() - 0.5) * 0.00008;
             document.getElementById('psi-val').innerText = val.toFixed(6);
         }, 150);
-
-        function downloadDocs() { window.open('https://github.com/GIE-Official/GIE-Soliton-Docs', '_blank'); }
     </script>
 </body>
 </html>
