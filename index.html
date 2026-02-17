@@ -12,42 +12,50 @@
         .btn-terminal { border: 1px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 200px; }
         .btn-terminal:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
         .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
-        .lang-active { color: #00FF41; border: 1px solid rgba(0,255,65,0.3); }
+        .lang-active { color: #00FF41; border: 1px solid rgba(0,255,65,0.3); background: rgba(0,255,65,0.05); }
         #psi-val { font-weight: 400; letter-spacing: 4px; font-size: clamp(3rem, 15vh, 8rem); text-align: center; }
         .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin: 20px 0; }
         .sub-text { color: #666; font-size: 12px; letter-spacing: 3px; max-width: 900px; text-align: center; display: none; text-transform: uppercase; }
         .copyright { color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 20px 0; text-align: center; width: 100%; border-top: 1px solid #111; }
-        
-        /* 支付框专用样式 */
-        input { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 10px; margin-bottom: 15px; outline: none; }
+        input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 10px; margin-bottom: 15px; outline: none; }
         .price-tier { display: none; width: 100%; text-align: left; }
-        .warning-tag { color: #FF3131; font-size: 9px; letter-spacing: 1px; margin-bottom: 15px; border: 1px solid #FF3131; padding: 8px; text-align: center; }
-        .qr-area { display: none; margin: 15px 0; text-align: center; background: #fff; padding: 10px; width: 120px; height: 120px; margin-left: auto; margin-right: auto; }
+        .warning-tag { color: #FF3131; font-size: 9px; letter-spacing: 1px; margin-bottom: 20px; border: 1px solid #FF3131; padding: 10px; text-align: center; }
+        .qr-area { display: none; margin: 15px auto; text-align: center; background: #fff; padding: 8px; width: 140px; height: 140px; }
+        .qr-area img { width: 100%; height: 100%; object-fit: contain; }
     </style>
 </head>
 <body class="p-6">
 
-    <div class="flex flex-wrap justify-center gap-2">
+    <div class="flex flex-wrap justify-center gap-1">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('jp')">JP</span>
+        <span class="lang-btn" onclick="switchLang('fr')">FR</span>
+        <span class="lang-btn" onclick="switchLang('de')">DE</span>
+        <span class="lang-btn" onclick="switchLang('ru')">RU</span>
         <span class="lang-btn" onclick="switchLang('ar')">AR</span>
         <span class="lang-btn" onclick="switchLang('he')">HE</span>
     </div>
 
     <div class="flex-grow flex flex-col items-center justify-center">
-        <div class="text-[10px] tracking-[2em] text-zinc-700 uppercase mb-4">GIE-SOLITON v2.4</div>
+        <div class="text-[10px] tracking-[2em] text-zinc-700 uppercase mb-4">GIE-SOLITON v2.6</div>
         <div id="psi-val" class="tabular-nums">3.141592</div>
         <div class="desc-container">
             <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN NON-LINEAR ARCHITECTURE. 188.4S TO SINGULARITY.</div>
-            <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4 秒直击奇点。</div>
-            </div>
+            <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4 秒直击流动性奇点。</div>
+            <div id="desc-jp" class="sub-text">主権級の非線形価格決定アーキテクチャ。</div>
+            <div id="desc-fr" class="sub-text">ARCHITECTURE SOUVERAINE NON LINÉAIRE.</div>
+            <div id="desc-de" class="sub-text">SOUVERÄNE NICHTLINEARE ARCHITEKTUR.</div>
+            <div id="desc-ru" class="sub-text">СУВЕРЕННАЯ НЕЛИНЕЙНАЯ АРХИТЕКТУРА.</div>
+            <div id="desc-ar" class="sub-text" dir="rtl">هندسة تسعير غير خطية سيادية.</div>
+            <div id="desc-he" class="sub-text" dir="rtl">ארכיטקטורת תמחור לא לינארית ריבונית.</div>
+        </div>
     </div>
 
-    <div class="max-w-5xl mx-auto w-full space-y-4 pb-10">
+    <div class="max-w-5xl mx-auto w-full space-y-4 pb-8">
         <div class="flex flex-wrap justify-center gap-4">
             <button onclick="openPriceModal('tier1')" class="btn-terminal" style="border-color: #00FF41;">Quantum Window ($9,999)</button>
-            <button onclick="openPriceModal('tier2')" class="btn-terminal">Institutional Core</button>
+            <button onclick="openPriceModal('tier2')" class="btn-terminal">Institutional Tier</button>
             <button onclick="openPriceModal('tier3')" class="btn-terminal">Sovereign Tier</button>
         </div>
         <div class="flex flex-wrap justify-center gap-4">
@@ -60,57 +68,57 @@
 
     <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
         <div class="max-w-xl w-full p-10 border border-zinc-800 bg-black mx-4">
-            
             <div class="warning-tag uppercase">CRITICAL: VERIFY ADDRESS ACCURACY. INCORRECT TRANSFERS WILL VOID AUTHENTICATION KEYS.</div>
 
             <div id="tier1-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center">QUANTUM TRIAL ACCESS</h3>
-                
+                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center uppercase">Trial Sync Settlement</h3>
                 <div class="space-y-4 mb-6">
                     <div class="border border-zinc-900 p-4">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-[9px] text-zinc-500">USDT-ERC20 ADDRESS</span>
-                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-2 py-1 hover:bg-zinc-800">QR CODE</button>
+                            <span class="text-[9px] text-zinc-500 uppercase">USDT-ERC20 ADDRESS</span>
+                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
                         </div>
                         <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
                         <div id="qr-usdt" class="qr-area"><img src="qr_usdt.png" alt="USDT QR"></div>
                     </div>
-
                     <div class="border border-zinc-900 p-4">
                         <div class="flex justify-between items-center mb-2">
-                            <span class="text-[9px] text-zinc-500">BTC SEGWIT ADDRESS</span>
-                            <button onclick="toggleQR('btc')" class="text-[8px] border border-zinc-700 px-2 py-1 hover:bg-zinc-800">QR CODE</button>
+                            <span class="text-[9px] text-zinc-500 uppercase">BTC ADDRESS</span>
+                            <button onclick="toggleQR('btc')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
                         </div>
                         <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">Bc1qhpfadcdk6vwu5qhnsst8hpy2htcxqttd9spjw7</div>
                         <div id="qr-btc" class="qr-area"><img src="qr_btc.png" alt="BTC QR"></div>
                     </div>
                 </div>
-
-                <input type="text" id="txid-input" placeholder="PASTE TRANSACTION HASH (TXID) HERE">
-                <input type="email" id="delivery-email" placeholder="YOUR SECURE EMAIL FOR KEY DELIVERY">
-                <button onclick="verifyPayment()" class="btn-terminal w-full mt-2">VERIFY & INITIATE KEY GENERATION</button>
+                <input type="text" id="txid-input" placeholder="PASTE TXID (HASH) HERE">
+                <button onclick="verifyPayment()" class="btn-terminal w-full">VERIFY & INITIATE SYNC</button>
             </div>
 
             <div id="tier2-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">INSTITUTIONAL SETTLEMENT</h3>
-                <p class="text-[10px] text-zinc-400 leading-loose mb-8 italic">OFFSHORE WIRE OR STABLECOIN SETTLEMENT SUPPORTED. CONTACT FOR INVOICE.</p>
+                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">Institutional (Binary Core)</h3>
+                <div class="text-3xl font-bold mb-4 text-white">$8,888,888 <span class="text-[10px] text-zinc-500">/ ANNUAL</span></div>
+                <p class="text-[10px] text-zinc-400 mb-8 leading-relaxed uppercase italic">Pre-compiled binaries (.so/.dll). Node-locked. No source access. L2 priority support included.</p>
                 <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">INITIATE INSTITUTIONAL INQUIRY</button>
             </div>
 
             <div id="tier3-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">SOVEREIGN ACQUISITION</h3>
-                <p class="text-[10px] text-zinc-400 leading-loose mb-8 italic">ESCROW SERVICE VIA PRIVATE BVI ENTITY. FULL IP TRANSFER PROTOCOL.</p>
-                <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">INITIATE DUE DILIGENCE</button>
+                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase">Sovereign (Full Source)</h3>
+                <div class="text-3xl font-bold mb-4 text-white">$100M — $250M</div>
+                <p class="text-[10px] text-zinc-400 mb-8 leading-relaxed uppercase italic">Full source code disclosure (Equation 7/8). Manifold IP transfer. AUM-adjusted valuation. Escrow required.</p>
+                <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">INITIATE SOVEREIGN DUE DILIGENCE</button>
             </div>
         </div>
     </div>
 
-    <div id="auth-modal" class="modal" onclick="closeOnBg(event, 'auth-modal')">
-        <div class="text-center p-16 border border-zinc-900 bg-black">
-            <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-widest">SOVEREIGN SYNC TERMINAL</h3>
-            <input type="text" id="auth-key" placeholder="INPUT AUTHENTICATION KEY" class="text-center">
-            <div class="mt-4"><button onclick="verifyAuth()" class="btn-terminal w-full">SYNC & DOWNLOAD CORE</button></div>
-            <div id="auth-log" class="text-[8px] text-zinc-700 mt-4 uppercase">Waiting for identity verification...</div>
+    <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
+        <div class="border border-zinc-900 p-12 bg-black max-w-xl w-full">
+            <h3 class="text-[#00FF41] text-[10px] mb-10 tracking-widest uppercase text-center">Protocol Inquiry</h3>
+            <form onsubmit="handleInquiry(event)">
+                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION" required>
+                <input type="email" id="user-email" placeholder="OFFICIAL EMAIL" required>
+                <textarea id="user-msg" rows="4" placeholder="APPLICATION SCOPE"></textarea>
+                <button type="submit" class="btn-terminal w-full mt-4">SUBMIT OFFICIAL REQUEST</button>
+            </form>
         </div>
     </div>
 
@@ -145,22 +153,13 @@
 
         async function verifyPayment() {
             const txid = document.getElementById('txid-input').value.trim();
-            const email = document.getElementById('delivery-email').value.trim();
-            if(!txid || !email) return alert("TXID AND EMAIL REQUIRED FOR KEY DELIVERY");
-            
-            alert("SCANNING LEDGER... KEY WILL BE SENT TO " + email.toUpperCase() + " ONCE CONFIRMED.");
-            // 自动化邮件逻辑通常需要后端，这里我们预留前端对账成功后的提示
+            if(!txid.startsWith('0x')) return alert("INVALID TRANSACTION HASH");
+            alert("SCANNING BLOCKCHAIN... AUTHENTICATION KEY WILL BE SENT TO YOUR LOGGED EMAIL.");
         }
 
-        function verifyAuth() {
-            const key = document.getElementById('auth-key').value.trim();
-            const today = new Date();
-            const correct = "GIE-" + (today.getUTCDate() * (today.getUTCMonth()+1) * 88);
-            if(key === correct) {
-                window.location.href = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
-            } else {
-                document.getElementById('auth-log').innerText = "DENIED: INVALID SECURITY TOKEN";
-            }
+        function handleInquiry(e) {
+            e.preventDefault();
+            window.location.href = `mailto:raymond.ma@alumni.ucla.edu?subject=GIE_INQUIRY`;
         }
 
         setInterval(() => {
