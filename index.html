@@ -8,21 +8,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow-x: hidden; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(60px); }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(60px); overflow-y: auto; }
         .btn-terminal { border: 1px solid #00FF41; padding: 14px 35px; text-transform: uppercase; letter-spacing: 4px; transition: 0.3s; background: transparent; font-size: 11px; cursor: pointer; }
         .btn-terminal:hover { background: rgba(0, 255, 65, 0.15); box-shadow: 0 0 30px rgba(0,255,65,0.2); }
         .lang-btn { font-size: 11px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 15px; border: 1px solid transparent; }
         .lang-btn:hover, .lang-active { color: #00FF41; border-color: rgba(0,255,65,0.3); background: rgba(0,255,65,0.05); }
-        .sub-text { color: #555; font-size: 11px; letter-spacing: 3px; max-width: 900px; margin: 0 auto; line-height: 2.8; display: none; text-transform: uppercase; }
+        .sub-text { color: #555; font-size: 11px; letter-spacing: 3px; max-width: 900px; margin: 0 auto; line-height: 2.8; display: none; text-transform: uppercase; text-align: center; }
         #psi-container { display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; padding: 40px 0; }
         #psi-val { font-weight: 400; letter-spacing: 4px; font-size: 8rem; line-height: 1; text-align: center; }
         @media (max-width: 768px) { #psi-val { font-size: 4rem; } }
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 18px; outline: none; width: 100%; font-size: 11px; font-family: 'Orbitron'; margin-bottom: 15px; }
         .spec-box { border-left: 2px solid #00FF41; padding-left: 20px; margin-bottom: 15px; }
-        .spec-label { color: #00FF41; font-size: 10px; letter-spacing: 2px; opacity: 0.8; margin-bottom: 4px; }
-        .spec-value { color: #ccc; font-size: 10px; letter-spacing: 3px; }
-        .price-tier { border: 1px solid #222; padding: 20px; margin-bottom: 20px; text-align: left; transition: 0.3s; }
-        .price-tier:hover { border-color: #00FF41; }
+        .price-tier { border: 1px solid #111; padding: 25px; margin-bottom: 25px; text-align: left; transition: 0.4s; }
+        .price-tier:hover { border-color: #00FF41; background: rgba(0,255,65,0.02); }
+        #timer-display { font-size: 2rem; color: #FF3131; display: none; margin-top: 20px; text-shadow: 0 0 15px #FF3131; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-12">
@@ -32,130 +31,146 @@
         <span class="lang-btn" onclick="switchLang('cn')">中文</span>
         <span class="lang-btn" onclick="switchLang('fr')">FRANÇAIS</span>
         <span class="lang-btn" onclick="switchLang('de')">DEUTSCH</span>
-        <span class="lang-btn" onclick="switchLang('jp')">日本語</span>
-        <span class="lang-btn" onclick="switchLang('es')">ESPAÑOL</span>
+        <span class="lang-btn" onclick="switchLang('ru')">РУССКИЙ</span>
+        <span class="lang-btn" onclick="switchLang('ar')">ARABIC</span>
+        <span class="lang-btn" onclick="switchLang('he')">HEBREW</span>
     </div>
 
     <div id="psi-container">
         <div class="text-[11px] tracking-[1.8em] mb-12 text-zinc-500 uppercase">Manifold Matrix v2.2</div>
         <div id="psi-val" class="tabular-nums">3.141592</div>
+        <div id="timer-display">SYNCING: 188.4s</div>
         
-        <div class="mt-20 text-center">
-            <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN-GRADE NON-LINEAR PRICING ARCHITECTURE. 188.4 SECONDS TO WITNESS THE SINGULARITY. EXTREMELY LIMITED RELEASE.</div>
+        <div class="mt-20">
+            <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN-GRADE NON-LINEAR PRICING ARCHITECTURE. 188.4 SECONDS TO WITNESS THE SINGULARITY.</div>
             <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4 秒直击流动性奇点。极限量发售。</div>
-            <div id="desc-fr" class="sub-text">ARCHITECTURE DE TARIFICATION NON LINÉAIRE DE QUALITÉ SOUVERAINE. 188,4 SECONDES POUR TÉMOIGNER DE LA SINGULARITÉ.</div>
-            <div id="desc-de" class="sub-text">SOUVERÄNE NICHTLINEARE PREISARCHITEKTUR. 188,4 SEKUNDEN, UM DIE SINGULARITÄT ZU ERLEBEN.</div>
-            <div id="desc-jp" class="sub-text">主権級の非線形価格決定アーキテクチャ。188.4秒でシンギュラリティを。</div>
-            <div id="desc-es" class="sub-text">ARQUITECTURA DE PRECIOS NO LINEALES DE GRADO SOBERANO. 188,4 SEGUNDOS PARA PRESENCIAR LA SINGULARIDAD.</div>
+            <div id="desc-ar" class="sub-text" dir="rtl">هندسة تسعير غير خطية من الدرجة السيادية. 188.4 ثانية.</div>
+            <div id="desc-he" class="sub-text" dir="rtl">ארכיטקטורת תמחור לא לינארית בדרגה ריבונית. 188.4 שניות.</div>
         </div>
     </div>
 
     <div class="max-w-5xl w-full my-16 py-10 border-t border-zinc-900">
         <div id="env-en" class="grid md:grid-cols-3 gap-8 env-content">
-            <div class="spec-box"><div class="spec-label">NODE</div><div class="spec-value">x86_64 AVX-512</div></div>
-            <div class="spec-box"><div class="spec-label">CORES</div><div class="spec-value">256 LOGICAL LPs</div></div>
-            <div class="spec-box"><div class="spec-label">MEMORY</div><div class="spec-value">1.5TB ECC PHYS</div></div>
+            <div class="spec-box"><div class="text-[9px] text-[#00FF41] mb-2 tracking-widest uppercase">Node</div><div class="text-[10px] text-zinc-400">x86_64 AVX-512</div></div>
+            <div class="spec-box"><div class="text-[9px] text-[#00FF41] mb-2 tracking-widest uppercase">Cores</div><div class="text-[10px] text-zinc-400">256 Logical LPs</div></div>
+            <div class="spec-box"><div class="text-[9px] text-[#00FF41] mb-2 tracking-widest uppercase">Memory</div><div class="text-[10px] text-zinc-400">1.5TB ECC Phys</div></div>
         </div>
         <div id="env-cn" class="grid md:grid-cols-3 gap-8 env-content hidden">
-            <div class="spec-box"><div class="spec-label">节点架构</div><div class="spec-value">x86_64 AVX-512 支持</div></div>
-            <div class="spec-box"><div class="spec-label">核心规模</div><div class="spec-value">256 逻辑处理器</div></div>
-            <div class="spec-box"><div class="spec-label">内存需求</div><div class="spec-value">1.5TB ECC 物理锁定</div></div>
+            <div class="spec-box"><div class="text-[9px] text-[#00FF41] mb-2 tracking-widest">节点</div><div class="text-[10px] text-zinc-400">x86_64 AVX-512</div></div>
+            <div class="spec-box"><div class="text-[9px] text-[#00FF41] mb-2 tracking-widest">核心</div><div class="text-[10px] text-zinc-400">256 逻辑处理器</div></div>
+            <div class="spec-box"><div class="text-[9px] text-[#00FF41] mb-2 tracking-widest">内存</div><div class="text-[10px] text-zinc-400">1.5TB ECC 物理锁定</div></div>
         </div>
     </div>
 
     <div class="flex flex-col items-center gap-12 w-full mt-auto">
         <div class="flex flex-wrap justify-center items-center gap-8">
-            <button onclick="openModal('auth-modal')" class="btn-terminal">ACCESS ENCLAVE</button>
-            <button onclick="openModal('trial-modal')" class="btn-terminal" style="border-width: 2px;">QUANTUM WINDOW 3.14 (188.4S) / $9,999</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-terminal">PROTOCOL INQUIRY</button>
+            <button onclick="openModal('auth-modal')" class="btn-terminal">Access Enclave</button>
+            <button onclick="openModal('trial-modal')" class="btn-terminal" style="border-width: 2px;">Quantum Window (188.4s)</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-terminal">Protocol Inquiry</button>
         </div>
         <div class="text-[9px] tracking-[1.2em] text-zinc-800 uppercase pb-4">© 2026 GIE-ENCLAVE | RAYMOND MA | ALL RIGHTS RESERVED</div>
     </div>
 
     <div id="trial-modal" class="modal" onclick="closeOnBg(event, 'trial-modal')">
-        <div class="max-w-2xl text-center p-12 border border-zinc-900 bg-black">
-            <h2 class="text-[#00FF41] mb-10 tracking-[0.5em] text-[10px] uppercase">Quantum Sync & Licensing</h2>
+        <div class="max-w-2xl w-full text-center p-12 border border-zinc-900 bg-black mx-4">
+            <h2 class="text-[#00FF41] mb-8 tracking-[0.5em] text-[10px] uppercase">Automated Sync Protocol</h2>
+            
+            <div class="price-tier" style="border-color: #00FF41;">
+                <div class="text-[#00FF41] text-[9px] mb-4 tracking-widest italic">QUANTUM SYNC / $9,999</div>
+                <div class="text-[10px] text-zinc-500 mb-2 uppercase text-left">Recipient (USDT-ERC20):</div>
+                <div class="text-[11px] text-[#00FF41] mb-6 break-all font-mono text-left">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
+                <input type="text" id="txid-input" placeholder="PASTE TXID (HASH) HERE">
+                <button onclick="verifyPayment()" id="verify-btn" class="btn-terminal w-full">Verify & Start 188.4s Sync</button>
+                <div id="status-log" class="text-[10px] mt-4 text-zinc-600 uppercase tracking-widest">Awaiting Transaction Hash...</div>
+            </div>
+
+            <div class="price-tier">
+                <div class="text-zinc-600 text-[9px] mb-2 tracking-widest">INSTITUTIONAL CORE (BINARY)</div>
+                <div class="text-xl font-bold mb-2">$8,888,888 / ANNUAL</div>
+            </div>
             
             <div class="price-tier">
-                <div class="text-[#00FF41] text-[10px] mb-2 tracking-widest">INSTITUTIONAL (BINARY)</div>
-                <div class="text-2xl mb-2 font-bold">$8,888,888 <span class="text-[10px] text-zinc-600">/ ANNUAL</span></div>
-                <p class="text-[9px] text-zinc-500 uppercase">Pre-compiled binaries. Node-locked. No source access. L2 priority support.</p>
+                <div class="text-zinc-600 text-[9px] mb-2 tracking-widest italic text-zinc-400 underline">SOVEREIGN (FULL SOURCE)</div>
+                <div class="text-xl font-bold mb-2">$100M — $250M</div>
+                <p class="text-[8px] text-zinc-700">AUM-ADJUSTED VALUATION. ESCROW REQUIRED.</p>
             </div>
-
-            <div class="price-tier" style="border-color: #00FF41;">
-                <div class="text-[#00FF41] text-[10px] mb-2 tracking-widest italic">SOVEREIGN (FULL SOURCE)</div>
-                <div class="text-2xl mb-2 font-bold">$100M — $250M</div>
-                <p class="text-[9px] text-zinc-400 uppercase italic underline">Full source code disclosure. Manifold Equation 7/8 included. Subject to AUM-based valuation adjustment.</p>
-            </div>
-
-            <p class="text-[10px] text-zinc-600 mb-10 leading-loose uppercase">Trial Fee: $9,999 for 188.4s sync. Deductible from acquisition cost.</p>
-            <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">SUBMIT ACCESS REQUEST</button>
         </div>
     </div>
 
     <div id="auth-modal" class="modal" onclick="closeOnBg(event, 'auth-modal')">
         <div class="text-center p-16 border border-zinc-900 bg-black">
-            <h2 class="text-[10px] tracking-[0.6em] mb-10 text-zinc-600 uppercase">Input Sync Key</h2>
-            <input type="password" id="auth-key" placeholder="********" class="text-center mb-10 border-b border-[#00FF41]">
-            <div><button onclick="verifyKey()" class="btn-terminal">SUBMIT SYNC</button></div>
-        </div>
-    </div>
-
-    <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-16 bg-black max-w-xl w-full">
-            <h2 class="mb-12 text-[#00FF41] tracking-[0.6em] uppercase text-[10px]">Sovereign Inquiry Protocol</h2>
-            <form id="inquiry-form" onsubmit="handleInquiry(event)">
-                <input type="text" id="user-name" placeholder="REPRESENTATIVE NAME" required>
-                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION" required>
-                <input type="email" id="user-email" placeholder="ENCRYPTED EMAIL" required>
-                <textarea id="user-msg" rows="4" placeholder="APPLICATION SCOPE & ENTITY AUM" required></textarea>
-                <button type="submit" class="btn-terminal w-full mt-4">SUBMIT SOVEREIGN PROTOCOL</button>
-            </form>
+            <input type="password" id="auth-key" placeholder="********" class="text-center mb-8 border-b border-[#00FF41]">
+            <div><button onclick="verifyAuth()" class="btn-terminal">SUBMIT SYNC</button></div>
         </div>
     </div>
 
     <script>
-        const _S = 88;
-        const _DEST = "raymond.ma@alumni.ucla.edu";
+        const MY_WALLET = "0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874";
+        const ETHERSCAN_KEY = "Y7332J1SB4H8H94FIGTH1K8GKW2B5DSIXA";
+        let isSyncing = false;
 
-        function openModal(id) { 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
-            document.getElementById(id).style.display = 'flex'; 
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
 
         function switchLang(lang) {
-            document.querySelectorAll('.sub-text').forEach(d => d.style.display = 'none');
-            document.querySelectorAll('.env-content').forEach(e => e.classList.add('hidden'));
+            document.querySelectorAll('.sub-text, .env-content').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
+            
             const desc = document.getElementById('desc-' + lang);
             const env = document.getElementById('env-' + lang) || document.getElementById('env-en');
+            
             if(desc) desc.style.display = 'block';
-            if(env) env.classList.remove('hidden');
+            if(env) env.style.display = 'grid';
             event.target.classList.add('lang-active');
         }
 
-        function handleInquiry(e) {
-            e.preventDefault();
-            const org = document.getElementById('user-org').value;
-            window.location.href = `mailto:${_DEST}?subject=GIE_SOVEREIGN_PROTOCOL_REQUEST_${org.toUpperCase()}&body=Inquiry Initiated. Requesting technical disclosure.`;
+        async function verifyPayment() {
+            const txid = document.getElementById('txid-input').value.trim();
+            const log = document.getElementById('status-log');
+            if(!txid.startsWith('0x')) { log.innerText = "INVALID HASH FORMAT"; return; }
+            
+            log.innerText = "SCANNING GLOBAL LEDGER...";
+            try {
+                const resp = await fetch(`https://api.etherscan.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${txid}&apikey=${ETHERSCAN_KEY}`);
+                const data = await resp.json();
+                
+                if(data.result && data.result.to.toLowerCase() === MY_WALLET.toLowerCase()) {
+                    log.innerText = "SETTLEMENT CONFIRMED. ACCESS GRANTED.";
+                    setTimeout(startQuantumSync, 2000);
+                } else {
+                    log.innerText = "ERROR: TRANSACTION NOT RECOGNIZED";
+                }
+            } catch(e) { log.innerText = "NETWORK TIMEOUT. RETRYING..."; }
         }
 
-        let currentPsi = 3.141592;
-        setInterval(() => {
-            currentPsi += (Math.random() - 0.5) * 0.00008;
-            if(currentPsi > 3.142500) currentPsi -= 0.0001;
-            if(currentPsi < 3.140200) currentPsi += 0.0001;
-            document.getElementById('psi-val').innerText = currentPsi.toFixed(6);
-        }, 180);
+        function startQuantumSync() {
+            closeModal('trial-modal');
+            isSyncing = true;
+            document.getElementById('timer-display').style.display = 'block';
+            let timeLeft = 188.4;
+            const timer = setInterval(() => {
+                timeLeft -= 0.1;
+                document.getElementById('timer-display').innerText = `SYNCING: ${timeLeft.toFixed(1)}s`;
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert("SYNC TERMINATED. SESSION BURNED.");
+                    location.reload();
+                }
+            }, 100);
+        }
 
-        function verifyKey() {
-            const input = document.getElementById('auth-key').value.trim();
-            const now = new Date();
-            const correct = "GIE-" + (now.getUTCDate() * (now.getUTCMonth()+1) * _S);
-            if(input === correct) window.location.href = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
-            else alert("TERMINAL ERROR: IDENTITY NOT RECOGNIZED");
+        setInterval(() => {
+            let val = 3.141592 + (Math.random() - 0.5) * (isSyncing ? 0.005 : 0.00008);
+            document.getElementById('psi-val').innerText = val.toFixed(6);
+        }, 150);
+
+        function verifyAuth() {
+            const key = document.getElementById('auth-key').value.trim();
+            const today = new Date();
+            const correct = "GIE-" + (today.getUTCDate() * (today.getUTCMonth()+1) * 88);
+            if(key === correct) window.location.href = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
+            else alert("IDENTITY NOT RECOGNIZED");
         }
     </script>
 </body>
