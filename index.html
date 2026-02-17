@@ -1,204 +1,135 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIE-Soliton V2.2 Terminal</title>
+    <title>GIE-Soliton | Sovereign Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gie-bg: #000000;
-            --gie-green: #00ff00;
-            --gie-dim: #004400;
-            --line-height: 40px; /* 锁死高度，防止跳行 */
-            --font-mono: 'Courier New', Courier, monospace;
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            background-color: var(--gie-bg);
-            color: var(--gie-green);
-            font-family: var(--font-mono);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden; /* 禁止全局滚动 */
-        }
-
-        /* 顶部导航与语言切换 */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: var(--line-height);
-            border-bottom: 1px solid var(--gie-green);
-            margin-bottom: 20px;
-        }
-
-        .logo { font-weight: bold; font-size: 1.2rem; }
-
-        select {
-            background: #000;
-            color: var(--gie-green);
-            border: 1px solid var(--gie-green);
-            height: 30px;
-            font-family: var(--font-mono);
-            outline: none;
-        }
-
-        /* 主显示区 */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            overflow-y: auto;
-        }
-
-        /* 状态卡片 - 解决显示不全 */
-        .status-panel {
-            border: 1px solid var(--gie-green);
-            padding: 15px;
-            min-height: 120px;
-        }
-
-        .data-row {
-            height: var(--line-height);
-            line-height: var(--line-height);
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dotted var(--gie-dim);
-            white-space: nowrap; /* 强制不换行，解决跳行 */
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* ∇ 压力梯度矩阵容器 */
-        .matrix-box {
-            border: 1px solid var(--gie-green);
-            flex: 1;
-            position: relative;
-            background: repeating-linear-gradient(0deg, #001100 0px, #001100 1px, transparent 1px, transparent 40px);
-        }
-
-        .matrix-content {
-            padding: 10px;
-            font-size: 0.85rem;
-            line-height: 1.5;
-        }
-
-        /* 底部操作区 */
-        footer {
-            margin-top: 20px;
-            height: var(--line-height);
-            display: flex;
-            gap: 10px;
-        }
-
-        button {
-            background: var(--gie-green);
-            color: #000;
-            border: none;
-            padding: 0 20px;
-            font-family: var(--font-mono);
-            font-weight: bold;
-            cursor: pointer;
-            height: var(--line-height);
-        }
-
-        button:hover { background: #fff; }
-
-        /* RTL 适配 */
-        html[dir="rtl"] body { text-align: right; }
-        html[dir="rtl"] .data-row { flex-direction: row-reverse; }
+        /* 强制单屏：禁止滚动，高度锁定 */
+        body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
+        
+        /* 弹窗样式 */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(40px); }
+        
+        /* 按钮矩阵：微调尺寸以适配单屏 */
+        .btn-terminal { border: 1px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 200px; }
+        .btn-terminal:hover { background: rgba(0, 255, 65, 0.1); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
+        
+        /* 语言按钮：固定网格 */
+        .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
+        .lang-active { color: #00FF41; border: 1px solid rgba(0,255,65,0.3); background: rgba(0,255,65,0.05); }
+        
+        /* 数字区域：自动缩放 */
+        #psi-val { font-weight: 400; letter-spacing: 4px; font-size: clamp(3rem, 15vh, 8rem); line-height: 1; text-align: center; }
+        
+        /* 描述文字：关键！预留固定高度防止跳行 */
+        .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin: 20px 0; }
+        .sub-text { color: #666; font-size: 12px; letter-spacing: 3px; max-width: 900px; text-align: center; display: none; text-transform: uppercase; }
+        
+        /* 底部版权：提亮且固定 */
+        .copyright { color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 20px 0; text-align: center; width: 100%; border-top: 1px solid #111; }
+        
+        input { background: #080808 !important; border: 1px solid #222 !important; color: #00FF41 !important; padding: 15px; width: 100%; font-size: 10px; margin-bottom: 20px; outline: none; }
+        .price-tier { display: none; width: 100%; text-align: left; }
     </style>
 </head>
-<body>
+<body class="p-6">
 
-<header>
-    <div class="logo">GIE-SOLITON V2.2</div>
-    <select id="langSelector">
-        <option value="en">English</option>
-        <option value="zh">简体中文</option>
-        <option value="ja">日本語</option>
-        <option value="ko">한국어</option>
-        <option value="fr">Français</option>
-        <option value="de">Deutsch</option>
-        <option value="ru">Русский</option>
-        <option value="es">Español</option>
-        <option value="ar">العربية (RTL)</option>
-        <option value="he">עברית (RTL)</option>
-    </select>
-</header>
+    <div class="flex flex-wrap justify-center gap-2">
+        <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
+        <span class="lang-btn" onclick="switchLang('cn')">CN</span>
+        <span class="lang-btn" onclick="switchLang('jp')">JP</span>
+        <span class="lang-btn" onclick="switchLang('fr')">FR</span>
+        <span class="lang-btn" onclick="switchLang('de')">DE</span>
+        <span class="lang-btn" onclick="switchLang('ru')">RU</span>
+        <span class="lang-btn" onclick="switchLang('ar')">AR</span>
+        <span class="lang-btn" onclick="switchLang('he')">HE</span>
+    </div>
 
-<main>
-    <section class="status-panel">
-        <div class="data-row">
-            <span data-i18n="addr_label">Target Address:</span>
-            <span>0x457...3874</span>
-        </div>
-        <div class="data-row">
-            <span data-i18n="status_label">Network Status:</span>
-            <span id="syncStatus">IDLE</span>
-        </div>
-        <div class="data-row">
-            <span data-i18n="model_label">Model Version:</span>
-            <span>GIE-Soliton 2.2 (∇ Core)</span>
-        </div>
-    </section>
-
-    <div class="matrix-box">
-        <div class="matrix-content" id="matrixDisplay">
-            [SYSTEM READY] - Waiting for 9,999 USDT Validation...
+    <div class="flex-grow flex flex-col items-center justify-center">
+        <div class="text-[10px] tracking-[2em] text-zinc-700 uppercase mb-4">GIE-SOLITON v2.3</div>
+        <div id="psi-val" class="tabular-nums">3.141592</div>
+        
+        <div class="desc-container">
+            <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN NON-LINEAR ARCHITECTURE. 188.4S TO SINGULARITY.</div>
+            <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4 秒直击奇点。</div>
+            <div id="desc-jp" class="sub-text">主権級非線形価格決定アーキテクチャ。特異点まで188.4秒。</div>
+            <div id="desc-fr" class="sub-text">ARCHITECTURE SOUVERAINE NON LINÉAIRE. 188,4S VERS LA SINGULARITÉ.</div>
+            <div id="desc-de" class="sub-text">SOUVERÄNE NICHTLINEARE ARCHITEKTUR. 188,4S ZUR SINGULARITÄT.</div>
+            <div id="desc-ru" class="sub-text">СУВЕРЕННАЯ НЕЛИНЕЙНАЯ АРХИТЕКТУРА. 188,4 С ДО СИНГУЛЯРНОСТИ.</div>
+            <div id="desc-ar" class="sub-text" dir="rtl">هندسة تسعير غير خطية سيادية. 188.4 ثانية للتفرد.</div>
+            <div id="desc-he" class="sub-text" dir="rtl">ארכיטקטורת תמחור לא לינארית ריבונית. 188.4 שניות לסינגולריות.</div>
         </div>
     </div>
-</main>
 
-<footer>
-    <button id="verifyBtn" data-i18n="btn_verify">INITIATE VERIFICATION</button>
-</footer>
+    <div class="max-w-4xl w-full mx-auto py-6">
+        <div id="env-en" class="grid grid-cols-3 gap-8 env-lang text-center">
+            <div><div class="text-[#00FF41] text-[9px] mb-1">NODE</div><div class="text-[10px] text-zinc-400">x86_64 AVX-512</div></div>
+            <div><div class="text-[#00FF41] text-[9px] mb-1">CORES</div><div class="text-[10px] text-zinc-400">256 LOGICAL</div></div>
+            <div><div class="text-[#00FF41] text-[9px] mb-1">MEMORY</div><div class="text-[10px] text-zinc-400">1.5TB ECC PHYS</div></div>
+        </div>
+        </div>
 
-<script>
-    const I18N = {
-        en: { dir: 'ltr', addr_label: 'Target Address:', status_label: 'Network Status:', model_label: 'Model Version:', btn_verify: 'INITIATE VERIFICATION' },
-        zh: { dir: 'ltr', addr_label: '目标地址:', status_label: '网络状态:', model_label: '模型版本:', btn_verify: '发起验证' },
-        ja: { dir: 'ltr', addr_label: '対象アドレス:', status_label: 'ネットワーク:', model_label: 'モデルバージョン:', btn_verify: '検証を開始' },
-        ko: { dir: 'ltr', addr_label: '대상 주소:', status_label: '네트워크 상태:', model_label: '모델 버전:', btn_verify: '검증 시작' },
-        fr: { dir: 'ltr', addr_label: 'Adresse Cible:', status_label: 'État Réseau:', model_label: 'Version Modèle:', btn_verify: 'LANCER LA VÉRIFICATION' },
-        de: { dir: 'ltr', addr_label: 'Zieladresse:', status_label: 'Netzwerkstatus:', model_label: 'Modellversion:', btn_verify: 'VERIFIZIERUNG STARTEN' },
-        ru: { dir: 'ltr', addr_label: 'Целевой адрес:', status_label: 'Статус сети:', model_label: 'Версия модели:', btn_verify: 'НАЧАТЬ ПРОВЕРКУ' },
-        es: { dir: 'ltr', addr_label: 'Dirección Destino:', status_label: 'Estado Red:', model_label: 'Versión Modelo:', btn_verify: 'INICIAR VERIFICACIÓN' },
-        ar: { dir: 'rtl', addr_label: 'العنوان المستهدف:', status_label: 'حالة الشبكة:', model_label: 'إصدار النموذج:', btn_verify: 'بدء التحقق' },
-        he: { dir: 'rtl', addr_label: 'כתובת יעד:', status_label: 'סטטוס רשת:', model_label: 'גרסת מודל:', btn_verify: 'התחל אימות' }
-    };
+    <div class="max-w-5xl mx-auto w-full space-y-4 pb-10">
+        <div class="flex flex-wrap justify-center gap-4">
+            <button onclick="openPriceModal('tier1')" class="btn-terminal" style="border-color: #00FF41;">Quantum (188.4s)</button>
+            <button onclick="openPriceModal('tier2')" class="btn-terminal">Institutional Core</button>
+            <button onclick="openPriceModal('tier3')" class="btn-terminal">Sovereign Tier</button>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4">
+            <button onclick="downloadDocs()" class="btn-terminal" style="border-color: #333; color: #555;">Technical Papers</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-terminal" style="border-color: #333; color: #555;">Protocol Inquiry</button>
+        </div>
+    </div>
 
-    const selector = document.getElementById('langSelector');
-    
-    selector.addEventListener('change', (e) => {
-        const lang = e.target.value;
-        const config = I18N[lang];
-        
-        // 更新方向和语言
-        document.documentElement.dir = config.dir;
-        document.documentElement.lang = lang;
+    <div class="copyright">
+        GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
+    </div>
 
-        // 批量更新文本
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            el.textContent = config[key];
-        });
+    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
+        <div class="max-w-lg w-full p-10 border border-zinc-800 bg-black mx-4">
+            <div id="tier1-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center">TRIAL SYNC / $9,999</h3>
+                <input type="text" id="txid-input" placeholder="PASTE TRANSACTION HASH (TXID)">
+                <button onclick="verifyPayment()" class="btn-terminal w-full mt-2">Verify & Start</button>
+            </div>
+            </div>
+    </div>
 
-        // 模拟 ∇ 逻辑更新
-        document.getElementById('matrixDisplay').innerHTML += `<br>[SYSTEM] Language changed to ${lang}. Re-calculating ∇ gradients...`;
-    });
+    <script>
+        const ETHERSCAN_KEY = "Y7332J1SB4H8H94FIGTH1K8GKW2B5DSIXA";
+        const MY_WALLET = "0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874";
 
-    document.getElementById('verifyBtn').addEventListener('click', () => {
-        // 这里对接你的 Etherscan API Key Y7332J...
-        alert("Initializing Etherscan API check for 9,999 USDT...");
-    });
-</script>
+        function openModal(id) { 
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+            document.getElementById(id).style.display = 'flex'; 
+        }
+        function openPriceModal(tier) {
+            openModal('pricing-modal');
+            document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none');
+            const target = document.getElementById(tier + '-box');
+            if(target) target.style.display = 'block';
+        }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
 
+        function switchLang(lang) {
+            document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
+            const desc = document.getElementById('desc-' + lang);
+            if(desc) desc.style.display = 'block';
+            event.target.classList.add('lang-active');
+            // 此处可扩展环境参数的语言包映射
+        }
+
+        setInterval(() => {
+            let val = 3.141592 + (Math.random() - 0.5) * 0.00008;
+            document.getElementById('psi-val').innerText = val.toFixed(6);
+        }, 150);
+
+        function downloadDocs() { window.open('https://github.com/GIE-Official/GIE-Soliton-Docs', '_blank'); }
+    </script>
 </body>
 </html>
