@@ -10,28 +10,31 @@
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        /* 按钮视觉：极致荧光绿 */
+        /* 按钮：荧光绿，常态高亮 */
         .btn-green { border: 1.5px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 210px; color: #00FF41; }
         .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 20px rgba(0,255,65,0.4); }
 
         .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
         .lang-active { color: #00FF41; border-bottom: 1px solid #00FF41; }
         
-        /* 公式区优化：缩小并上提 */
-        .formula-container { text-align: center; margin-top: -60px; }
+        /* 公式：高位展示 */
+        .formula-container { text-align: center; margin-top: -80px; }
         .formula-main { font-size: clamp(0.9rem, 3vh, 1.6rem); color: #00FF41; filter: drop-shadow(0 0 8px rgba(0,255,65,0.5)); line-height: 1.6; font-family: 'Times New Roman', serif; }
-        .formula-tag { font-size: 8px; color: #1a3a1e; letter-spacing: 0.6em; margin-top: 15px; text-transform: uppercase; }
         
         .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 5px; }
         .sub-text { color: #888; font-size: 12px; letter-spacing: 4px; max-width: 1000px; text-align: center; display: none; text-transform: uppercase; }
         
-        /* 按钮整体布局上提 */
-        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 80px; }
+        /* 按钮区：整体大幅上提 */
+        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 120px; }
 
-        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 20px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        /* 版权行：固定底部 */
+        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #666; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
         
         input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
         .price-tier { display: none; width: 100%; text-align: left; }
+        
+        /* 成功提示动画 */
+        #status-msg { font-size: 10px; color: #00FF41; text-transform: uppercase; letter-spacing: 4px; display: none; }
     </style>
 </head>
 <body class="p-6">
@@ -52,7 +55,7 @@
             <div class="formula-main italic">
                 ||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}
             </div>
-            <div class="formula-tag">Hyper-Dissipative Regularity Control</div>
+            <div class="text-[8px] text-[#1a3a1e] tracking-[0.6em] mt-4 uppercase">Hyper-Dissipative Regularity Control</div>
         </div>
 
         <div class="desc-container">
@@ -81,58 +84,17 @@
         GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
     </div>
 
-    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
-        <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
-            <div id="tier1-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center uppercase">Trial Sync Settlement</h3>
-                <div class="space-y-4 mb-6">
-                    <div class="border border-zinc-900 p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-[9px] text-zinc-500">USDT-ERC20 ADDR</span>
-                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
-                        </div>
-                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
-                        <div id="qr-usdt" class="hidden mt-4 text-center"><img src="qr_usdt.png" class="mx-auto w-32 h-32"></div>
-                    </div>
-                    <div class="border border-zinc-900 p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-[9px] text-zinc-500">BTC ADDR</span>
-                            <button onclick="toggleQR('btc')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
-                        </div>
-                        <div class="text-[10px] text-[#00FF41] break-all font-mono select-all">Bc1qhpfadcdk6vwu5qhnsst8hpy2htcxqttd9spjw7</div>
-                        <div id="qr-btc" class="hidden mt-4 text-center"><img src="qr_btc.png" class="mx-auto w-32 h-32"></div>
-                    </div>
-                </div>
-                <input type="text" id="txid-input" placeholder="PASTE TXID (HASH) HERE">
-                <button onclick="verifyPayment()" class="btn-green w-full py-4">VERIFY & INITIATE SYNC</button>
-            </div>
-
-            <div id="tier2-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase text-center">Institutional (Binary Core)</h3>
-                <div class="text-3xl font-bold mb-4 text-white text-center">$8,888,888</div>
-                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Pre-compiled binaries (.so/.dll). Node-locked. No source access.</p>
-                <button onclick="openModal('inquiry-modal')" class="btn-green w-full">INITIATE INSTITUTIONAL INQUIRY</button>
-            </div>
-
-            <div id="tier3-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest uppercase text-center">Sovereign (Full Source)</h3>
-                <div class="text-4xl font-bold mb-4 text-white text-center">$100M — $250M</div>
-                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Full source code disclosure (EQ 7/8). Comprehensive IP transfer.</p>
-                <button onclick="openModal('inquiry-modal')" class="btn-green w-full">INITIATE SOVEREIGN DUE DILIGENCE</button>
-            </div>
-        </div>
-    </div>
-
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full">
-            <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-widest uppercase text-center">Protocol Inquiry</h3>
-            <form action="https://formspree.io/f/mzdagonr" method="POST">
+        <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full text-center">
+            <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-widest uppercase">Protocol Inquiry Signal</h3>
+            <form id="gie-contact-form" action="https://formspree.io/f/mzdagonr" method="POST">
                 <input type="text" name="name" placeholder="FULL NAME" required>
                 <input type="text" name="institution" placeholder="SOVEREIGN INSTITUTION" required>
                 <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
                 <textarea name="message" rows="3" placeholder="APPLICATION SCOPE" required></textarea>
-                <button type="submit" class="btn-green w-full mt-2">SUBMIT SIGNAL</button>
+                <button type="submit" id="submit-btn" class="btn-green w-full mt-2">SUBMIT SIGNAL</button>
             </form>
+            <div id="status-msg" class="mt-4">SIGNAL SENT SUCCESSFULLY. AWAITING ENCRYPTION.</div>
         </div>
     </div>
 
@@ -152,6 +114,26 @@
         </div>
     </div>
 
+    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
+        <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
+            <div id="tier1-box" class="price-tier">
+                <h3 class="text-[#00FF41] text-[10px] mb-6 tracking-widest text-center uppercase">Trial Sync Settlement</h3>
+                <div class="space-y-4 mb-6">
+                    <div class="border border-zinc-900 p-4 text-[10px]">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-zinc-500 uppercase">USDT-ERC20 ADDRESS</span>
+                            <button onclick="toggleQR('usdt')" class="text-[8px] border border-zinc-700 px-2 py-1">QR CODE</button>
+                        </div>
+                        <div class="text-[#00FF41] break-all font-mono select-all">0x4576Dee66F80e3E4738E45D2dbBDF080C7E83874</div>
+                        <div id="qr-usdt" class="hidden mt-4 text-center"><img src="qr_usdt.png" class="mx-auto w-32 h-32"></div>
+                    </div>
+                </div>
+                <input type="text" id="txid-input" placeholder="PASTE TXID HERE">
+                <button onclick="alert('Locking Reference: 5061.19...')" class="btn-green w-full py-4">INITIATE SYNC</button>
+            </div>
+            </div>
+    </div>
+
     <script>
         function openModal(id) { 
             document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
@@ -160,7 +142,8 @@
         function openPriceModal(tier) {
             openModal('pricing-modal');
             document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none');
-            document.getElementById(tier + '-box').style.display = 'block';
+            const target = document.getElementById(tier + '-box');
+            if(target) target.style.display = 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
@@ -178,9 +161,35 @@
             event.target.classList.add('lang-active');
         }
 
-        async function verifyPayment() {
-            alert("Locking Manifold Reference: 5061.19...");
-        }
+        /* 站内信无感提交脚本 */
+        const form = document.getElementById('gie-contact-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const status = document.getElementById('status-msg');
+            btn.innerText = "SENDING PROTOCOL...";
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    form.style.display = 'none';
+                    status.style.display = 'block';
+                    setTimeout(() => {
+                        closeModal('inquiry-modal');
+                        form.reset();
+                        form.style.display = 'block';
+                        status.style.display = 'none';
+                        btn.innerText = "SUBMIT SIGNAL";
+                    }, 3000);
+                }
+            } catch (err) {
+                btn.innerText = "ERROR - RETRY";
+            }
+        });
     </script>
 </body>
 </html>
