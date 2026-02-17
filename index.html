@@ -3,101 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIE-Soliton | Restricted Access</title>
+    <title>GIE-Soliton | Restricted Sovereign Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #00FF41; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background-color: #000; color: #00FF41; font-family: 'Inter', sans-serif; overflow: hidden; }
         .psi-glow { text-shadow: 0 0 30px #00FF41; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(40px); }
-        .btn-premium { border: 1px solid #00FF41; padding: 15px 40px; text-transform: uppercase; font-weight: 400; letter-spacing: 4px; transition: 0.5s; background: transparent; font-size: 12px; cursor: pointer; }
-        .btn-premium:hover { background: #00FF41; color: #000; box-shadow: 0 0 50px rgba(0,255,65,0.4); }
-        .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.3s; padding: 0 10px; }
-        .lang-btn:hover, .lang-active { color: #00FF41; }
-        .sub-text { color: #666; font-size: 11px; letter-spacing: 1px; max-width: 600px; margin: 0 auto; line-height: 2; display: none; }
-        #psi-val { font-weight: 900; letter-spacing: -2px; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
+        .btn-sovereign { border: 1px solid #00FF41; padding: 15px 40px; text-transform: uppercase; font-weight: 300; letter-spacing: 5px; transition: 0.6s; background: transparent; font-size: 11px; cursor: pointer; }
+        .btn-sovereign:hover { background: #00FF41; color: #000; box-shadow: 0 0 60px rgba(0,255,65,0.5); }
+        .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 0 12px; font-weight: 900; }
+        .lang-btn:hover, .lang-active { color: #00FF41; text-shadow: 0 0 10px #00FF41; }
+        .sub-text { color: #555; font-size: 11px; letter-spacing: 2px; max-width: 750px; margin: 0 auto; line-height: 2.2; display: none; text-transform: uppercase; }
+        #psi-val { font-weight: 900; letter-spacing: -1px; width: 8.5ch; display: inline-block; text-align: left; }
+        input, textarea { background: #080808 !important; border: 1px solid #111 !important; color: #00FF41 !important; padding: 18px; outline: none; width: 100%; font-size: 11px; letter-spacing: 2px; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between min-h-screen p-12">
+<body class="flex flex-col items-center justify-between min-h-screen p-16">
 
-    <div class="flex gap-4 uppercase tracking-tighter">
+    <div class="flex gap-2">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('fr')">FR</span>
         <span class="lang-btn" onclick="switchLang('de')">DE</span>
-        <span class="lang-btn" onclick="switchLang('jp')">JP</span>
         <span class="lang-btn" onclick="switchLang('ru')">RU</span>
         <span class="lang-btn" onclick="switchLang('es')">ES</span>
     </div>
 
     <div class="text-center">
-        <div class="text-[10px] tracking-[1em] mb-8 text-zinc-500 uppercase">Manifold Pressure Index</div>
-        <div class="text-8xl md:text-9xl mb-6 psi-glow tabular-nums" id="psi-val">3.141592</div>
+        <div class="text-[9px] tracking-[1.2em] mb-12 text-zinc-700 uppercase">Manifold Pressure Index</div>
+        <div class="text-8xl md:text-[10rem] mb-10 psi-glow tabular-nums" id="psi-val">3.141592</div>
         
-        <div id="desc-en" class="sub-text" style="display: block;">The world's only soliton-based non-linear pricing engine. Sovereign-grade security with zero-latency manifold mapping. Limited to 3 global licenses.</div>
-        <div id="desc-cn" class="sub-text">全球唯一基于孤子波的非线性定价引擎。主权级安全架构，零延迟流形映射。全球仅限 3 席。</div>
-        <div id="desc-fr" class="sub-text">Le seul moteur de tarification non linéaire au monde basé sur les solitons. Sécurité souveraine. Limité à 3 licences mondiales.</div>
-        <div id="desc-de" class="sub-text">Der weltweit einzige Soliton-basierte nichtlineare Pricing-Engine. Souveräne Sicherheit. Limitiert auf 3 Lizenzen weltweit.</div>
-        <div id="desc-jp" class="sub-text">世界唯一のソリトンベース非線形価格決定エンジン。主権級のセキュリティ。世界限定3ライセンス。</div>
-        <div id="desc-ru" class="sub-text">Единственный в мире механизм нелинейного ценообразования на основе солитонов. Ограничено 3 лицензиями по всему миру.</div>
-        <div id="desc-es" class="sub-text">El único motor de precios no lineales basado en solitones del mundo. Seguridad soberana. Limitado a 3 licencias globales.</div>
+        <div id="desc-en" class="sub-text" style="display: block;">THE PREMIER SOLITON-BASED NON-LINEAR PRICING ARCHITECTURE. SOVEREIGN-GRADE SECURITY. 188.4 SECONDS TO WITNESS THE SINGULARITY. EXTREMELY LIMITED RELEASE.</div>
+        <div id="desc-cn" class="sub-text">顶级孤子非线性定价架构。主权级安全防御。188.4 秒直击流动性奇点。极限量发售。</div>
+        <div id="desc-fr" class="sub-text">L'ARCHITECTURE DE TARIFICATION NON LINÉAIRE BASÉE SUR LES SOLITONS DE PREMIER PLAN. 188,4 SECONDES POUR TÉMOIGNER DE LA SINGULARITÉ.</div>
+        <div id="desc-de" class="sub-text">DIE FÜHRENDE SOLITON-BASIERTE NICHTLINEARE PREISARCHITEKTUR. 188,4 SEKUNDEN, UM DIE SINGULARITÄT ZU ERLEBEN.</div>
+        <div id="desc-ru" class="sub-text">ВЕДУЩАЯ СОЛИТОННАЯ АРХИТЕКТУРА НЕЛИНЕЙНОГО ЦЕНООБРАЗОВАНИЯ. 188,4 СЕКУНДЫ, ЧТОБЫ УВИДЕТЬ СИНГУЛЯРНОСТЬ.</div>
+        <div id="desc-es" class="sub-text">LA ARQUITECTURA DE PRECIOS NO LINEALES BASADA EN SOLITONES DE ÉLITE. 188,4 SEGUNDOS PARA PRESENCIAR LA SINGULARIDAD.</div>
     </div>
 
-    <div class="flex flex-col items-center gap-12 mb-12">
-        <div class="flex flex-wrap justify-center gap-6">
-            <button onclick="openModal('auth-modal')" class="btn-premium">Access Archive</button>
-            <button onclick="openModal('trial-modal')" class="btn-premium" style="border-color: #666; color: #666;">30min Trial ($5,000)</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-premium">Inquiry / POA</button>
+    <div class="flex flex-col items-center gap-16 mb-8 w-full">
+        <div class="flex flex-wrap justify-center gap-8">
+            <button onclick="openModal('auth-modal')" class="btn-sovereign">Access Enclave</button>
+            <button onclick="openModal('trial-modal')" class="btn-sovereign" style="border-color: #333; color: #444;">Quantum Window 3.14 (188.4s) / $9,999</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-sovereign">Protocol Inquiry</button>
         </div>
-        <button onclick="openModal('env-modal')" class="text-[9px] tracking-[0.4em] text-zinc-700 hover:text-zinc-400 transition">DEPLOYMENT ENVIRONMENT SPEC V2.2</button>
+        <button onclick="openModal('env-modal')" class="text-[8px] tracking-[0.5em] text-zinc-800 hover:text-zinc-500 transition uppercase font-bold">Technical Deployment Spec v2.2</button>
     </div>
 
     <div id="auth-modal" class="modal" onclick="closeOnBg(event, 'auth-modal')">
-        <div class="text-center p-8 border border-zinc-900 bg-black">
-            <h2 class="text-xs tracking-widest mb-8">AUTHENTICATION REQUIRED</h2>
-            <input type="password" id="auth-key" placeholder="SECRET-KEY" class="bg-transparent border-b border-zinc-800 p-4 text-[#00FF41] outline-none text-center w-64 mb-10">
-            <div class="flex gap-4">
-                <button onclick="verifyKey()" class="btn-premium">VALIDATE</button>
-            </div>
+        <div class="text-center p-16 border border-zinc-900 bg-black">
+            <h2 class="text-[10px] tracking-[0.6em] mb-10 text-zinc-500">AUTHORIZED SYNC REQUIRED</h2>
+            <input type="password" id="auth-key" placeholder="INPUT-ENCLAVE-KEY" class="text-center mb-12">
+            <div><button onclick="verifyKey()" class="btn-sovereign">EXECUTE</button></div>
         </div>
     </div>
 
     <div id="trial-modal" class="modal" onclick="closeOnBg(event, 'trial-modal')">
-        <div class="max-w-md text-center p-12 border border-zinc-900 bg-black">
-            <h2 class="text-[#00FF41] mb-6 tracking-widest text-xs">QUANTUM WINDOW TRIAL</h2>
-            <p class="text-[10px] text-zinc-500 mb-8 leading-relaxed">Experience full power for 30 minutes. Real-time data sync with GIE-Master. Fee: $5,000 (Deductible from main license).</p>
-            <button onclick="openModal('inquiry-modal')" class="btn-premium">BUY SESSION</button>
+        <div class="max-w-md text-center p-16 border border-zinc-900 bg-black">
+            <h2 class="text-[#00FF41] mb-8 tracking-[0.5em] text-[10px]">QUANTUM WINDOW (188.4S)</h2>
+            <p class="text-[10px] text-zinc-600 mb-12 leading-loose uppercase">
+                SYNCHRONIZE WITH GIE-MASTER FOR EXACTLY 3.14 MINUTES (188.4 SECONDS). 
+                FULL MANIFOLD TRANSPARENCY. FEE: $9,999 USD. 
+                SYNC TERMINATES AUTOMATICALLY AT T-MINUS ZERO.
+            </p>
+            <button onclick="openModal('inquiry-modal')" class="btn-sovereign w-full">INITIATE 188.4S SYNC</button>
         </div>
     </div>
 
     <div id="env-modal" class="modal" onclick="closeOnBg(event, 'env-modal')">
-        <div class="text-left p-12 border border-zinc-900 bg-black max-w-xl">
-            <h2 class="text-xs tracking-widest mb-8 text-[#00FF41]">SYSTEM SPECIFICATIONS</h2>
-            <pre class="text-[10px] text-zinc-500 leading-loose">
-- CPU: 2x AMD EPYC 9004 (128C/256T Total)
-- RAM: 1.5TB ECC DDR5-4800
-- STORAGE: NVMe Gen5 (Physical Encryption)
-- NETWORK: 100GbE Low Latency Interconnect
-- OS: GIE-Hardened SolitonKernel v2.2
+        <div class="text-left p-16 border border-zinc-900 bg-black max-w-2xl">
+            <h2 class="text-[10px] tracking-[0.5em] mb-10 text-[#00FF41]">ENVIRONMENT SPECIFICATIONS</h2>
+            <pre class="text-[10px] text-zinc-600 leading-[3] uppercase font-mono">
+[CPU] Dual AMD EPYC™ 9754 (256C/512T)
+[RAM] 2.25TB ECC DDR5-4800 12-Channel
+[SEC] Hardware SHA-256 Entropy Lock
+[NET] 400GbE InfiniBand NDR
             </pre>
         </div>
     </div>
 
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-800 p-12 bg-black max-w-lg w-full">
-            <h2 class="mb-10 text-[#00FF41] font-black tracking-[0.4em] uppercase text-xs">Inquiry Protocol</h2>
+        <div class="border border-zinc-900 p-16 bg-black max-w-xl w-full text-center">
+            <h2 class="mb-12 text-[#00FF41] font-light tracking-[0.6em] uppercase text-[10px]">Inquiry Protocol</h2>
             <form id="inquiry-form" onsubmit="handleInquiry(event)">
-                <input type="text" id="user-name" placeholder="FULL NAME" required class="w-full bg-zinc-900/50 border border-zinc-800 p-4 text-[#00FF41] mb-4 outline-none">
-                <input type="text" id="user-org" placeholder="INSTITUTION" required class="w-full bg-zinc-900/50 border border-zinc-800 p-4 text-[#00FF41] mb-4 outline-none">
-                <input type="email" id="user-email" placeholder="OFFICIAL EMAIL" required class="w-full bg-zinc-900/50 border border-zinc-800 p-4 text-[#00FF41] mb-4 outline-none">
-                <textarea id="user-msg" rows="4" placeholder="APPLICATION SCOPE" required class="w-full bg-zinc-900/50 border border-zinc-800 p-4 text-[#00FF41] mb-6 outline-none"></textarea>
-                <button type="submit" class="btn-premium w-full">SEND REQUEST</button>
+                <input type="text" id="user-name" placeholder="LEGAL NAME" required>
+                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION" required class="mt-4">
+                <input type="email" id="user-email" placeholder="ENCRYPTED EMAIL" required class="mt-4">
+                <textarea id="user-msg" rows="4" placeholder="USE-CASE DISCLOSURE" required class="mt-4"></textarea>
+                <button type="submit" class="btn-sovereign w-full mt-8">Submit to Raymond Ma</button>
             </form>
         </div>
     </div>
 
     <script>
-        // --- 核心配置 ---
         const _S = 88;
         const _DEST = "raymond.ma@alumni.ucla.edu";
 
@@ -117,28 +116,24 @@
 
         function handleInquiry(e) {
             e.preventDefault();
-            const name = document.getElementById('user-name').value;
             const org = document.getElementById('user-org').value;
-            const email = document.getElementById('user-email').value;
-            const msg = document.getElementById('user-msg').value;
-            window.location.href = `mailto:${_DEST}?subject=GIE_Inquiry_${org}&body=Sender: ${name}%0D%0AOrg: ${org}%0D%0AContact: ${email}%0D%0A%0D%0A${msg}`;
+            window.location.href = `mailto:${_DEST}?subject=GIE_PROTOCOL_ACCESS_${org.toUpperCase()}&body=Inquiry Submission Initiated. See attached disclosure.`;
         }
 
-        // --- 物理仿真数字 ---
         let currentPsi = 3.141592;
         setInterval(() => {
-            currentPsi += (Math.random() - 0.5) * 0.0004;
-            if(currentPsi > 3.1435) currentPsi -= 0.0002;
-            if(currentPsi < 3.1395) currentPsi += 0.0002;
-            document.getElementById('psi-val').innerText = currentPsi.toFixed(Math.random() > 0.85 ? 6 : 5);
-        }, 80);
+            currentPsi += (Math.random() - 0.5) * 0.00008;
+            if(currentPsi > 3.142500) currentPsi -= 0.0001;
+            if(currentPsi < 3.138500) currentPsi += 0.0001;
+            document.getElementById('psi-val').innerText = currentPsi.toFixed(6);
+        }, 1200 / 10); // 极速采样
 
         function verifyKey() {
             const input = document.getElementById('auth-key').value.trim();
             const now = new Date();
             const correct = "GIE-" + (now.getUTCDate() * (now.getUTCMonth()+1) * _S);
             if(input === correct) window.location.href = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
-            else alert("SYNC FAILED: UNAUTHORIZED");
+            else alert("SYNC ERROR: IDENTITY NOT RECOGNIZED");
         }
     </script>
 </body>
