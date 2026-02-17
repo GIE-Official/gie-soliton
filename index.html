@@ -11,13 +11,27 @@
         .pulse { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
         .lang-btn { border: 1px solid #00FF41; padding: 4px 8px; transition: all 0.3s; cursor: pointer; font-size: 0.75rem; }
-        .lang-btn:hover { background-color: #00FF41; color: #050505; box-shadow: 0 0 10px #00FF41; }
+        .lang-btn:hover, .action-btn:hover { background-color: #00FF41; color: #050505; box-shadow: 0 0 15px #00FF41; }
+        .action-btn { border: 1px solid #00FF41; padding: 10px 20px; text-transform: uppercase; font-weight: bold; transition: all 0.3s; }
         .scanline { width: 100%; height: 2px; background: rgba(0, 255, 65, 0.1); position: fixed; top: 0; left: 0; pointer-events: none; animation: scan 4s linear infinite; }
         @keyframes scan { from { top: 0; } to { top: 100%; } }
+        #auth-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-blur: 10px; z-index: 50; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-6 select-none">
     <div class="scanline"></div>
+
+    <div id="auth-modal" class="items-center justify-center flex">
+        <div class="border-2 border-[#00FF41] p-10 bg-black max-w-sm w-full">
+            <h2 class="mb-4 text-center">ACCESS AUTHORIZATION</h2>
+            <input type="password" id="auth-key" placeholder="ENTER KEY" class="w-full bg-zinc-900 border border-[#00FF41] p-3 text-[#00FF41] outline-none mb-6">
+            <div class="flex gap-4">
+                <button onclick="closeModal()" class="flex-1 border border-zinc-700 p-2 text-zinc-500">CANCEL</button>
+                <button onclick="verifyKey()" class="flex-1 bg-[#00FF41] text-black font-bold p-2">VERIFY</button>
+            </div>
+            <p id="error-msg" class="text-red-500 text-[10px] mt-4 text-center opacity-0 uppercase italic">Access Denied. IP Logged.</p>
+        </div>
+    </div>
 
     <div class="border-4 border-[#00FF41] p-12 rounded-full mb-12 text-center psi-glow">
         <div class="text-[10px] uppercase tracking-[0.4em] mb-3 opacity-70">System Psi Index (v2.2)</div>
@@ -25,16 +39,15 @@
         <div class="text-[10px] tracking-widest text-zinc-400">STATUS: SINGULARITY_LOCKED (5061.19)</div>
     </div>
 
-    <div class="text-center mb-12">
-        <h1 class="text-5xl font-black tracking-tighter uppercase mb-2">GIE-Soliton</h1>
-        <p class="text-[10px] tracking-[0.6em] text-zinc-500 uppercase">Nonlinear Pricing Dynamics Framework</p>
+    <div class="flex gap-6 mb-12">
+        <button onclick="openModal()" class="action-btn">Download Core</button>
+        <button onclick="window.location.href='mailto:admin@gie-soliton.io'" class="action-btn">Request Key</button>
     </div>
     
     <div class="max-w-3xl w-full text-center bg-zinc-900/40 p-10 rounded-lg border border-zinc-800 backdrop-blur-sm relative">
-        <div id="teaser-text" class="text-lg leading-relaxed mb-10 h-32 flex items-center justify-center italic text-zinc-200">
+        <div id="teaser-text" class="text-lg leading-relaxed mb-10 h-32 flex items-center justify-center italic text-zinc-200 text-sm">
             "Capturing liquidity singularities via first principles."
         </div>
-        
         <div class="grid grid-cols-4 md:grid-cols-7 gap-2">
             <button onclick="changeLang('CN')" class="lang-btn">CN</button>
             <button onclick="changeLang('EN')" class="lang-btn">EN</button>
@@ -48,15 +61,30 @@
 
     <div class="mt-16 flex flex-col items-center gap-4 text-[10px] tracking-[0.2em] uppercase text-zinc-600">
         <div>Intellectual Property: DOI 10.5281/zenodo.18668564</div>
-        <div class="flex gap-6">
-            <a href="#" class="hover:text-[#00FF41] transition-colors">Whitepaper</a>
-            <a href="#" class="hover:text-[#00FF41] transition-colors">SSRN Archive</a>
-            <a href="mailto:admin@gie-soliton.io" class="hover:text-[#00FF41] transition-colors">Request Auth Key</a>
-        </div>
-        <div class="mt-4 opacity-40">© 2026 RAYMOND MA. ALL RIGHTS RESERVED.</div>
+        <div class="mt-2 opacity-40">© 2026 RAYMOND MA. ALL RIGHTS RESERVED.</div>
     </div>
 
     <script>
+        // 你可以随时修改这里的密钥。目前我设为：GIE-2026-BETA
+        const MASTER_KEY = "GIE-2026-BETA";
+        // 这里填你将来私有仓库里的源码下载链接
+        const DOWNLOAD_LINK = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
+
+        function openModal() { document.getElementById('auth-modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('auth-modal').style.display = 'none'; }
+        
+        function verifyKey() {
+            const input = document.getElementById('auth-key').value;
+            const error = document.getElementById('error-msg');
+            if(input === MASTER_KEY) {
+                window.location.href = DOWNLOAD_LINK;
+                closeModal();
+            } else {
+                error.style.opacity = 1;
+                setTimeout(() => { error.style.opacity = 0; }, 3000);
+            }
+        }
+
         const texts = {
             CN: "GIE-Soliton v2.2：基于流体力学孤子理论的非线性定价动力学预警系统。通过第一性原理捕捉流动性奇点，专为结构性崩盘风险而设计。",
             EN: "GIE-Soliton v2.2: A nonlinear pricing dynamics early-warning system based on fluid mechanics soliton theory. Designed to capture liquidity singularities and structural collapse risks via first principles.",
@@ -69,14 +97,9 @@
 
         function changeLang(lang) {
             const el = document.getElementById('teaser-text');
-            el.style.opacity = 0;
-            setTimeout(() => {
-                el.innerText = texts[lang];
-                el.style.opacity = 1;
-            }, 200);
+            el.innerText = texts[lang];
         }
 
-        // 核心 Psi 动态模拟（物理扰动模拟）
         setInterval(() => {
             const base = 3.14159;
             const noise = (Math.random() * 0.0004) - 0.0002;
