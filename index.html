@@ -1,34 +1,108 @@
-<script>
-    // --- 军工级核心加密逻辑 (Raymond 专属) ---
-    // 你的“终极私钥”：这是唯一的变量，请务必修改它，且不要告诉任何人
-    const _PRIVATE_SALT = "RAYMOND_SOLITON_2026_MASTER_SECRET_99"; 
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIE-Soliton | Sovereign Grade Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #030303; color: #00FF41; font-family: 'Courier New', monospace; overflow-x: hidden; }
+        .psi-glow { text-shadow: 0 0 20px #00FF41; box-shadow: inset 0 0 30px rgba(0,255,65,0.2), 0 0 20px rgba(0,255,65,0.2); }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        .action-btn { border: 1px solid #00FF41; padding: 12px 24px; text-transform: uppercase; font-weight: 900; transition: all 0.4s; letter-spacing: 2px; cursor: pointer; background: rgba(0,255,65,0.05); }
+        .action-btn:hover { background-color: #00FF41; color: #030303; box-shadow: 0 0 30px #00FF41; }
+        #auth-modal, #price-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); backdrop-filter: blur(15px); z-index: 500; }
+        .pricing-card { border: 1px solid #333; transition: all 0.3s; background: rgba(20,20,20,0.8); }
+        .pricing-card:hover { border-color: #00FF41; transform: translateY(-5px); }
+        .scanline { width: 100%; height: 2px; background: rgba(0, 255, 65, 0.1); position: fixed; top: 0; left: 0; pointer-events: none; animation: scan 4s linear infinite; }
+        @keyframes scan { from { top: 0; } to { top: 100%; } }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-8 text-center">
+    <div class="scanline"></div>
 
-    async function _generateSovereignKey() {
-        const now = new Date();
-        const dateStr = now.getUTCFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
-        const input = dateStr + _PRIVATE_SALT;
-        
-        // 执行 SHA-256 哈希计算
-        const msgUint8 = new TextEncoder().encode(input);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        
-        // 截取前 8 位作为今日动态授权码
-        return "GIE-" + hashHex.substring(0, 8).toUpperCase();
-    }
+    <div id="auth-modal" class="items-center justify-center">
+        <div class="border-2 border-[#00FF41] p-12 bg-black max-w-md w-full">
+            <h2 class="mb-4 text-xl font-black tracking-[0.5em]">SECURITY CLEARANCE</h2>
+            <input type="password" id="auth-key" placeholder="GIE-XXXX-XXXX" class="w-full bg-zinc-900 border border-[#00FF41] p-4 text-[#00FF41] outline-none mb-8 text-center tracking-[0.3em]">
+            <div class="flex gap-4">
+                <button onclick="closeModal('auth-modal')" class="flex-1 border border-zinc-800 p-3 text-zinc-600 text-xs">ABORT</button>
+                <button onclick="handleVerify()" class="flex-1 bg-[#00FF41] text-black font-bold p-3 text-xs">SYNC</button>
+            </div>
+            <p id="error-msg" class="text-red-900 text-[10px] mt-6 opacity-0 uppercase font-bold">Singularity Unaligned.</p>
+        </div>
+    </div>
 
-    async function verifyKey() {
-        const input = document.getElementById('auth-key').value.trim();
-        const correctKey = await _generateSovereignKey();
-        
-        if(input === correctKey) {
-            window.location.href = _SECRET_URL; // 只有匹配哈希指纹才释放链接
-            closeModal('auth-modal');
-        } else {
-            // 错误反馈
-            document.getElementById('error-msg').style.opacity = 1;
-            setTimeout(() => { document.getElementById('error-msg').style.opacity = 0; }, 3000);
+    <div id="price-modal" class="items-center justify-center">
+        <div class="border border-zinc-800 p-10 bg-black max-w-4xl w-full mx-4">
+            <h2 class="mb-10 text-2xl font-black tracking-widest uppercase border-b border-zinc-800 pb-4">Licensing Tiers</h2>
+            <div class="grid md:grid-cols-3 gap-6 text-left">
+                <div class="pricing-card p-6">
+                    <h3 class="text-[#00FF41] mb-2 font-bold uppercase">Institutional</h3>
+                    <div class="text-2xl font-bold mb-4">$5.0M <span class="text-xs text-zinc-600">/ Annual</span></div>
+                    <button class="w-full border border-zinc-700 p-2 text-[10px]">INQUIRE</button>
+                </div>
+                <div class="pricing-card p-6 border-[#00FF41]">
+                    <h3 class="text-[#00FF41] mb-2 font-bold italic underline uppercase">Sovereign</h3>
+                    <div class="text-2xl font-bold mb-4">POA</div>
+                    <p class="text-[10px] text-zinc-300 italic mb-6">Full Source Access. Eq 7/8 Core.</p>
+                    <button class="w-full bg-[#00FF41] text-black font-bold p-2 text-[10px]">DIRECT CHANNEL</button>
+                </div>
+                <div class="pricing-card p-6">
+                    <h3 class="text-[#00FF41] mb-2 font-bold uppercase">Consultancy</h3>
+                    <div class="text-2xl font-bold mb-4">$1.5M</div>
+                    <button class="w-full border border-zinc-700 p-2 text-[10px]">INQUIRE</button>
+                </div>
+            </div>
+            <button onclick="closeModal('price-modal')" class="mt-10 text-xs text-zinc-500 underline">CLOSE ARCHIVE</button>
+        </div>
+    </div>
+
+    <div class="border-4 border-[#00FF41] p-16 rounded-full mb-16 psi-glow relative">
+        <div class="text-[10px] uppercase tracking-[0.5em] mb-4 opacity-50">Global Soliton Pressure</div>
+        <div class="text-7xl md:text-8xl font-black pulse mb-2" id="psi-val">3.1415</div>
+        <div class="text-[10px] tracking-widest text-zinc-500 uppercase">Enclave Secured</div>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-8 mb-20">
+        <button onclick="openModal('auth-modal')" class="action-btn">Download Core</button>
+        <button onclick="openModal('price-modal')" class="action-btn text-zinc-500 border-zinc-800">Pricing / Inquire</button>
+    </div>
+
+    <script>
+        // --- 核心配置 ---
+        const _SALT = "RAYMOND_SOLITON_SECRET_99";
+        const _URL = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        // SHA-256 异步计算逻辑
+        async function getDailyKey() {
+            const date = new Date();
+            const str = date.getUTCFullYear() + "-" + (date.getUTCMonth()+1) + "-" + date.getUTCDate() + _SALT;
+            const msgBuffer = new TextEncoder().encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return "GIE-" + hashHex.substring(0, 8).toUpperCase();
         }
-    }
-</script>
+
+        async function handleVerify() {
+            const input = document.getElementById('auth-key').value.trim();
+            const correct = await getDailyKey();
+            if(input === correct) {
+                window.location.href = _URL;
+            } else {
+                document.getElementById('error-msg').style.opacity = 1;
+                setTimeout(() => { document.getElementById('error-msg').style.opacity = 0; }, 3000);
+            }
+        }
+
+        setInterval(() => {
+            document.getElementById('psi-val').innerText = (3.14159 + (Math.random() * 0.0008 - 0.0004)).toFixed(4);
+        }, 1200);
+    </script>
+</body>
+</html>
