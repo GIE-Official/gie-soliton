@@ -3,25 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIE-Soliton | Restricted Sovereign Access</title>
+    <title>GIE-Soliton | Sovereign Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #00FF41; font-family: 'Inter', sans-serif; overflow: hidden; }
-        .psi-glow { text-shadow: 0 0 30px #00FF41; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
-        .btn-sovereign { border: 1px solid #00FF41; padding: 15px 40px; text-transform: uppercase; font-weight: 300; letter-spacing: 5px; transition: 0.6s; background: transparent; font-size: 11px; cursor: pointer; }
-        .btn-sovereign:hover { background: #00FF41; color: #000; box-shadow: 0 0 60px rgba(0,255,65,0.5); }
-        .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 0 12px; font-weight: 900; }
-        .lang-btn:hover, .lang-active { color: #00FF41; text-shadow: 0 0 10px #00FF41; }
-        .sub-text { color: #555; font-size: 11px; letter-spacing: 2px; max-width: 750px; margin: 0 auto; line-height: 2.2; display: none; text-transform: uppercase; }
-        #psi-val { font-weight: 900; letter-spacing: -1px; width: 8.5ch; display: inline-block; text-align: left; }
-        input, textarea { background: #080808 !important; border: 1px solid #111 !important; color: #00FF41 !important; padding: 18px; outline: none; width: 100%; font-size: 11px; letter-spacing: 2px; }
+        body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; }
+        .glitch-text { text-shadow: 2px 0 #00FF41, -2px 0 #000; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(60px); }
+        
+        /* 电子表风格按钮 */
+        .btn-terminal { 
+            border: 1px solid #00FF41; 
+            padding: 12px 30px; 
+            text-transform: uppercase; 
+            font-weight: 400; 
+            letter-spacing: 3px; 
+            transition: 0.3s; 
+            background: transparent; 
+            font-size: 10px; 
+            cursor: pointer;
+            position: relative;
+        }
+        .btn-terminal:hover { 
+            background: rgba(0, 255, 65, 0.1); 
+            box-shadow: 0 0 20px rgba(0,255,65,0.2);
+            border-style: double;
+        }
+        
+        .lang-btn { font-size: 10px; color: #222; cursor: pointer; transition: 0.4s; padding: 0 10px; }
+        .lang-btn:hover, .lang-active { color: #00FF41; }
+        
+        .sub-text { color: #444; font-size: 10px; letter-spacing: 2px; max-width: 800px; margin: 0 auto; line-height: 2.5; display: none; text-transform: uppercase; }
+        
+        /* 核心读数锁定位置 */
+        #psi-val { 
+            font-weight: 400; 
+            letter-spacing: 2px; 
+            width: 10ch; 
+            display: inline-block; 
+            text-align: left; 
+            font-size: 8rem;
+        }
+        @media (max-width: 768px) { #psi-val { font-size: 4rem; } }
+
+        input, textarea { background: #050505 !important; border: 1px solid #111 !important; color: #00FF41 !important; padding: 15px; outline: none; width: 100%; font-size: 10px; font-family: 'Orbitron'; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between min-h-screen p-16">
+<body class="flex flex-col items-center justify-between min-h-screen p-12">
 
-    <div class="flex gap-2">
+    <div class="flex gap-4">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('fr')">FR</span>
@@ -31,67 +61,53 @@
     </div>
 
     <div class="text-center">
-        <div class="text-[9px] tracking-[1.2em] mb-12 text-zinc-700 uppercase">Manifold Pressure Index</div>
-        <div class="text-8xl md:text-[10rem] mb-10 psi-glow tabular-nums" id="psi-val">3.141592</div>
+        <div class="text-[9px] tracking-[1.5em] mb-16 text-zinc-800 uppercase">Manifold Matrix v2.2</div>
+        <div id="psi-val" class="tabular-nums">3.141592</div>
         
-        <div id="desc-en" class="sub-text" style="display: block;">THE PREMIER SOLITON-BASED NON-LINEAR PRICING ARCHITECTURE. SOVEREIGN-GRADE SECURITY. 188.4 SECONDS TO WITNESS THE SINGULARITY. EXTREMELY LIMITED RELEASE.</div>
-        <div id="desc-cn" class="sub-text">顶级孤子非线性定价架构。主权级安全防御。188.4 秒直击流动性奇点。极限量发售。</div>
-        <div id="desc-fr" class="sub-text">L'ARCHITECTURE DE TARIFICATION NON LINÉAIRE BASÉE SUR LES SOLITONS DE PREMIER PLAN. 188,4 SECONDES POUR TÉMOIGNER DE LA SINGULARITÉ.</div>
-        <div id="desc-de" class="sub-text">DIE FÜHRENDE SOLITON-BASIERTE NICHTLINEARE PREISARCHITEKTUR. 188,4 SEKUNDEN, UM DIE SINGULARITÄT ZU ERLEBEN.</div>
-        <div id="desc-ru" class="sub-text">ВЕДУЩАЯ СОЛИТОННАЯ АРХИТЕКТУРА НЕЛИНЕЙНОГО ЦЕНООБРАЗОВАНИЯ. 188,4 СЕКУНДЫ, ЧТОБЫ УВИДЕТЬ СИНГУЛЯРНОСТЬ.</div>
-        <div id="desc-es" class="sub-text">LA ARQUITECTURA DE PRECIOS NO LINEALES BASADA EN SOLITONES DE ÉLITE. 188,4 SEGUNDOS PARA PRESENCIAR LA SINGULARIDAD.</div>
+        <div class="mt-16">
+            <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN-GRADE NON-LINEAR ARCHITECTURE. 188.4 SECONDS TO WITNESS THE SINGULARITY. EXTREMELY LIMITED RELEASE.</div>
+            <div id="desc-cn" class="sub-text">主权级非线性定价架构。188.4 秒直击流动性奇点。极限量发售。</div>
+            <div id="desc-fr" class="sub-text">SÉCURITÉ SOUVERAINE. 188,4 SECONDES POUR TÉMOIGNER DE LA SINGULARITÉ. DIFFUSION LIMITÉE.</div>
+            <div id="desc-de" class="sub-text">SOUVERÄNE SICHERHEIT. 188,4 SEKUNDEN, UM DIE SINGULARITÄT ZU ERLEBEN. LIMITIERTE AUFLAGE.</div>
+            <div id="desc-ru" class="sub-text">СУВЕРЕННАЯ БЕЗОПАСНОСТЬ. 188,4 СЕКУНДЫ ДО СИНГУЛЯРНОСТИ. ОГРАНИЧЕННЫЙ ВЫПУСК.</div>
+            <div id="desc-es" class="sub-text">SEGURIDAD SOBERANA. 188,4 SEGUNDOS PARA PRESENCIAR LA SINGULARIDAD. LANZAMIENTO LIMITADO.</div>
+        </div>
     </div>
 
-    <div class="flex flex-col items-center gap-16 mb-8 w-full">
-        <div class="flex flex-wrap justify-center gap-8">
-            <button onclick="openModal('auth-modal')" class="btn-sovereign">Access Enclave</button>
-            <button onclick="openModal('trial-modal')" class="btn-sovereign" style="border-color: #333; color: #444;">Quantum Window 3.14 (188.4s) / $9,999</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-sovereign">Protocol Inquiry</button>
+    <div class="flex flex-col items-center gap-12 w-full">
+        <div class="flex flex-wrap justify-center items-center gap-6">
+            <button onclick="openModal('auth-modal')" class="btn-terminal">ACCESS ENCLAVE</button>
+            <button onclick="openModal('trial-modal')" class="btn-terminal" style="border-width: 2px;">WINDOW 3.14 (188.4S) / $9,999</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-terminal">PROTOCOL INQUIRY</button>
         </div>
-        <button onclick="openModal('env-modal')" class="text-[8px] tracking-[0.5em] text-zinc-800 hover:text-zinc-500 transition uppercase font-bold">Technical Deployment Spec v2.2</button>
+        <div class="text-[7px] tracking-[0.8em] text-zinc-900 uppercase">© 2026 GIE-ENCLAVE | RAYMOND MA | RESTRICTED ACCESS</div>
     </div>
 
     <div id="auth-modal" class="modal" onclick="closeOnBg(event, 'auth-modal')">
-        <div class="text-center p-16 border border-zinc-900 bg-black">
-            <h2 class="text-[10px] tracking-[0.6em] mb-10 text-zinc-500">AUTHORIZED SYNC REQUIRED</h2>
-            <input type="password" id="auth-key" placeholder="INPUT-ENCLAVE-KEY" class="text-center mb-12">
-            <div><button onclick="verifyKey()" class="btn-sovereign">EXECUTE</button></div>
+        <div class="text-center p-12 border border-zinc-900 bg-black">
+            <h2 class="text-[9px] tracking-[0.5em] mb-10 text-zinc-600 uppercase">Enter Auth Key</h2>
+            <input type="password" id="auth-key" placeholder="********" class="text-center mb-10 border-b border-[#00FF41]">
+            <div><button onclick="verifyKey()" class="btn-terminal">SYNC</button></div>
         </div>
     </div>
 
     <div id="trial-modal" class="modal" onclick="closeOnBg(event, 'trial-modal')">
-        <div class="max-w-md text-center p-16 border border-zinc-900 bg-black">
-            <h2 class="text-[#00FF41] mb-8 tracking-[0.5em] text-[10px]">QUANTUM WINDOW (188.4S)</h2>
-            <p class="text-[10px] text-zinc-600 mb-12 leading-loose uppercase">
-                SYNCHRONIZE WITH GIE-MASTER FOR EXACTLY 3.14 MINUTES (188.4 SECONDS). 
-                FULL MANIFOLD TRANSPARENCY. FEE: $9,999 USD. 
-                SYNC TERMINATES AUTOMATICALLY AT T-MINUS ZERO.
-            </p>
-            <button onclick="openModal('inquiry-modal')" class="btn-sovereign w-full">INITIATE 188.4S SYNC</button>
-        </div>
-    </div>
-
-    <div id="env-modal" class="modal" onclick="closeOnBg(event, 'env-modal')">
-        <div class="text-left p-16 border border-zinc-900 bg-black max-w-2xl">
-            <h2 class="text-[10px] tracking-[0.5em] mb-10 text-[#00FF41]">ENVIRONMENT SPECIFICATIONS</h2>
-            <pre class="text-[10px] text-zinc-600 leading-[3] uppercase font-mono">
-[CPU] Dual AMD EPYC™ 9754 (256C/512T)
-[RAM] 2.25TB ECC DDR5-4800 12-Channel
-[SEC] Hardware SHA-256 Entropy Lock
-[NET] 400GbE InfiniBand NDR
-            </pre>
+        <div class="max-w-md text-center p-12 border border-zinc-900 bg-black">
+            <h2 class="text-[#00FF41] mb-6 tracking-[0.4em] text-[9px]">QUANTUM WINDOW PROTOCOL</h2>
+            <p class="text-[9px] text-zinc-600 mb-10 leading-relaxed">3.14 MINUTES LIVE ACCESS. FEE: $9,999. NON-REFUNDABLE.</p>
+            <button onclick="openModal('inquiry-modal')" class="btn-terminal w-full">INITIATE REQUEST</button>
         </div>
     </div>
 
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-16 bg-black max-w-xl w-full text-center">
-            <h2 class="mb-12 text-[#00FF41] font-light tracking-[0.6em] uppercase text-[10px]">Inquiry Protocol</h2>
+        <div class="border border-zinc-900 p-12 bg-black max-w-lg w-full">
+            <h2 class="mb-10 text-[#00FF41] tracking-[0.5em] uppercase text-[9px]">Inquiry Submission</h2>
             <form id="inquiry-form" onsubmit="handleInquiry(event)">
-                <input type="text" id="user-name" placeholder="LEGAL NAME" required>
-                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION" required class="mt-4">
-                <input type="email" id="user-email" placeholder="ENCRYPTED EMAIL" required class="mt-4">
-                <textarea id="user-msg" rows="4" placeholder="USE-CASE DISCLOSURE" required class="mt-4"></textarea>
-                <button type="submit" class="btn-sovereign w-full mt-8">Submit to Raymond Ma</button>
+                <input type="text" id="user-name" placeholder="LEGAL NAME" required class="mb-4">
+                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION" required class="mb-4">
+                <input type="email" id="user-email" placeholder="ENCRYPTED EMAIL" required class="mb-4">
+                <textarea id="user-msg" rows="3" placeholder="SCOPE OF APPLICATION" required class="mb-6"></textarea>
+                <button type="submit" class="btn-terminal w-full">SUBMIT TO RAYMOND MA</button>
             </form>
         </div>
     </div>
@@ -117,23 +133,31 @@
         function handleInquiry(e) {
             e.preventDefault();
             const org = document.getElementById('user-org').value;
-            window.location.href = `mailto:${_DEST}?subject=GIE_PROTOCOL_ACCESS_${org.toUpperCase()}&body=Inquiry Submission Initiated. See attached disclosure.`;
+            window.location.href = `mailto:${_DEST}?subject=GIE_ACCESS_${org.toUpperCase()}&body=Submission logged. Requesting protocol sync.`;
         }
 
+        // --- 黑客风跳动逻辑 ---
         let currentPsi = 3.141592;
-        setInterval(() => {
-            currentPsi += (Math.random() - 0.5) * 0.00008;
+        function updatePsi() {
+            // 80% 的概率做微调，20% 的概率产生一个稍大的“跳变”
+            const jitter = Math.random() > 0.8 ? 0.00015 : 0.00004;
+            currentPsi += (Math.random() - 0.5) * jitter;
+            
             if(currentPsi > 3.142500) currentPsi -= 0.0001;
-            if(currentPsi < 3.138500) currentPsi += 0.0001;
+            if(currentPsi < 3.139500) currentPsi += 0.0001;
+            
             document.getElementById('psi-val').innerText = currentPsi.toFixed(6);
-        }, 1200 / 10); // 极速采样
+        }
+
+        // 缩短间隔，但增加逻辑让它看起来不是在平滑变动，而是在“闪烁更新”
+        setInterval(updatePsi, 150);
 
         function verifyKey() {
             const input = document.getElementById('auth-key').value.trim();
             const now = new Date();
             const correct = "GIE-" + (now.getUTCDate() * (now.getUTCMonth()+1) * _S);
             if(input === correct) window.location.href = "https://github.com/GIE-Official/gie-core-private/archive/refs/heads/main.zip";
-            else alert("SYNC ERROR: IDENTITY NOT RECOGNIZED");
+            else alert("TERMINAL ERROR: ACCESS DENIED");
         }
     </script>
 </body>
