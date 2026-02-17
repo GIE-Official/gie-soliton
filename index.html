@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIE-Soliton | Wei-Nabla Terminal</title>
+    <title>GIE-Soliton | Sovereign Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        /* 按钮：全部高亮，彻底告别灰色 */
+        /* 按钮视觉：彻底拒绝灰色 */
         .btn-green { border: 1.5px solid #00FF41; padding: 12px 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 220px; color: #00FF41; }
         .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
 
         .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
         .lang-active { color: #00FF41; border-bottom: 1px solid #00FF41; }
         
-        /* 公式展示：替代跳动数字 */
-        .formula-container { text-align: center; margin: 20px 0; }
-        .formula-main { font-size: clamp(1.5rem, 5vh, 2.5rem); letter-spacing: 2px; color: #00FF41; filter: drop-shadow(0 0 10px rgba(0,255,65,0.3)); }
+        /* 魏神核心不等式：N-S 增强耗散控制 */
+        .formula-container { text-align: center; margin-top: -30px; }
+        .formula-main { font-size: clamp(1.1rem, 4vh, 2.2rem); color: #00FF41; filter: drop-shadow(0 0 12px rgba(0,255,65,0.5)); line-height: 1.6; font-family: 'Times New Roman', serif; }
+        .formula-tag { font-size: 9px; color: #1a3a1e; letter-spacing: 0.8em; margin-top: 25px; }
         
-        .desc-container { min-height: 80px; display: flex; align-items: center; justify-content: center; margin-top: 20px; }
-        .sub-text { color: #888; font-size: 13px; letter-spacing: 4px; max-width: 1100px; text-align: center; display: none; text-transform: uppercase; line-height: 1.8; }
+        .desc-container { min-height: 80px; display: flex; align-items: center; justify-content: center; margin-top: 15px; }
+        .sub-text { color: #888; font-size: 13px; letter-spacing: 4px; max-width: 1100px; text-align: center; display: none; text-transform: uppercase; }
         
-        .copyright { color: #666; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 30px 0; text-align: center; width: 100%; border-top: 1px solid #111; margin-top: auto; }
+        /* Copyright 绝对底部锁定 */
+        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #666; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        
         input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 14px; width: 100%; font-size: 11px; margin-bottom: 12px; outline: none; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        .evolving-txt { font-size: 9px; letter-spacing: 4px; color: #333; animation: pulse 4s infinite; margin-top: 40px; }
     </style>
 </head>
 <body class="p-6">
@@ -42,13 +47,11 @@
     </div>
 
     <div class="flex-grow flex flex-col items-center justify-center">
-        <div class="text-[10px] tracking-[2.5em] text-zinc-700 uppercase mb-12 opacity-50">GIE-SOLITON v2.2.0</div>
-        
         <div class="formula-container">
-            <div class="formula-main">
-                D<sub>Wei</sub> &ge; C &middot; &nu;<sup>1/3</sup> ||&nabla; &times; u||<sub>L<sup>2</sup></sub><sup>2/3</sup>
+            <div class="formula-main italic">
+                ||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}
             </div>
-            <div class="text-[9px] text-zinc-600 mt-4 tracking-[1em] uppercase">Wei Dongyi's Regularity Architecture</div>
+            <div class="formula-tag uppercase">Hyper-Dissipative Regularity Control</div>
         </div>
 
         <div class="desc-container">
@@ -63,7 +66,7 @@
         </div>
     </div>
 
-    <div class="max-w-5xl mx-auto w-full space-y-5 pb-8">
+    <div class="max-w-5xl mx-auto w-full space-y-5 pb-24">
         <div class="flex flex-wrap justify-center gap-5">
             <button onclick="openPriceModal('tier1')" class="btn-green">Quantum Window ($9,999)</button>
             <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier</button>
@@ -75,23 +78,20 @@
         </div>
     </div>
 
-    <div class="copyright">
+    <div class="copyright-fixed">
         GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
     </div>
 
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
         <div class="border border-zinc-900 p-12 bg-black max-w-xl w-full">
             <h3 class="text-[#00FF41] text-[11px] mb-10 tracking-[0.6em] uppercase text-center">Protocol Inquiry</h3>
-            <form id="contact-form" onsubmit="handleInquiry(event)">
-                <input type="text" id="user-name" placeholder="FULL NAME" required>
-                <input type="text" id="user-org" placeholder="SOVEREIGN INSTITUTION" required>
-                <input type="email" id="user-email" placeholder="OFFICIAL EMAIL" required>
-                <textarea id="user-msg" rows="4" placeholder="APPLICATION SCOPE" required></textarea>
-                <button type="submit" class="btn-green w-full mt-4">SUBMIT OFFICIAL REQUEST</button>
+            <form action="https://formspree.io/f/mzdagonr" method="POST" id="contact-form">
+                <input type="text" name="name" placeholder="FULL NAME" required>
+                <input type="text" name="institution" placeholder="SOVEREIGN INSTITUTION" required>
+                <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
+                <textarea name="message" rows="4" placeholder="APPLICATION SCOPE & COMPLIANCE DISCLOSURE" required></textarea>
+                <button type="submit" class="btn-green w-full mt-4">SUBMIT SIGNAL</button>
             </form>
-            <div id="form-success" class="hidden text-center text-[#00FF41] text-[10px] mt-4 uppercase tracking-widest">
-                Signal Sent Successfully. Awaiting Encrypted Response.
-            </div>
         </div>
     </div>
 
@@ -108,7 +108,7 @@
                 <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V1.0: Nonlinear Dynamics Theory</button>
                 <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf.pdf')" class="text-[9px] border border-zinc-900 p-4 hover:border-[#00FF41] transition">V0: Empirical Core Evidence</button>
             </div>
-            <div class="text-[9px] tracking-[4px] text-zinc-600 mt-10 uppercase animate-pulse">Stability is dynamic. We never stop evolving.</div>
+            <div class="evolving-txt uppercase">Stability is dynamic. We never stop evolving.</div>
         </div>
     </div>
 
@@ -118,7 +118,7 @@
             document.getElementById(id).style.display = 'flex'; 
         }
         function openPriceModal(tier) {
-            alert("Locking Physical Benchmark: 5061.19..."); // 触发硬核提示
+            alert("Locking Manifold Reference: 5061.19...");
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
@@ -129,18 +129,6 @@
             const desc = document.getElementById('desc-' + lang);
             if(desc) desc.style.display = 'block';
             event.target.classList.add('lang-active');
-        }
-
-        function handleInquiry(e) {
-            e.preventDefault();
-            document.getElementById('contact-form').classList.add('hidden');
-            document.getElementById('form-success').classList.remove('hidden');
-            setTimeout(() => { 
-                closeModal('inquiry-modal');
-                document.getElementById('contact-form').reset();
-                document.getElementById('contact-form').classList.remove('hidden');
-                document.getElementById('form-success').classList.add('hidden');
-            }, 3000);
         }
     </script>
 </body>
