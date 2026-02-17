@@ -5,35 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GIE-Soliton | Sovereign Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 核心视觉：统一荧光绿，去除渐变 */
         body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        /* 统一按钮样式 */
+        /* 统一高亮绿按钮 */
         .btn-green { border: 1.5px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 210px; color: #00FF41; }
         .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
 
         .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
-        .lang-active { color: #00FF41; border-bottom: 1px solid #00FF41; }
+        .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* 公式：高位紧凑 */
+        /* 公式：纯白，学术字体 */
         .formula-container { text-align: center; margin-top: -120px; }
-        .formula-main { font-size: clamp(0.9rem, 2.5vh, 1.4rem); color: #00FF41; line-height: 1.6; font-family: 'Times New Roman', serif; }
+        .formula-main { font-size: clamp(0.9rem, 2.8vh, 1.4rem); color: #FFFFFF; line-height: 1.6; font-family: 'Noto Serif', serif; font-style: italic; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
         
-        /* 语言显示：解决堆叠 Bug */
-        .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 5px; }
-        .sub-text { color: #00FF41; font-size: 12px; letter-spacing: 4px; max-width: 1000px; text-align: center; display: none; text-transform: uppercase; }
+        /* 语言显示：暗金，高对比，小字号 */
+        .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .sub-text { color: #C5A059; font-size: 11px; letter-spacing: 5px; max-width: 1000px; text-align: center; display: none; text-transform: uppercase; font-weight: 400; }
         
-        /* 操作区整体上提 */
         .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 150px; }
-
-        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #555; font-size: 10px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #444; font-size: 9px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
         
         .price-tier { display: none; width: 100%; text-align: left; }
-        .warning-red { color: #FF3131; font-size: 9px; border: 1px solid #FF3131; padding: 10px; text-align: center; background: rgba(255,49,49,0.05); margin-bottom: 15px; text-transform: uppercase; }
-        input, textarea { background: #080808 !important; border: 1px solid #00FF41 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
+        .warning-red { color: #FF3131; font-size: 9px; border: 1px solid #FF3131; padding: 10px; text-align: center; background: rgba(255,49,49,0.05); margin-bottom: 15px; }
+        input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
     </style>
 </head>
 <body class="p-6">
@@ -51,10 +48,10 @@
 
     <div class="flex-grow flex flex-col items-center justify-center">
         <div class="formula-container">
-            <div class="formula-main italic">
+            <div class="formula-main">
                 ||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}
             </div>
-            <div class="text-[8px] text-[#004411] tracking-[0.6em] mt-3 uppercase">Dissipative Manifold Regularity Control</div>
+            <div class="text-[8px] text-[#222] tracking-[0.6em] mt-3 uppercase">Wei's Dissipative Regularity Control</div>
         </div>
 
         <div class="desc-container">
@@ -87,7 +84,6 @@
 
     <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
         <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
-            
             <div id="tier1-box" class="price-tier">
                 <div class="warning-red">CRITICAL: VERIFY ADDRESS ACCURACY. INCORRECT TRANSFERS ARE IRREVERSIBLE.</div>
                 <div class="space-y-4 mb-6">
@@ -111,26 +107,40 @@
                 <input type="text" id="txid-input" placeholder="PASTE TXID (HASH) HERE">
                 <button onclick="alert('Reference Lock: 5061.19 initiated.')" class="btn-green w-full py-4">INITIATE SYNC</button>
             </div>
-
             <div id="tier2-box" class="price-tier">
                 <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest text-center uppercase">Institutional Node</h3>
                 <div class="text-3xl font-bold mb-4 text-white text-center">$8,888,888</div>
-                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Pre-compiled binary kernels (.so/.dll). Node-locked encryption. Dedicated priority deployment support.</p>
-                <button onclick="openModal('inquiry-modal')" class="btn-green w-full">REQUEST OFFICIAL CONTRACT</button>
+                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Encapsulated binary kernels. Node-locked. Professional deployment included.</p>
+                <button onclick="openModal('inquiry-modal')" class="btn-green w-full">REQUEST CONTRACT</button>
             </div>
-
             <div id="tier3-box" class="price-tier">
                 <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest text-center uppercase">Sovereign Ownership</h3>
                 <div class="text-3xl font-bold mb-4 text-white text-center">$100M — $250M</div>
-                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Full source code disclosure (EQ 7/8). Comprehensive IP transfer via BVI entity. Strategic auditing support.</p>
+                <p class="text-[9px] text-zinc-400 mb-8 leading-relaxed uppercase italic text-center">Full source disclosure. Equation 7/8 transfer. Strategic auditing support.</p>
                 <button onclick="openModal('inquiry-modal')" class="btn-green w-full">INITIATE DUE DILIGENCE</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
+        <div class="max-w-4xl w-full p-12 border border-zinc-900 bg-black text-center mx-4">
+            <h3 class="text-[#00FF41] text-[11px] mb-12 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
+                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V2.2: Unified Vector Dynamics (CORE)</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">WP: V2.2 Engineering Specification</button>
+                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V2.1: Numerical Stability Patch</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">WP: V2.1 Robustness Spec</button>
+                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V2.0: High-Frequency Detection</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">WP: V2.0 Algorithmic Architecture</button>
+                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V1.0: Nonlinear Dynamics Theory</button>
+                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V0: Empirical Core Evidence</button>
             </div>
         </div>
     </div>
 
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
         <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full text-center">
-            <h3 class="text-[#00FF41] text-[10px] mb-8 tracking-widest uppercase">Protocol Inquiry</h3>
+            <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-widest uppercase">Protocol Inquiry</h3>
             <form id="ajax-form" action="https://formspree.io/f/mzdagonr" method="POST">
                 <input type="text" name="name" placeholder="FULL NAME" required>
                 <input type="text" name="institution" placeholder="SOVEREIGN INSTITUTION" required>
@@ -142,22 +152,6 @@
         </div>
     </div>
 
-    <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
-        <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
-            <h3 class="text-[#00FF41] text-[11px] mb-10 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
-                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">V2.2: Unified Vector Dynamics (CORE)</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition">WP: V2.2 Engineering Specification</button>
-                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition opacity-70">V2.1: Numerical Stability Patch</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition opacity-70">WP: V2.1 Robustness Spec</button>
-                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition opacity-50">V2.0: High-Frequency Detection</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition opacity-50">WP: V2.0 Algorithmic Architecture</button>
-                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition opacity-30">V1.0: Nonlinear Dynamics Theory</button>
-                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf.pdf')" class="text-[9px] border border-zinc-900 p-3 hover:border-[#00FF41] transition opacity-30">V0: Empirical Core Evidence</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         function openModal(id) { 
             document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
@@ -166,8 +160,7 @@
         function openPriceModal(tier) {
             openModal('pricing-modal');
             document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none');
-            const target = document.getElementById(tier + '-box');
-            if(target) target.style.display = 'block';
+            const t = document.getElementById(tier + '-box'); if(t) t.style.display = 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
@@ -184,8 +177,7 @@
         const f = document.getElementById('ajax-form');
         f.onsubmit = async (e) => {
             e.preventDefault();
-            const b = document.getElementById('send-btn');
-            const m = document.getElementById('ok-msg');
+            const b = document.getElementById('send-btn'); const m = document.getElementById('ok-msg');
             b.innerText = "TRANSMITTING...";
             const res = await fetch(f.action, { method: 'POST', body: new FormData(f), headers: { 'Accept': 'application/json' } });
             if (res.ok) { f.classList.add('hidden'); m.classList.remove('hidden'); setTimeout(() => { closeModal('inquiry-modal'); f.reset(); f.classList.remove('hidden'); m.classList.add('hidden'); b.innerText = "SUBMIT SIGNAL"; }, 3000); }
