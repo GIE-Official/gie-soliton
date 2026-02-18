@@ -7,43 +7,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* Absolute Single Screen Lock */
+        /* 强制单屏，锁定视口 */
         body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; justify-content: space-between; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        /* Interactive Stealth Buttons */
-        .btn-green { border: 1px solid #222; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 9px; cursor: pointer; min-width: 200px; color: #666; text-align: center; }
+        .btn-green { border: 1px solid #333; padding: 8px 15px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 9px; cursor: pointer; min-width: 195px; color: #888; text-align: center; }
         .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 20px rgba(0,255,65,0.2); }
 
-        .lang-btn { font-size: 9px; color: #333; cursor: pointer; transition: 0.4s; padding: 4px 12px; }
+        .lang-btn { font-size: 9px; color: #333; cursor: pointer; transition: 0.4s; padding: 4px 10px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* Equation: Shrunk to surgical size to ensure zero overflow */
-        .formula-container { text-align: center; margin-top: 3vh; width: 100%; padding: 0 10%; }
+        .formula-container { text-align: center; margin-top: 4vh; width: 100%; padding: 0 10%; }
+        /* 方程字号进一步缩小，确保极致兼容 */
         .formula-main { 
-            font-size: clamp(0.8rem, 3vw, 1.4rem); 
+            font-size: clamp(0.8rem, 3.5vw, 1.2rem); 
             color: #FFFFFF; 
             line-height: 1.4; 
             font-family: 'Noto Serif', serif; 
             font-style: italic; 
             white-space: nowrap;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.3)); 
             display: inline-block;
         }
         
-        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 1vh; }
-        .sub-text { color: #C5A059; font-size: 10px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; font-weight: 300; }
+        .desc-container { min-height: 25px; display: flex; align-items: center; justify-content: center; margin-top: 1vh; }
+        .sub-text { color: #C5A059; font-size: 10px; letter-spacing: 5px; text-align: center; display: none; text-transform: uppercase; font-weight: 300; }
         
-        /* The 2x2 Matrix: Perfectly Centered & Symmetrical */
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 2.5vh 0; max-width: 600px; width: 90%; margin: 2vh auto; }
-        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 20px 60px; text-align: center; justify-content: center; }
-        .env-item { display: flex; flex-direction: column; align-items: center; }
-        .env-label { font-size: 7px; color: #444; margin-bottom: 2px; letter-spacing: 2px; text-transform: uppercase; }
+        /* 2x2 对称矩阵：强制居中 */
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 2vh 0; max-width: 650px; width: 90%; margin: 2vh auto; }
+        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 20px 80px; text-align: left; }
+        .env-item { width: 100%; }
+        .env-label { font-size: 7px; color: #555; margin-bottom: 3px; letter-spacing: 2px; text-transform: uppercase; }
         .env-value { font-size: 10px; color: #AAAAAA; font-weight: 400; letter-spacing: 1px; }
 
-        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 4vh; }
-        /* Brightened Copyright for clear visibility */
-        .copyright-fixed { width: 100%; color: #AAAAAA; font-size: 8px; letter-spacing: 0.7em; text-transform: uppercase; padding: 20px 0; text-align: center; border-top: 1px solid #111; background: black; }
+        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 6vh; }
+        /* 版权信息：亮度提升至清晰可见 */
+        .copyright-fixed { width: 100%; color: #888; font-size: 8px; letter-spacing: 0.7em; text-transform: uppercase; padding: 18px 0; text-align: center; border-top: 1px solid #111; background: black; }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 10px; width: 100%; font-size: 10px; margin-bottom: 8px; outline: none; }
     </style>
@@ -62,7 +61,7 @@
 
     <div class="formula-container">
         <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
-        <div class="text-[7px] text-[#222] tracking-[0.6em] mt-3 uppercase">V2.2: ∇-Pressure Gradient Analysis | λ-Stability Mapping</div>
+        <div class="text-[7.5px] text-[#222] tracking-[0.6em] mt-3 uppercase">V2.2: ∇-Pressure Gradient Analysis | λ-Stability Mapping</div>
     </div>
 
     <div class="desc-container">
@@ -138,17 +137,6 @@
                     <button type="submit" class="btn-green w-full">INITIATE DUE DILIGENCE</button>
                 </form>
             </div>
-        </div>
-    </div>
-
-    <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
-        <div class="border border-zinc-900 p-8 bg-black max-w-xl w-full text-center">
-            <h3 class="text-[#AAAAAA] text-[10px] mb-6 tracking-widest uppercase">General Inquiry</h3>
-            <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
-                <input type="text" name="name" placeholder="NAME" required><input type="email" name="email" placeholder="EMAIL" required>
-                <textarea name="message" rows="2" placeholder="MESSAGE" required></textarea>
-                <button type="submit" class="btn-green w-full">SUBMIT SIGNAL</button>
-            </form>
         </div>
     </div>
 
