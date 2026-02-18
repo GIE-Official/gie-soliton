@@ -7,96 +7,99 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 强制 100vh 锁死，禁止任何形式的滚动 */
-        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; width: 100vw; margin: 0; display: flex; flex-direction: column; position: relative; }
+        /* 极致单屏逻辑：禁止溢出，锁定比例 */
+        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; justify-content: space-between; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8px; cursor: pointer; min-width: 175px; color: #888; text-align: center; }
+        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; min-width: 185px; color: #666; text-align: center; }
         .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
 
-        .lang-btn { font-size: 8px; color: #333; cursor: pointer; transition: 0.4s; padding: 2px 8px; }
+        .lang-btn { font-size: 8.5px; color: #333; cursor: pointer; transition: 0.4s; padding: 3px 10px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* 顶部：极致收缩 */
-        .header-box { padding-top: 2vh; text-align: center; flex-shrink: 0; }
+        /* 方程微调：极简尺寸，绝不越界 */
+        .formula-container { text-align: center; margin-top: 3vh; width: 100%; }
         .formula-main { 
-            font-size: clamp(0.7rem, 2.2vw, 0.95rem); 
-            color: #FFFFFF; font-family: 'Noto Serif', serif; font-style: italic; 
-            white-space: nowrap; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
+            font-size: clamp(0.7rem, 2.5vw, 1.1rem); 
+            color: #FFFFFF; 
+            line-height: 1.2; 
+            font-family: 'Noto Serif', serif; 
+            font-style: italic; 
+            white-space: nowrap;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
+            display: inline-block;
         }
         
-        .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; display: none; text-transform: uppercase; margin-top: 1vh; }
+        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 1vh; }
+        .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; }
         
-        /* 中部：左二右二 2x2 矩阵，极致居中 */
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 2.5vh 0; width: 600px; max-width: 90%; }
-        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 15px 80px; }
-        .env-item { text-align: left; }
-        .env-label { font-size: 6.5px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
+        /* 2x2 对称矩阵：强制左右各俩，居中对齐 */
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 580px; width: 90%; margin: 1.5vh auto; }
+        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 60px; text-align: left; }
+        .env-item { padding: 4px 0; }
+        .env-label { font-size: 7px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
         .env-value { font-size: 9.5px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
 
-        /* 底部：按钮组与版权，绝对锚定 */
-        .bottom-anchor { position: absolute; bottom: 0; left: 0; width: 100%; flex-shrink: 0; background: black; }
-        .action-zone { padding-bottom: 2vh; }
-        .copyright-fixed { color: #AAAAAA !important; font-size: 8.5px; letter-spacing: 0.7em; text-transform: uppercase; padding: 20px 0; text-align: center; border-top: 1px solid #111; display: block; width: 100%; }
+        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 2vh; }
+        /* 版权信息：亮度提升至清晰可见 */
+        .copyright-fixed { width: 100%; color: #AAAAAA; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; padding: 15px 0; text-align: center; border-top: 1px solid #111; background: black; }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
     </style>
 </head>
-<body>
-    <div class="header-box">
-        <div class="flex flex-wrap justify-center gap-1 mb-4">
-            <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
-            <span class="lang-btn" onclick="switchLang('cn')">CN</span>
-            <span class="lang-btn" onclick="switchLang('jp')">JP</span>
-            <span class="lang-btn" onclick="switchLang('fr')">FR</span>
-            <span class="lang-btn" onclick="switchLang('de')">DE</span>
-            <span class="lang-btn" onclick="switchLang('ru')">RU</span>
-            <span class="lang-btn" onclick="switchLang('ar')">AR</span>
-            <span class="lang-btn" onclick="switchLang('he')">HE</span>
-        </div>
+<body class="p-4">
+    <div class="flex flex-wrap justify-center gap-1">
+        <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
+        <span class="lang-btn" onclick="switchLang('cn')">CN</span>
+        <span class="lang-btn" onclick="switchLang('jp')">JP</span>
+        <span class="lang-btn" onclick="switchLang('fr')">FR</span>
+        <span class="lang-btn" onclick="switchLang('de')">DE</span>
+        <span class="lang-btn" onclick="switchLang('ru')">RU</span>
+        <span class="lang-btn" onclick="switchLang('ar')">AR</span>
+        <span class="lang-btn" onclick="switchLang('he')">HE</span>
+    </div>
+
+    <div class="formula-container">
         <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
         <div class="text-[7px] text-[#222] tracking-[0.6em] mt-2 uppercase">V2.2: ∇-Pressure Gradient Analysis | λ-Stability Mapping</div>
-        <div class="desc-container">
-            <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
-            <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
-            <div id="desc-jp" class="sub-text">非線形な世界のための、主権級アルゴリズム。</div>
-            <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
-            <div id="desc-de" class="sub-text">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
-            <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
-            <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
-            <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
+    </div>
+
+    <div class="desc-container">
+        <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
+        <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
+        <div id="desc-jp" class="sub-text">非線形な世界のための、主権級アルゴリズム。</div>
+        <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
+        <div id="desc-de" class="sub-text">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
+        <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
+        <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
+        <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
+    </div>
+
+    <div class="env-section">
+        <div class="env-grid">
+            <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
+            <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">GIE_SK_V22.SO</div></div>
+            <div class="env-item"><div class="env-label">OS SUPPORT</div><div class="env-value">LINUX X86_64 ONLY</div></div>
+            <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
+        </div>
+    </div>
+    <div class="action-zone space-y-3">
+        <div class="flex flex-wrap justify-center gap-3">
+            <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
+            <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
+            <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+            <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
         </div>
     </div>
 
-    <div class="main-content">
-        <div class="env-section">
-            <div class="env-grid">
-                <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
-                <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">GIE_SK_V22.SO</div></div>
-                <div class="env-item"><div class="env-label">OS SUPPORT</div><div class="env-value">LINUX X86_64 ONLY</div></div>
-                <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
-            </div>
-        </div>
-    </div>
-    <div class="bottom-anchor">
-        <div class="action-zone space-y-3">
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
-                <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
-                <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
-            </div>
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
-                <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
-            </div>
-        </div>
-        <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
-    </div>
+    <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
         <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
-            <h3 class="text-[#AAAAAA] text-[10px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
+            <h3 class="text-[#AAAAAA] text-[10px] mb-6 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
                 <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">V2.2: CORE VECTOR DYNAMICS</button>
                 <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">WP: V2.2 ENGINEERING SPEC</button>
@@ -106,6 +109,33 @@
                 <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">WP: V2.0 ARCHITECTURE</button>
                 <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">V1.0: DYNAMICS THEORY</button>
                 <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">V0: EMPIRICAL EVIDENCE</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
+        <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
+            <div id="tier2-box" class="price-tier">
+                <h3 class="text-[#AAAAAA] text-[10px] mb-4 tracking-widest text-center uppercase">Institutional Node</h3>
+                <div class="text-2xl font-bold mb-4 text-white text-center">$8,888,888</div>
+                <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
+                    <input type="hidden" name="_subject" value="New $8.8M Inquiry">
+                    <input type="text" name="name" placeholder="FULL NAME" required>
+                    <input type="text" name="institution" placeholder="INSTITUTION" required>
+                    <input type="email" name="email" placeholder="EMAIL" required>
+                    <button type="submit" class="btn-green w-full">INITIATE ONBOARDING</button>
+                </form>
+            </div>
+            <div id="tier3-box" class="price-tier">
+                <h3 class="text-[#AAAAAA] text-[10px] mb-2 tracking-widest text-center uppercase">Sovereign Acquisition</h3>
+                <div class="text-xl font-bold mb-1 text-white text-center">$100M — $250M</div>
+                <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
+                    <input type="hidden" name="_subject" value="URGENT: $100M+ Sovereign">
+                    <input type="text" name="name" placeholder="FULL NAME" required>
+                    <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
+                    <textarea name="scope" rows="3" placeholder="ACQUISITION SCOPE..." required></textarea>
+                    <button type="submit" class="btn-green w-full">INITIATE DUE DILIGENCE</button>
+                </form>
             </div>
         </div>
     </div>
