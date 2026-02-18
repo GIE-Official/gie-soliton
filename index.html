@@ -7,8 +7,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 极致单屏逻辑：禁止溢出，锁定比例 */
-        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; justify-content: space-between; }
+        /* 核心修复：锁定 100vh，禁止滚动 */
+        body { 
+            background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; 
+            overflow: hidden; height: 100vh; margin: 0; 
+            display: flex; flex-direction: column; justify-content: space-between; 
+        }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
         .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; min-width: 185px; color: #666; text-align: center; }
@@ -17,32 +21,33 @@
         .lang-btn { font-size: 8.5px; color: #333; cursor: pointer; transition: 0.4s; padding: 3px 10px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* 方程微调：极简尺寸，绝不越界 */
-        .formula-container { text-align: center; margin-top: 3vh; width: 100%; }
+        /* 方程微调：缩减间距，防止顶开布局 */
+        .formula-container { text-align: center; margin-top: 2vh; width: 100%; padding: 0 5%; }
         .formula-main { 
-            font-size: clamp(0.7rem, 2.5vw, 1.1rem); 
-            color: #FFFFFF; 
-            line-height: 1.2; 
-            font-family: 'Noto Serif', serif; 
-            font-style: italic; 
-            white-space: nowrap;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
+            font-size: clamp(0.7rem, 2.8vw, 1.1rem); 
+            color: #FFFFFF; line-height: 1.2; font-family: 'Noto Serif', serif; font-style: italic; 
+            white-space: nowrap; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
             display: inline-block;
         }
         
-        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 1vh; }
+        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 0.5vh; }
         .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; }
         
-        /* 2x2 对称矩阵：强制左右各俩，居中对齐 */
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 580px; width: 90%; margin: 1.5vh auto; }
-        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 60px; text-align: left; }
-        .env-item { padding: 4px 0; }
-        .env-label { font-size: 7px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
+        /* 2x2 对称矩阵：维持你的布局，收紧高度 */
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 580px; width: 90%; margin: 1vh auto; }
+        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 8px 60px; text-align: left; }
+        .env-item { padding: 2px 0; }
+        .env-label { font-size: 7px; color: #444; margin-bottom: 1px; letter-spacing: 1px; text-transform: uppercase; }
         .env-value { font-size: 9.5px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
 
-        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 2vh; }
-        /* 版权信息：亮度提升至清晰可见 */
-        .copyright-fixed { width: 100%; color: #AAAAAA; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; padding: 15px 0; text-align: center; border-top: 1px solid #111; background: black; }
+        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 1vh; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        
+        /* 关键修复：确保版权信息在最底层且不被挤压 */
+        .copyright-fixed { 
+            width: 100%; color: #888; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; 
+            padding: 15px 0; text-align: center; border-top: 1px solid #111; background: black; 
+            flex-shrink: 0; /* 强制禁止被挤压 */
+        }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
     </style>
