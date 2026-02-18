@@ -17,7 +17,8 @@
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
         .formula-container { text-align: center; margin-top: 50px; margin-bottom: 30px; }
-        .formula-main { font-size: clamp(0.9rem, 2.8vh, 1.4rem); color: #FFFFFF; line-height: 1.6; font-family: 'Noto Serif', serif; font-style: italic; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        /* 方程字号加大：提升至 1.8rem 并增强阴影 */
+        .formula-main { font-size: clamp(1.2rem, 4vh, 1.8rem); color: #FFFFFF; line-height: 1.6; font-family: 'Noto Serif', serif; font-style: italic; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
         
         .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
         .sub-text { color: #C5A059; font-size: 11px; letter-spacing: 5px; max-width: 1000px; text-align: center; display: none; text-transform: uppercase; font-weight: 400; }
@@ -73,9 +74,20 @@
             <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
         </div>
     </div>
-
-    <div class="copyright-fixed">
-        GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED
+    <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
+        <div class="max-w-5xl w-full p-12 border border-zinc-900 bg-black text-center mx-4">
+            <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
+                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">V2.2: Unified Vector Dynamics (CORE)</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">WP: V2.2 Engineering Specification</button>
+                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">V2.1: Numerical Stability Patch</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">WP: V2.1 Robustness Spec</button>
+                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">V2.0: High-Frequency Detection</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">WP: V2.0 Algorithmic Architecture</button>
+                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">V1.0: Nonlinear Dynamics Theory</button>
+                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900">V0: Empirical Core Evidence</button>
+            </div>
+        </div>
     </div>
 
     <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
@@ -106,17 +118,6 @@
         </div>
     </div>
 
-    <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
-        <div class="max-w-4xl w-full p-12 border border-zinc-900 bg-black text-center mx-4">
-            <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
-                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41]">V2.2: Unified Vector Dynamics (CORE)</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41]">WP: V2.2 Engineering Spec</button>
-                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41]">V1.0: Theory Archive</button>
-            </div>
-        </div>
-    </div>
-
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
         <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full text-center">
             <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-widest uppercase">General Protocol Inquiry</h3>
@@ -128,6 +129,8 @@
             </form>
         </div>
     </div>
+
+    <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
 
     <script>
         function openModal(id) { 
@@ -141,7 +144,6 @@
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
-
         function switchLang(lang) {
             document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
@@ -152,4 +154,3 @@
     </script>
 </body>
 </html>
-
