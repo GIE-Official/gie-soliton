@@ -7,47 +7,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 核心修复：三段式 Flex 布局，彻底解决 Copyright 消失问题 */
-        body { 
-            background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; 
-            overflow: hidden; height: 100vh; margin: 0; 
-            display: flex; flex-direction: column; justify-content: space-between; 
-        }
+        /* 强制 100vh 锁死，禁止任何形式的滚动 */
+        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; width: 100vw; margin: 0; display: flex; flex-direction: column; position: relative; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8px; cursor: pointer; min-width: 170px; color: #666; text-align: center; }
+        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8px; cursor: pointer; min-width: 175px; color: #888; text-align: center; }
         .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
 
         .lang-btn { font-size: 8px; color: #333; cursor: pointer; transition: 0.4s; padding: 2px 8px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* 顶部区域：收缩字号，腾出纵向空间 */
-        .top-section { flex-shrink: 0; padding-top: 2vh; text-align: center; }
+        /* 顶部：极致收缩 */
+        .header-box { padding-top: 2vh; text-align: center; flex-shrink: 0; }
         .formula-main { 
-            font-size: clamp(0.7rem, 2.5vw, 1.0rem); 
+            font-size: clamp(0.7rem, 2.2vw, 0.95rem); 
             color: #FFFFFF; font-family: 'Noto Serif', serif; font-style: italic; 
             white-space: nowrap; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
         }
         
         .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; display: none; text-transform: uppercase; margin-top: 1vh; }
         
-        /* 中部区域：2x2 矩阵，强制居中对齐 */
-        .mid-section { flex-grow: 1; display: flex; align-items: center; justify-content: center; }
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 2vh 0; max-width: 600px; width: 90%; }
-        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 10px 60px; }
+        /* 中部：左二右二 2x2 矩阵，极致居中 */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 2.5vh 0; width: 600px; max-width: 90%; }
+        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 15px 80px; }
+        .env-item { text-align: left; }
         .env-label { font-size: 6.5px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
-        .env-value { font-size: 9px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
+        .env-value { font-size: 9.5px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
 
-        /* 底部区域：按钮与版权，强制置底 */
-        .bottom-section { flex-shrink: 0; width: 100%; background: black; border-top: 1px solid #111; }
-        .action-zone { padding: 2vh 0; }
-        .copyright-fixed { color: #AAAAAA !important; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; padding: 15px 0; text-align: center; opacity: 1; visibility: visible; }
+        /* 底部：按钮组与版权，绝对锚定 */
+        .bottom-anchor { position: absolute; bottom: 0; left: 0; width: 100%; flex-shrink: 0; background: black; }
+        .action-zone { padding-bottom: 2vh; }
+        .copyright-fixed { color: #AAAAAA !important; font-size: 8.5px; letter-spacing: 0.7em; text-transform: uppercase; padding: 20px 0; text-align: center; border-top: 1px solid #111; display: block; width: 100%; }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
     </style>
 </head>
 <body>
-    <div class="top-section">
+    <div class="header-box">
         <div class="flex flex-wrap justify-center gap-1 mb-4">
             <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
             <span class="lang-btn" onclick="switchLang('cn')">CN</span>
@@ -67,12 +64,12 @@
             <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
             <div id="desc-de" class="sub-text">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
             <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
-            <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطi.</div>
+            <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
             <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
         </div>
     </div>
 
-    <div class="mid-section">
+    <div class="main-content">
         <div class="env-section">
             <div class="env-grid">
                 <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
@@ -82,14 +79,14 @@
             </div>
         </div>
     </div>
-    <div class="bottom-section">
+    <div class="bottom-anchor">
         <div class="action-zone space-y-3">
-            <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
                 <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
                 <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
             </div>
-            <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
                 <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
             </div>
@@ -99,7 +96,7 @@
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
         <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
-            <h3 class="text-[#AAAAAA] text-[10px] mb-6 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
+            <h3 class="text-[#AAAAAA] text-[10px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
                 <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">V2.2: CORE VECTOR DYNAMICS</button>
                 <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[8px] border border-zinc-800 p-2 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41]">WP: V2.2 ENGINEERING SPEC</button>
