@@ -13,15 +13,22 @@
         .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
         .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
-        .formula-container { text-align: center; margin-top: 50px; margin-bottom: 30px; }
-        /* 方程字号：大一号加粗增强版 */
+        .formula-container { text-align: center; margin-top: 50px; margin-bottom: 20px; }
         .formula-main { font-size: clamp(1.4rem, 5vh, 2.2rem); color: #FFFFFF; line-height: 1.6; font-family: 'Noto Serif', serif; font-style: italic; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
-        .desc-container { min-height: 60px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
-        .sub-text { color: #C5A059; font-size: 11px; letter-spacing: 5px; max-width: 1000px; text-align: center; display: none; text-transform: uppercase; font-weight: 400; }
-        .action-zone { max-width: 5xl; margin: 40px auto; width: 100%; padding-bottom: 100px; }
-        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #444; font-size: 9px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        .desc-container { min-height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .sub-text { color: #C5A059; font-size: 11px; letter-spacing: 5px; text-align: center; display: none; text-transform: uppercase; }
+        
+        /* 部署环境样式重置 */
+        .env-section { border: 1px solid #111; background: rgba(5,5,5,0.8); padding: 15px; max-width: 800px; width: 90%; margin: 30px auto; }
+        .env-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; text-align: center; }
+        .env-item { border: 1px solid #222; padding: 10px; }
+        .env-label { font-size: 8px; color: #444; margin-bottom: 4px; letter-spacing: 2px; }
+        .env-value { font-size: 10px; color: #00FF41; font-weight: bold; }
+
+        .action-zone { max-width: 5xl; margin: 20px auto; width: 100%; padding-bottom: 100px; }
         .price-tier { display: none; width: 100%; text-align: left; }
         input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
+        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #444; font-size: 9px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
     </style>
 </head>
 <body class="p-6">
@@ -35,11 +42,13 @@
         <span class="lang-btn" onclick="switchLang('ar')">AR</span>
         <span class="lang-btn" onclick="switchLang('he')">HE</span>
     </div>
+
     <div class="flex-grow flex flex-col items-center justify-center">
         <div class="formula-container">
             <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
             <div class="text-[8px] text-[#333] tracking-[0.6em] mt-4 uppercase">V2.2: ∇-Pressure Gradient Analysis | Manifold Stability: λ</div>
         </div>
+
         <div class="desc-container">
             <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
             <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
@@ -49,6 +58,15 @@
             <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
             <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
             <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
+        </div>
+
+        <div class="env-section">
+            <div class="env-grid">
+                <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC Cluster</div></div>
+                <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">gie_sk_v22.so</div></div>
+                <div class="env-item"><div class="env-label">LATENCY</div><div class="env-value">&lt; 188.4s Self-Destruct</div></div>
+                <div class="env-item"><div class="env-label">STABILITY</div><div class="env-value">λ-Dynamic Mapping</div></div>
+            </div>
         </div>
     </div>
     <div class="action-zone space-y-5">
@@ -62,6 +80,7 @@
             <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
         </div>
     </div>
+
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
         <div class="max-w-5xl w-full p-12 border border-zinc-900 bg-black text-center mx-4">
             <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
@@ -111,8 +130,7 @@
         <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full text-center">
             <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-widest uppercase">General Protocol Inquiry</h3>
             <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
-                <input type="text" name="name" placeholder="NAME" required>
-                <input type="email" name="email" placeholder="EMAIL" required>
+                <input type="text" name="name" placeholder="NAME" required><input type="email" name="email" placeholder="EMAIL" required>
                 <textarea name="message" rows="3" placeholder="MESSAGE" required></textarea>
                 <button type="submit" class="btn-green w-full">SUBMIT SIGNAL</button>
             </form>
@@ -136,3 +154,4 @@
     </script>
 </body>
 </html>
+
