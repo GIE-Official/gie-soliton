@@ -7,28 +7,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #00FF41; font-family: 'Orbitron', sans-serif; overflow-x: hidden; min-height: 100vh; margin: 0; display: flex; flex-direction: column; }
+        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow-x: hidden; min-height: 100vh; margin: 0; display: flex; flex-direction: column; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
-        .btn-green { border: 1.5px solid #00FF41; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 210px; color: #00FF41; text-align: center; }
-        .btn-green:hover { background: rgba(0, 255, 65, 0.2); box-shadow: 0 0 25px rgba(0,255,65,0.4); }
-        .lang-btn { font-size: 10px; color: #444; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
-        .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
-        .formula-container { text-align: center; margin-top: 50px; margin-bottom: 20px; }
-        .formula-main { font-size: clamp(1.4rem, 5vh, 2.2rem); color: #FFFFFF; line-height: 1.6; font-family: 'Noto Serif', serif; font-style: italic; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
-        .desc-container { min-height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 10px; }
-        .sub-text { color: #C5A059; font-size: 11px; letter-spacing: 5px; text-align: center; display: none; text-transform: uppercase; }
         
-        /* 部署环境样式重置 */
-        .env-section { border: 1px solid #111; background: rgba(5,5,5,0.8); padding: 15px; max-width: 800px; width: 90%; margin: 30px auto; }
-        .env-grid { display: grid; grid-template-cols: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; text-align: center; }
-        .env-item { border: 1px solid #222; padding: 10px; }
-        .env-label { font-size: 8px; color: #444; margin-bottom: 4px; letter-spacing: 2px; }
-        .env-value { font-size: 10px; color: #00FF41; font-weight: bold; }
+        .btn-green { border: 1px solid #333; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 10px; cursor: pointer; min-width: 210px; color: #888; text-align: center; }
+        .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 20px rgba(0,255,65,0.2); }
 
-        .action-zone { max-width: 5xl; margin: 20px auto; width: 100%; padding-bottom: 100px; }
+        .lang-btn { font-size: 10px; color: #333; cursor: pointer; transition: 0.4s; padding: 5px 12px; }
+        .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
+        
+        /* 方程容器：解决溢出问题的核心 */
+        .formula-container { text-align: center; margin-top: 60px; margin-bottom: 20px; width: 100%; padding: 0 20px; overflow-x: auto; scrollbar-width: none; }
+        .formula-container::-webkit-scrollbar { display: none; }
+        
+        /* 核心优化：vw单位确保在窄屏自动缩小，nowrap确保不断行 */
+        .formula-main { 
+            font-size: clamp(1rem, 4.5vw, 2.4rem); 
+            color: #FFFFFF; 
+            line-height: 1.6; 
+            font-family: 'Noto Serif', serif; 
+            font-style: italic; 
+            white-space: nowrap;
+            filter: drop-shadow(0 0 12px rgba(255,255,255,0.3)); 
+            display: inline-block;
+        }
+        
+        .desc-container { min-height: 40px; display: flex; align-items: center; justify-content: center; margin-top: 20px; }
+        .sub-text { color: #C5A059; font-size: 11px; letter-spacing: 6px; text-align: center; display: none; text-transform: uppercase; font-weight: 300; }
+        
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 25px 0; max-width: 1000px; width: 95%; margin: 40px auto; }
+        .env-grid { display: grid; grid-template-cols: repeat(4, 1fr); gap: 20px; text-align: center; }
+        .env-label { font-size: 8px; color: #555; margin-bottom: 6px; letter-spacing: 3px; text-transform: uppercase; }
+        .env-value { font-size: 11px; color: #AAAAAA; font-weight: 400; letter-spacing: 1px; }
+
+        .action-zone { max-width: 5xl; margin: 30px auto; width: 100%; padding-bottom: 120px; }
         .price-tier { display: none; width: 100%; text-align: left; }
-        input, textarea { background: #080808 !important; border: 1px solid #333 !important; color: #00FF41 !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
-        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #444; font-size: 9px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 12px; width: 100%; font-size: 11px; margin-bottom: 10px; outline: none; }
+        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #333; font-size: 9px; letter-spacing: 0.8em; text-transform: uppercase; padding: 25px 0; text-align: center; border-top: 1px solid #111; background: black; z-index: 900; }
+        
+        /* 移动端适配：横排变竖排 */
+        @media (max-width: 768px) {
+            .env-grid { grid-template-cols: repeat(2, 1fr); }
+            .formula-main { font-size: 4.8vw; }
+        }
     </style>
 </head>
 <body class="p-6">
@@ -46,7 +67,7 @@
     <div class="flex-grow flex flex-col items-center justify-center">
         <div class="formula-container">
             <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
-            <div class="text-[8px] text-[#333] tracking-[0.6em] mt-4 uppercase">V2.2: ∇-Pressure Gradient Analysis | Manifold Stability: λ</div>
+            <div class="text-[8px] text-[#222] tracking-[0.6em] mt-5 uppercase">V2.2: ∇-Pressure Gradient Analysis | Manifold Stability: λ</div>
         </div>
 
         <div class="desc-container">
@@ -62,20 +83,20 @@
 
         <div class="env-section">
             <div class="env-grid">
-                <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC Cluster</div></div>
-                <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">gie_sk_v22.so</div></div>
-                <div class="env-item"><div class="env-label">LATENCY</div><div class="env-value">&lt; 188.4s Self-Destruct</div></div>
-                <div class="env-item"><div class="env-label">STABILITY</div><div class="env-value">λ-Dynamic Mapping</div></div>
+                <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
+                <div class="env-item"><div class="env-label">OS SUPPORT</div><div class="env-value">LINUX X86_64 ONLY</div></div>
+                <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">GIE_SK_V22.SO</div></div>
+                <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
             </div>
         </div>
     </div>
     <div class="action-zone space-y-5">
-        <div class="flex flex-wrap justify-center gap-5">
+        <div class="flex flex-wrap justify-center gap-6">
             <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
             <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
             <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
         </div>
-        <div class="flex flex-wrap justify-center gap-5">
+        <div class="flex flex-wrap justify-center gap-6">
             <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
             <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
         </div>
@@ -83,16 +104,16 @@
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
         <div class="max-w-5xl w-full p-12 border border-zinc-900 bg-black text-center mx-4">
-            <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
-                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V2.2: Unified Vector Dynamics (CORE)</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">WP: V2.2 Engineering Specification</button>
-                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V2.1: Numerical Stability Patch</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">WP: V2.1 Robustness Spec</button>
-                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V2.0: High-Frequency Detection</button>
-                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">WP: V2.0 Algorithmic Architecture</button>
-                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V1.0: Nonlinear Dynamics Theory</button>
-                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf')" class="text-[9px] border border-[#00FF41] p-3 text-[#00FF41] hover:bg-zinc-900 transition">V0: Empirical Core Evidence</button>
+            <h3 class="text-[#AAAAAA] text-[11px] mb-8 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <button onclick="window.open('GIE_v2.2_Unified_Vector_Field_Dynamics.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">V2.2: UNIFIED VECTOR DYNAMICS (CORE)</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.2_Unified_Vector_Dynamics.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">WP: V2.2 ENGINEERING SPECIFICATION</button>
+                <button onclick="window.open('GIE_v2.1_Numerical_Stability_in_Singular_Markets.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">V2.1: NUMERICAL STABILITY PATCH</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.1_Robustness_Engineering_Spec.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">WP: V2.1 ROBUSTNESS SPEC</button>
+                <button onclick="window.open('GIE_v2.0_High_Frequency_Soliton_Detection.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">V2.0: HIGH-FREQUENCY DETECTION</button>
+                <button onclick="window.open('GIE_WhitePaper_v2.0_Algorithmic_Architecture.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">WP: V2.0 ALGORITHMIC ARCHITECTURE</button>
+                <button onclick="window.open('GIE_v1.0_Nonlinear_Pricing_Dynamics_Theory.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">V1.0: NONLINEAR DYNAMICS THEORY</button>
+                <button onclick="window.open('GIE_v0_Empirical_Evidence.pdf')" class="text-[9px] border border-zinc-800 p-3 text-[#666] hover:text-[#00FF41] hover:border-[#00FF41] transition">V0: EMPIRICAL CORE EVIDENCE</button>
             </div>
         </div>
     </div>
@@ -100,26 +121,25 @@
     <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
         <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
             <div id="tier2-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-4 tracking-widest text-center uppercase">Institutional Node Setup</h3>
+                <h3 class="text-[#AAAAAA] text-[10px] mb-4 tracking-widest text-center uppercase">Institutional Node Setup</h3>
                 <div class="text-3xl font-bold mb-4 text-white text-center">$8,888,888</div>
                 <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
                     <input type="hidden" name="_subject" value="New $8.8M Institutional Inquiry">
                     <input type="text" name="name" placeholder="FULL NAME" required>
-                    <input type="text" name="institution" placeholder="INSTITUTION / HEDGE FUND" required>
+                    <input type="text" name="institution" placeholder="INSTITUTION / FUND" required>
                     <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
                     <button type="submit" class="btn-green w-full">REQUEST CONTRACT & UUID BINDING</button>
                 </form>
             </div>
             <div id="tier3-box" class="price-tier">
-                <h3 class="text-[#00FF41] text-[10px] mb-2 tracking-widest text-center uppercase">Sovereign Strategic Acquisition</h3>
+                <h3 class="text-[#AAAAAA] text-[10px] mb-2 tracking-widest text-center uppercase">Sovereign Strategic Acquisition</h3>
                 <div class="text-2xl font-bold mb-1 text-white text-center">$100M — $250M</div>
-                <div class="text-[8px] text-zinc-500 mb-6 text-center tracking-[0.3em] uppercase">Full Source Disclosure | Equation 7/8 Transfer</div>
                 <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
-                    <input type="hidden" name="_subject" value="URGENT: $100M+ Sovereign Tier Inquiry">
-                    <input type="text" name="name" placeholder="FULL NAME / REPRESENTATIVE" required>
-                    <input type="text" name="organization" placeholder="SOVEREIGN FUND / ORGANIZATION" required>
-                    <input type="email" name="email" placeholder="ENCRYPTED / OFFICIAL EMAIL" required>
-                    <textarea name="scope" rows="4" placeholder="DESCRIBE ACQUISITION SCOPE AND SOURCE DISCLOSURE REQUIREMENTS..." required></textarea>
+                    <input type="hidden" name="_subject" value="URGENT: $100M+ Sovereign Inquiry">
+                    <input type="text" name="name" placeholder="FULL NAME" required>
+                    <input type="text" name="organization" placeholder="ORGANIZATION" required>
+                    <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
+                    <textarea name="scope" rows="4" placeholder="DESCRIBE ACQUISITION SCOPE..." required></textarea>
                     <button type="submit" class="btn-green w-full">INITIATE DUE DILIGENCE</button>
                 </form>
             </div>
@@ -128,7 +148,7 @@
 
     <div id="inquiry-modal" class="modal" onclick="closeOnBg(event, 'inquiry-modal')">
         <div class="border border-zinc-900 p-10 bg-black max-w-xl w-full text-center">
-            <h3 class="text-[#00FF41] text-[11px] mb-8 tracking-widest uppercase">General Protocol Inquiry</h3>
+            <h3 class="text-[#AAAAAA] text-[11px] mb-8 tracking-widest uppercase">General Protocol Inquiry</h3>
             <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
                 <input type="text" name="name" placeholder="NAME" required><input type="email" name="email" placeholder="EMAIL" required>
                 <textarea name="message" rows="3" placeholder="MESSAGE" required></textarea>
@@ -154,4 +174,3 @@
     </script>
 </body>
 </html>
-
