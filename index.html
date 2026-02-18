@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 核心修复：锁定 100vh，禁止滚动 */
+        /* 强制 100vh 闭环，绝对禁止滚动 */
         body { 
             background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; 
             overflow: hidden; height: 100vh; margin: 0; 
@@ -15,45 +15,42 @@
         }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; min-width: 185px; color: #666; text-align: center; }
+        .btn-green { border: 1px solid #333; padding: 6px 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8px; cursor: pointer; min-width: 175px; color: #666; text-align: center; }
         .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
 
-        .lang-btn { font-size: 8.5px; color: #333; cursor: pointer; transition: 0.4s; padding: 3px 10px; }
+        .lang-btn { font-size: 8px; color: #333; cursor: pointer; transition: 0.4s; padding: 2px 8px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* 方程微调：缩减间距，防止顶开布局 */
-        .formula-container { text-align: center; margin-top: 2vh; width: 100%; padding: 0 5%; }
+        /* 方程字号下调至安全阈值 1.0rem */
+        .formula-container { text-align: center; padding: 2vh 5% 0; flex-shrink: 0; }
         .formula-main { 
-            font-size: clamp(0.7rem, 2.8vw, 1.1rem); 
+            font-size: clamp(0.7rem, 2.2vw, 1.0rem); 
             color: #FFFFFF; line-height: 1.2; font-family: 'Noto Serif', serif; font-style: italic; 
             white-space: nowrap; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
             display: inline-block;
         }
         
-        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 0.5vh; }
-        .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; }
-        
-        /* 2x2 对称矩阵：维持你的布局，收紧高度 */
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 580px; width: 90%; margin: 1vh auto; }
+        /* 2x2 矩阵：强制居中、对称且不撑开高度 */
+        .mid-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; width: 580px; max-width: 90%; }
         .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 8px 60px; text-align: left; }
         .env-item { padding: 2px 0; }
-        .env-label { font-size: 7px; color: #444; margin-bottom: 1px; letter-spacing: 1px; text-transform: uppercase; }
-        .env-value { font-size: 9.5px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
+        .env-label { font-size: 6.5px; color: #444; margin-bottom: 1px; letter-spacing: 1px; text-transform: uppercase; }
+        .env-value { font-size: 9px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
 
-        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 1vh; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        
-        /* 关键修复：确保版权信息在最底层且不被挤压 */
+        /* 底部操作区与版权锁定 */
+        .bottom-zone { flex-shrink: 0; width: 100%; }
+        .action-zone { padding-bottom: 2vh; }
         .copyright-fixed { 
-            width: 100%; color: #888; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; 
+            width: 100%; color: #AAAAAA !important; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; 
             padding: 15px 0; text-align: center; border-top: 1px solid #111; background: black; 
-            flex-shrink: 0; /* 强制禁止被挤压 */
         }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
     </style>
 </head>
 <body class="p-4">
-    <div class="flex flex-wrap justify-center gap-1">
+    <div class="flex flex-wrap justify-center gap-1 flex-shrink-0">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('jp')">JP</span>
@@ -68,39 +65,42 @@
         <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
         <div class="text-[7px] text-[#222] tracking-[0.6em] mt-2 uppercase">V2.2: ∇-Pressure Gradient Analysis | λ-Stability Mapping</div>
     </div>
-
-    <div class="desc-container">
-        <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
-        <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
-        <div id="desc-jp" class="sub-text">非線形な世界のための、主権級アルゴリズム。</div>
-        <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
-        <div id="desc-de" class="sub-text">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
-        <div id="desc-ru" class="sub-text">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
-        <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
-        <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
-    </div>
-
-    <div class="env-section">
-        <div class="env-grid">
-            <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
-            <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">GIE_SK_V22.SO</div></div>
-            <div class="env-item"><div class="env-label">OS SUPPORT</div><div class="env-value">LINUX X86_64 ONLY</div></div>
-            <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
+    <div class="mid-content">
+        <div class="desc-container min-h-[25px]">
+            <div id="desc-en" class="text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
+            <div id="desc-cn" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">为非线性世界而生的主权级算法。</div>
+            <div id="desc-jp" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">非線形な世界のための、主権級アルゴリズム。</div>
+            <div id="desc-fr" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
+            <div id="desc-de" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
+            <div id="desc-ru" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
+            <div id="desc-ar" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
+            <div id="desc-he" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
         </div>
-    </div>
-    <div class="action-zone space-y-3">
-        <div class="flex flex-wrap justify-center gap-3">
-            <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
-            <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
-            <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
-        </div>
-        <div class="flex flex-wrap justify-center gap-3">
-            <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
+
+        <div class="env-section">
+            <div class="env-grid">
+                <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
+                <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">GIE_SK_V22.SO</div></div>
+                <div class="env-item"><div class="env-label">OS SUPPORT</div><div class="env-value">LINUX X86_64 ONLY</div></div>
+                <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
+            </div>
         </div>
     </div>
 
-    <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
+    <div class="bottom-zone">
+        <div class="action-zone space-y-3">
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
+                <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
+                <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
+            </div>
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
+                <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
+            </div>
+        </div>
+        <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
+    </div>
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
         <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
@@ -118,43 +118,16 @@
         </div>
     </div>
 
-    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
-        <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
-            <div id="tier2-box" class="price-tier">
-                <h3 class="text-[#AAAAAA] text-[10px] mb-4 tracking-widest text-center uppercase">Institutional Node</h3>
-                <div class="text-2xl font-bold mb-4 text-white text-center">$8,888,888</div>
-                <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
-                    <input type="hidden" name="_subject" value="New $8.8M Inquiry">
-                    <input type="text" name="name" placeholder="FULL NAME" required>
-                    <input type="text" name="institution" placeholder="INSTITUTION" required>
-                    <input type="email" name="email" placeholder="EMAIL" required>
-                    <button type="submit" class="btn-green w-full">INITIATE ONBOARDING</button>
-                </form>
-            </div>
-            <div id="tier3-box" class="price-tier">
-                <h3 class="text-[#AAAAAA] text-[10px] mb-2 tracking-widest text-center uppercase">Sovereign Acquisition</h3>
-                <div class="text-xl font-bold mb-1 text-white text-center">$100M — $250M</div>
-                <form action="https://formspree.io/f/mzdagonr" method="POST" class="space-y-2">
-                    <input type="hidden" name="_subject" value="URGENT: $100M+ Sovereign">
-                    <input type="text" name="name" placeholder="FULL NAME" required>
-                    <input type="email" name="email" placeholder="OFFICIAL EMAIL" required>
-                    <textarea name="scope" rows="3" placeholder="ACQUISITION SCOPE..." required></textarea>
-                    <button type="submit" class="btn-green w-full">INITIATE DUE DILIGENCE</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
         function openModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
         function openPriceModal(tier) { openModal('pricing-modal'); document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none'); const t = document.getElementById(tier + '-box'); if(t) t.style.display = 'block'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
         function switchLang(lang) {
-            document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('#desc-en, #desc-cn, #desc-jp, #desc-fr, #desc-de, #desc-ru, #desc-ar, #desc-he').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
             const desc = document.getElementById('desc-' + lang);
-            if(desc) desc.style.display = 'block';
+            if(desc) desc.classList.remove('hidden');
             event.target.classList.add('lang-active');
         }
     </script>
