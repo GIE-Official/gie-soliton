@@ -7,76 +7,62 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 强制 100vh 闭环，绝对禁止滚动 */
+        /* 强制单屏闭环，锁定视口 */
         body { 
             background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; 
-            overflow: hidden; height: 100vh; margin: 0; 
-            display: flex; flex-direction: column; justify-content: space-between; 
+            overflow: hidden; height: 100vh; margin: 0; position: relative;
         }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
-        .btn-green { border: 1px solid #333; padding: 6px 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8px; cursor: pointer; min-width: 175px; color: #666; text-align: center; }
+        .btn-green { border: 1px solid #333; padding: 6px 10px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8px; cursor: pointer; min-width: 180px; color: #666; text-align: center; }
         .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
 
         .lang-btn { font-size: 8px; color: #333; cursor: pointer; transition: 0.4s; padding: 2px 8px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
-        /* 方程字号下调至安全阈值 1.0rem */
-        .formula-container { text-align: center; padding: 2vh 5% 0; flex-shrink: 0; }
+        /* 顶部方程：极致收缩字号 */
+        .top-container { width: 100%; text-align: center; padding-top: 3vh; }
         .formula-main { 
-            font-size: clamp(0.7rem, 2.2vw, 1.0rem); 
-            color: #FFFFFF; line-height: 1.2; font-family: 'Noto Serif', serif; font-style: italic; 
+            font-size: clamp(0.7rem, 2.5vw, 1.0rem); 
+            color: #FFFFFF; font-family: 'Noto Serif', serif; font-style: italic; 
             white-space: nowrap; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
-            display: inline-block;
         }
         
-        /* 2x2 矩阵：强制居中、对称且不撑开高度 */
-        .mid-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; width: 580px; max-width: 90%; }
-        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 8px 60px; text-align: left; }
-        .env-item { padding: 2px 0; }
-        .env-label { font-size: 6.5px; color: #444; margin-bottom: 1px; letter-spacing: 1px; text-transform: uppercase; }
+        /* 2x2 对称矩阵：绝对水平居中 */
+        .mid-container { position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%); width: 600px; max-width: 90%; }
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 2vh 0; }
+        .env-grid { display: grid; grid-template-cols: 1fr 1fr; gap: 10px 60px; text-align: left; }
+        .env-label { font-size: 6.5px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
         .env-value { font-size: 9px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
 
-        /* 底部操作区与版权锁定 */
-        .bottom-zone { flex-shrink: 0; width: 100%; }
-        .action-zone { padding-bottom: 2vh; }
+        /* 底部版权与按钮：强行钉在最下方 */
+        .bottom-container { position: absolute; bottom: 0; left: 0; width: 100%; background: #000; }
+        .action-zone { padding-bottom: 2vh; text-align: center; }
         .copyright-fixed { 
             width: 100%; color: #AAAAAA !important; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; 
-            padding: 15px 0; text-align: center; border-top: 1px solid #111; background: black; 
+            padding: 15px 0; text-align: center; border-top: 1px solid #111; 
         }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
     </style>
 </head>
-<body class="p-4">
-    <div class="flex flex-wrap justify-center gap-1 flex-shrink-0">
-        <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
-        <span class="lang-btn" onclick="switchLang('cn')">CN</span>
-        <span class="lang-btn" onclick="switchLang('jp')">JP</span>
-        <span class="lang-btn" onclick="switchLang('fr')">FR</span>
-        <span class="lang-btn" onclick="switchLang('de')">DE</span>
-        <span class="lang-btn" onclick="switchLang('ru')">RU</span>
-        <span class="lang-btn" onclick="switchLang('ar')">AR</span>
-        <span class="lang-btn" onclick="switchLang('he')">HE</span>
-    </div>
-
-    <div class="formula-container">
+<body>
+    <div class="top-container">
+        <div class="flex flex-wrap justify-center gap-1 mb-4">
+            <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
+            <span class="lang-btn" onclick="switchLang('cn')">CN</span>
+            <span class="lang-btn" onclick="switchLang('jp')">JP</span>
+            <span class="lang-btn" onclick="switchLang('fr')">FR</span>
+            <span class="lang-btn" onclick="switchLang('de')">DE</span>
+            <span class="lang-btn" onclick="switchLang('ru')">RU</span>
+            <span class="lang-btn" onclick="switchLang('ar')">AR</span>
+            <span class="lang-btn" onclick="switchLang('he')">HE</span>
+        </div>
         <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
         <div class="text-[7px] text-[#222] tracking-[0.6em] mt-2 uppercase">V2.2: ∇-Pressure Gradient Analysis | λ-Stability Mapping</div>
     </div>
-    <div class="mid-content">
-        <div class="desc-container min-h-[25px]">
-            <div id="desc-en" class="text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
-            <div id="desc-cn" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">为非线性世界而生的主权级算法。</div>
-            <div id="desc-jp" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">非線形な世界のための、主権級アルゴリズム。</div>
-            <div id="desc-fr" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
-            <div id="desc-de" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">SOUVERÄNE ALGORITHMEN FÜR EINE NICHTLINEARE WELT.</div>
-            <div id="desc-ru" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center">СУВЕРЕННЫЕ АЛГОРИТМЫ ДЛЯ НЕЛИНЕЙНОГО МИРА.</div>
-            <div id="desc-ar" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
-            <div id="desc-he" class="hidden text-[#C5A059] text-[9px] tracking-[4px] uppercase text-center" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
-        </div>
 
+    <div class="mid-container">
         <div class="env-section">
             <div class="env-grid">
                 <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
@@ -86,15 +72,14 @@
             </div>
         </div>
     </div>
-
-    <div class="bottom-zone">
+    <div class="bottom-container">
         <div class="action-zone space-y-3">
-            <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
                 <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
                 <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
             </div>
-            <div class="flex flex-wrap justify-center gap-3">
+            <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
                 <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
             </div>
@@ -124,10 +109,7 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
         function switchLang(lang) {
-            document.querySelectorAll('#desc-en, #desc-cn, #desc-jp, #desc-fr, #desc-de, #desc-ru, #desc-ar, #desc-he').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
-            const desc = document.getElementById('desc-' + lang);
-            if(desc) desc.classList.remove('hidden');
             event.target.classList.add('lang-active');
         }
     </script>
