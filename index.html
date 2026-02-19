@@ -18,7 +18,7 @@
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
         
         /* 方程微调：极简尺寸，绝不越界 */
-        .formula-container { text-align: center; margin-top: 3vh; width: 100%; }
+        .formula-container { text-align: center; margin-top: 1.5vh; width: 100%; }
         .formula-main { 
             font-size: clamp(1rem, 3.2vw, 1.5rem); 
             color: #FFFFFF; 
@@ -36,16 +36,16 @@
             font-size: clamp(7px, 1.8vw, 9px);
             letter-spacing: 0.3em;
             text-align: center;
-            margin-top: 4em;
-            line-height: 2.8;
+            margin-top: 1em;
+            line-height: 2.4;
             opacity: 1;
         }
         
-        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 1vh; }
+        .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 0.5vh; }
         .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; }
         
         /* 2x2 对称矩阵：强制左右各俩，居中对齐 */
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 480px; width: 90%; margin: 1.5vh auto; display:block; }
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1vh 0; max-width: 480px; width: 90%; margin: 1vh auto; display:block; }
         .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 0; text-align: left; width:100%; }
         .env-item { padding: 4px 20px; }
         .env-label { font-size: 7px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
@@ -113,7 +113,7 @@
         </div>
     </div>
 
-    <div class="action-zone space-y-3" style="margin-top:1.5vh;">
+    <div class="action-zone space-y-3" style="margin-top:1vh;">
         <!-- 三个价格按钮：固定一行，自适应宽度 -->
         <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;width:100%;">
             <button onclick="openModal('opensource-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Open Source Edition</button>
@@ -202,3 +202,4 @@
     </script>
 </body>
 </html>
+
