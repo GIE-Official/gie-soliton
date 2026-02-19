@@ -20,7 +20,7 @@
         /* 方程微调：极简尺寸，绝不越界 */
         .formula-container { text-align: center; margin-top: 3vh; width: 100%; }
         .formula-main { 
-            font-size: clamp(0.7rem, 2.5vw, 1.1rem); 
+            font-size: clamp(1rem, 3.2vw, 1.5rem); 
             color: #FFFFFF; 
             line-height: 1.2; 
             font-family: 'Noto Serif', serif; 
@@ -29,14 +29,25 @@
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
             display: inline-block;
         }
+
+        /* 版本提示：中灰色，与方程形成层次 */
+        .version-notice {
+            color: #555555;
+            font-size: clamp(7px, 1.8vw, 9px);
+            letter-spacing: 0.3em;
+            text-align: center;
+            margin-top: 4em;
+            line-height: 2.8;
+            opacity: 1;
+        }
         
         .desc-container { min-height: 20px; display: flex; align-items: center; justify-content: center; margin-top: 1vh; }
         .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; }
         
         /* 2x2 对称矩阵：强制左右各俩，居中对齐 */
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 580px; width: 90%; margin: 1.5vh auto; }
-        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 60px; text-align: left; }
-        .env-item { padding: 4px 0; }
+        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.5vh 0; max-width: 480px; width: 90%; margin: 1.5vh auto; display:block; }
+        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 0; text-align: left; width:100%; }
+        .env-item { padding: 4px 20px; }
         .env-label { font-size: 7px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
         .env-value { font-size: 9.5px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
 
@@ -45,10 +56,23 @@
         .copyright-fixed { width: 100%; color: #AAAAAA; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; padding: 15px 0; text-align: center; border-top: 1px solid #111; background: black; }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
+
+        /* 手机适配：内容压缩，保持单屏 */
+        @media (max-width: 640px) {
+            body { overflow: hidden; height: 100vh; justify-content: space-between; }
+            .formula-main { white-space: normal; font-size: clamp(0.55rem, 3.5vw, 0.85rem); }
+            .env-grid { gap: 6px 20px; }
+            .env-section { padding: 1vh 0; margin: 1vh auto; }
+            .formula-container { margin-top: 1.5vh; }
+            .desc-container { margin-top: 0.5vh; }
+            .btn-green { min-width: 140px; font-size: 7.5px; padding: 5px 8px; }
+            .action-zone { padding-bottom: 1vh; }
+            .version-notice { font-size: clamp(6px, 2.8vw, 8px); letter-spacing: 0.1em; }
+        }
     </style>
 </head>
 <body class="p-4">
-    <div class="flex flex-wrap justify-center gap-1">
+    <div style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;margin-top:1em;">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('jp')">JP</span>
@@ -60,8 +84,13 @@
     </div>
 
     <div class="formula-container">
-        <div class="formula-main">||u(t)||_{L^2} \le C \cdot \exp\left( - \lambda \nu^{1/3} t \right) ||u(0)||_{L^2}</div>
-        <div class="text-[7px] text-[#222] tracking-[0.6em] mt-2 uppercase">V2.2: ∇-Pressure Gradient Analysis | λ-Stability Mapping</div>
+        <!-- 高斯引力核方程，来自 GIE 内核 -->
+        <div class="formula-main">P(t) = f(t) + ∇Γ · exp(−‖ΔX‖² / 2θ²) + tanh(ψ/θ) · E_cap</div>
+        <!-- 版本提示：中英双语，白色，清晰 -->
+        <div class="version-notice">
+            A stronger version is under active development — stay tuned.<br>
+            更强的版本正在努力调试，敬请期待。
+        </div>
     </div>
 
     <div class="desc-container">
@@ -83,19 +112,37 @@
             <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
         </div>
     </div>
-    <div class="action-zone space-y-3">
-        <div class="flex flex-wrap justify-center gap-3">
-            <button onclick="window.open('https://raymondalumni.gumroad.com/l/gie-V22-pi-trial')" class="btn-green">Quantum Window ($5,000)</button>
-            <button onclick="openPriceModal('tier2')" class="btn-green">Institutional Tier ($8.8M)</button>
-            <button onclick="openPriceModal('tier3')" class="btn-green">Sovereign Tier ($100M - $250M)</button>
+
+    <div class="action-zone space-y-3" style="margin-top:1.5vh;">
+        <!-- 三个价格按钮：固定一行，自适应宽度 -->
+        <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;width:100%;">
+            <button onclick="openModal('opensource-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Open Source Edition</button>
+            <button onclick="openPriceModal('tier2')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Black-Box Edition ($8.8M)</button>
+            <button onclick="openPriceModal('tier3')" class="btn-green" style="flex:1;max-width:240px;min-width:0;letter-spacing:1px;">Full Code Transfer ($100M–$250M)</button>
         </div>
-        <div class="flex flex-wrap justify-center gap-3">
-            <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
+        <!-- 底部两个按钮：居中 -->
+        <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;width:100%;">
+            <button onclick="openModal('docs-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Technical Archive</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Protocol Inquiry</button>
         </div>
     </div>
 
     <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
+
+    <!-- 开源版弹窗：告知用户开发中 -->
+    <div id="opensource-modal" class="modal" onclick="closeOnBg(event, 'opensource-modal')">
+        <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
+            <h3 class="text-[#AAAAAA] text-[10px] mb-4 tracking-[0.6em] uppercase">Open Source Edition</h3>
+            <div class="text-white text-[11px] mb-3 tracking-widest">COMING SOON / 敬请期待</div>
+            <div class="text-[#666] text-[9px] leading-6 tracking-widest">
+                The open source version is currently under active development.<br>
+                开源版本正在积极开发中，即将发布。<br><br>
+                Stay tuned for updates.<br>
+                敬请关注后续更新。
+            </div>
+            <button onclick="closeModal('opensource-modal')" class="btn-green mt-6">CLOSE</button>
+        </div>
+    </div>
 
     <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
         <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
@@ -155,5 +202,3 @@
     </script>
 </body>
 </html>
-
-你就在这个版本上把copyright弄出来，你刚才已经改的面目全非了
