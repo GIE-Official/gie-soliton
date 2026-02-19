@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
         /* 极致单屏逻辑：禁止溢出，锁定比例 */
-        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; justify-content: space-between; }
+        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; display: flex; flex-direction: column; justify-content: flex-start; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
         .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; min-width: 185px; color: #666; text-align: center; }
@@ -127,7 +127,7 @@
         </div>
     </div>
 
-    <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
+    <div class="copyright-fixed" style="margin-top:auto;">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
 
     <!-- 开源版弹窗：告知用户开发中 -->
     <div id="opensource-modal" class="modal" onclick="closeOnBg(event, 'opensource-modal')">
@@ -202,4 +202,3 @@
     </script>
 </body>
 </html>
-
