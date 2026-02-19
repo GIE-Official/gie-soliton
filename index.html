@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
         /* 极致单屏逻辑：禁止溢出，锁定比例 */
-        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; padding-bottom: 44px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
+        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; padding: 0 1rem 44px 1rem; display: flex; flex-direction: column; justify-content: flex-start; box-sizing: border-box; }
+        .spacer { flex: 1; }        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         
         .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; min-width: 185px; color: #666; text-align: center; }
         .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
@@ -53,6 +53,7 @@
 
         .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 2vh; }
         /* 版权信息：亮度提升至清晰可见 */
+        .spacer { flex: 1; min-height: 0; }
         .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #AAAAAA; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; padding: 12px 0; text-align: center; border-top: 1px solid #111; background: black; box-sizing: border-box; }
         
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
@@ -71,8 +72,8 @@
         }
     </style>
 </head>
-<body class="p-4">
-    <div style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;margin-top:0.3em;">
+<body>
+    <div style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding-top:1.5vh;">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('jp')">JP</span>
@@ -82,6 +83,7 @@
         <span class="lang-btn" onclick="switchLang('ar')">AR</span>
         <span class="lang-btn" onclick="switchLang('he')">HE</span>
     </div>
+    <div class="spacer"></div>
 
     <div class="formula-container">
         <!-- 高斯引力核方程，来自 GIE 内核 -->
@@ -92,6 +94,7 @@
             更强的版本正在努力调试，敬请期待。
         </div>
     </div>
+    <div class="spacer"></div>
 
     <div class="desc-container">
         <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
@@ -103,6 +106,7 @@
         <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
         <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
     </div>
+    <div class="spacer"></div>
 
     <div class="env-section">
         <div class="env-grid">
@@ -112,8 +116,9 @@
             <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
         </div>
     </div>
+    <div class="spacer"></div>
 
-    <div class="action-zone space-y-3" style="margin-top:0;">
+    <div class="action-zone space-y-2">
         <!-- 三个价格按钮：固定一行，自适应宽度 -->
         <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;width:100%;">
             <button onclick="openModal('opensource-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Open Source Edition</button>
@@ -126,6 +131,7 @@
             <button onclick="openModal('inquiry-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Protocol Inquiry</button>
         </div>
     </div>
+    <div class="spacer" style="flex:0.3;"></div>
 
     <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
 
