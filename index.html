@@ -7,73 +7,58 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Serif:italic&display=swap" rel="stylesheet">
     <style>
-        /* 极致单屏逻辑：禁止溢出，锁定比例 */
-        body { background-color: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; overflow: hidden; height: 100vh; margin: 0; padding: 0 1rem 44px 1rem; display: flex; flex-direction: column; justify-content: flex-start; box-sizing: border-box; }
-        .spacer { flex: 1; }        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
-        
-        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; min-width: 185px; color: #666; text-align: center; }
-        .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #000; color: #AAAAAA; font-family: 'Orbitron', sans-serif; width: 100vw; height: 100vh; overflow: hidden; position: relative; }
 
+        /* ── 各区块：绝对定位，钉死位置 ── */
+        #lang-bar   { position: absolute; top: 2vh;  left: 0; right: 0; display: flex; justify-content: center; gap: 8px; }
+        #formula    { position: absolute; top: 12vh; left: 0; right: 0; text-align: center; padding: 0 2rem; }
+        #desc       { position: absolute; top: 38vh; left: 0; right: 0; text-align: center; }
+        #env        { position: absolute; top: 47vh; left: 50%; transform: translateX(-50%); width: 90%; max-width: 560px; border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 1.2vh 0; }
+        #actions    { position: absolute; bottom: 10vh; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 1rem; }
+        #copyright  { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; border-top: 1px solid #111; background: #000; padding: 12px 0; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; color: #AAAAAA; }
+
+        /* ── 语言按钮 ── */
         .lang-btn { font-size: 8.5px; color: #333; cursor: pointer; transition: 0.4s; padding: 3px 10px; }
         .lang-active { color: #C5A059; border-bottom: 1px solid #C5A059; }
-        
-        /* 方程微调：极简尺寸，绝不越界 */
-        .formula-container { text-align: center; margin-top: 0; width: 100%; }
-        .formula-main { 
-            font-size: clamp(1rem, 3.2vw, 1.5rem); 
-            color: #FFFFFF; 
-            line-height: 1.2; 
-            font-family: 'Noto Serif', serif; 
-            font-style: italic; 
-            white-space: nowrap;
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); 
-            display: inline-block;
-        }
 
-        /* 版本提示：中灰色，与方程形成层次 */
-        .version-notice {
-            color: #555555;
-            font-size: clamp(7px, 1.8vw, 9px);
-            letter-spacing: 0.3em;
-            text-align: center;
-            margin-top: 0.5em;
-            line-height: 2.4;
-            opacity: 1;
-        }
-        
-        .desc-container { min-height: 16px; display: flex; align-items: center; justify-content: center; margin-top: 0; }
-        .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-align: center; display: none; text-transform: uppercase; }
-        
-        /* 2x2 对称矩阵：强制左右各俩，居中对齐 */
-        .env-section { border-top: 1px solid #111; border-bottom: 1px solid #111; padding: 0.8vh 0; max-width: 480px; width: 90%; margin: 0 auto; display:block; }
-        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 0; text-align: left; width:100%; }
-        .env-item { padding: 4px 20px; }
-        .env-label { font-size: 7px; color: #444; margin-bottom: 2px; letter-spacing: 1px; text-transform: uppercase; }
-        .env-value { font-size: 9.5px; color: #AAAAAA; font-weight: 400; letter-spacing: 0.5px; }
+        /* ── 方程 ── */
+        .formula-main { font-size: clamp(1rem, 3vw, 1.5rem); color: #fff; font-family: 'Noto Serif', serif; font-style: italic; white-space: nowrap; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .version-notice { color: #555; font-size: clamp(7px, 1.5vw, 9px); letter-spacing: 0.3em; margin-top: 0.8em; line-height: 2.2; }
 
-        .action-zone { max-width: 5xl; margin: 0 auto; width: 100%; padding-bottom: 2vh; }
-        /* 版权信息：亮度提升至清晰可见 */
-        .spacer { flex: 1; min-height: 0; }
-        .copyright-fixed { position: fixed; bottom: 0; left: 0; width: 100%; color: #AAAAAA; font-size: 8px; letter-spacing: 0.6em; text-transform: uppercase; padding: 12px 0; text-align: center; border-top: 1px solid #111; background: black; box-sizing: border-box; }
-        
+        /* ── 副标题 ── */
+        .sub-text { color: #C5A059; font-size: 9px; letter-spacing: 4px; text-transform: uppercase; display: none; }
+
+        /* ── 配置 ── */
+        .env-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 0; }
+        .env-item { padding: 3px 20px; }
+        .env-label { font-size: 7px; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+        .env-value { font-size: 9.5px; color: #AAAAAA; }
+
+        /* ── 按钮 ── */
+        .btn-row { display: flex; justify-content: center; gap: 10px; width: 100%; }
+        .btn-green { border: 1px solid #333; padding: 6px 12px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; background: transparent; font-size: 8.5px; cursor: pointer; flex: 1; max-width: 240px; color: #666; text-align: center; }
+        .btn-green:hover { border-color: #00FF41; color: #00FF41; box-shadow: 0 0 15px rgba(0,255,65,0.2); }
+
+        /* ── 弹窗 ── */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.99); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(50px); }
         input, textarea { background: #080808 !important; border: 1px solid #222 !important; color: #AAAAAA !important; padding: 8px; width: 100%; font-size: 10px; margin-bottom: 6px; outline: none; }
 
-        /* 手机适配：内容压缩，保持单屏 */
+        /* ── 手机适配 ── */
         @media (max-width: 640px) {
-            body { overflow: hidden; height: 100vh; justify-content: space-between; }
-            .formula-main { white-space: normal; font-size: clamp(0.55rem, 3.5vw, 0.85rem); }
-            .env-grid { gap: 6px 20px; }
-            .env-section { padding: 1vh 0; margin: 1vh auto; }
-            .formula-container { margin-top: 1.5vh; }
-            .desc-container { margin-top: 0.5vh; }
-            .btn-green { min-width: 140px; font-size: 7.5px; padding: 5px 8px; }
-            .action-zone { padding-bottom: 1vh; }
-            .version-notice { font-size: clamp(6px, 2.8vw, 8px); letter-spacing: 0.1em; }
+            .formula-main { white-space: normal; font-size: clamp(0.7rem, 4vw, 1rem); }
+            #formula { top: 10vh; }
+            #desc    { top: 36vh; }
+            #env     { top: 44vh; }
+            #actions { bottom: 9vh; gap: 6px; }
+            .btn-green { font-size: 7.5px; letter-spacing: 1px; }
         }
     </style>
 </head>
 <body>
-    <div style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;padding-top:1.5vh;">
+
+    <!-- 语言栏 -->
+    <div id="lang-bar">
         <span class="lang-btn lang-active" onclick="switchLang('en')">EN</span>
         <span class="lang-btn" onclick="switchLang('cn')">CN</span>
         <span class="lang-btn" onclick="switchLang('jp')">JP</span>
@@ -83,21 +68,19 @@
         <span class="lang-btn" onclick="switchLang('ar')">AR</span>
         <span class="lang-btn" onclick="switchLang('he')">HE</span>
     </div>
-    <div class="spacer"></div>
 
-    <div class="formula-container">
-        <!-- 高斯引力核方程，来自 GIE 内核 -->
+    <!-- 方程 -->
+    <div id="formula">
         <div class="formula-main">P(t) = f(t) + ∇Γ · exp(−‖ΔX‖² / 2θ²) + tanh(ψ/θ) · E_cap</div>
-        <!-- 版本提示：中英双语，白色，清晰 -->
         <div class="version-notice">
             A stronger version is under active development — stay tuned.<br>
             更强的版本正在努力调试，敬请期待。
         </div>
     </div>
-    <div class="spacer"></div>
 
-    <div class="desc-container">
-        <div id="desc-en" class="sub-text" style="display: block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
+    <!-- 副标题 -->
+    <div id="desc">
+        <div id="desc-en" class="sub-text" style="display:block;">SOVEREIGN ALGORITHMS FOR A NON-LINEAR WORLD.</div>
         <div id="desc-cn" class="sub-text">为非线性世界而生的主权级算法。</div>
         <div id="desc-jp" class="sub-text">非線形な世界のための、主権級アルゴリズム。</div>
         <div id="desc-fr" class="sub-text">ALGORITHMES SOUVERAINS POUR UN MONDE NON LINÉAIRE.</div>
@@ -106,9 +89,9 @@
         <div id="desc-ar" class="sub-text" dir="rtl">خوارزميات سيادية لعالم غير خطي.</div>
         <div id="desc-he" class="sub-text" dir="rtl">אלגוריתמים ריבוניים לעולם לא ליניארי.</div>
     </div>
-    <div class="spacer"></div>
 
-    <div class="env-section">
+    <!-- 配置 -->
+    <div id="env">
         <div class="env-grid">
             <div class="env-item"><div class="env-label">COMPUTE NODE</div><div class="env-value">1.5TB RAM / HPC CLUSTER</div></div>
             <div class="env-item"><div class="env-label">CORE KERNEL</div><div class="env-value">GIE_SK_V22.SO</div></div>
@@ -116,38 +99,39 @@
             <div class="env-item"><div class="env-label">LICENSE</div><div class="env-value">PI-WINDOW (188.4S)</div></div>
         </div>
     </div>
-    <div class="spacer"></div>
 
-    <div class="action-zone space-y-2" style="padding-bottom:50px;">
-        <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;width:100%;">
-            <button onclick="openModal('opensource-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Open Source Edition</button>
-            <button onclick="openPriceModal('tier2')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Black-Box Edition ($8.8M)</button>
-            <button onclick="openPriceModal('tier3')" class="btn-green" style="flex:1;max-width:240px;min-width:0;letter-spacing:1px;">Full Code Transfer ($100M–$250M)</button>
+    <!-- 按钮区 -->
+    <div id="actions">
+        <div class="btn-row">
+            <button onclick="openModal('opensource-modal')" class="btn-green">Open Source Edition</button>
+            <button onclick="openPriceModal('tier2')" class="btn-green">Black-Box Edition ($8.8M)</button>
+            <button onclick="openPriceModal('tier3')" class="btn-green" style="letter-spacing:1px;">Full Code Transfer ($100M–$250M)</button>
         </div>
-        <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;width:100%;">
-            <button onclick="openModal('docs-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Technical Archive</button>
-            <button onclick="openModal('inquiry-modal')" class="btn-green" style="flex:1;max-width:240px;min-width:0;">Protocol Inquiry</button>
+        <div class="btn-row">
+            <button onclick="openModal('docs-modal')" class="btn-green">Technical Archive</button>
+            <button onclick="openModal('inquiry-modal')" class="btn-green">Protocol Inquiry</button>
         </div>
     </div>
 
-    <div class="copyright-fixed">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
+    <!-- Copyright -->
+    <div id="copyright">GIE-SOLITON | FOUNDER: RAYMOND.MA | © 2026 ALL RIGHTS RESERVED</div>
 
-    <!-- 开源版弹窗：告知用户开发中 -->
-    <div id="opensource-modal" class="modal" onclick="closeOnBg(event, 'opensource-modal')">
+    <!-- 开源弹窗 -->
+    <div id="opensource-modal" class="modal" onclick="closeOnBg(event,'opensource-modal')">
         <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
             <h3 class="text-[#AAAAAA] text-[10px] mb-4 tracking-[0.6em] uppercase">Open Source Edition</h3>
             <div class="text-white text-[11px] mb-3 tracking-widest">COMING SOON / 敬请期待</div>
             <div class="text-[#666] text-[9px] leading-6 tracking-widest">
                 The open source version is currently under active development.<br>
                 开源版本正在积极开发中，即将发布。<br><br>
-                Stay tuned for updates.<br>
-                敬请关注后续更新。
+                Stay tuned for updates. / 敬请关注后续更新。
             </div>
             <button onclick="closeModal('opensource-modal')" class="btn-green mt-6">CLOSE</button>
         </div>
     </div>
 
-    <div id="docs-modal" class="modal" onclick="closeOnBg(event, 'docs-modal')">
+    <!-- 文档弹窗 -->
+    <div id="docs-modal" class="modal" onclick="closeOnBg(event,'docs-modal')">
         <div class="max-w-4xl w-full p-10 border border-zinc-900 bg-black text-center mx-4">
             <h3 class="text-[#AAAAAA] text-[10px] mb-6 tracking-[0.6em] uppercase">Sovereign Technical Archive</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
@@ -163,7 +147,8 @@
         </div>
     </div>
 
-    <div id="pricing-modal" class="modal" onclick="closeOnBg(event, 'pricing-modal')">
+    <!-- 价格弹窗 -->
+    <div id="pricing-modal" class="modal" onclick="closeOnBg(event,'pricing-modal')">
         <div class="max-w-xl w-full p-10 border border-zinc-900 bg-black mx-4">
             <div id="tier2-box" class="price-tier">
                 <h3 class="text-[#AAAAAA] text-[10px] mb-4 tracking-widest text-center uppercase">Institutional Node</h3>
@@ -191,15 +176,15 @@
     </div>
 
     <script>
-        function openModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
-        function openPriceModal(tier) { openModal('pricing-modal'); document.querySelectorAll('.price-tier').forEach(p => p.style.display = 'none'); const t = document.getElementById(tier + '-box'); if(t) t.style.display = 'block'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function closeOnBg(e, id) { if(e.target.id === id) closeModal(id); }
+        function openModal(id) { document.querySelectorAll('.modal').forEach(m => m.style.display='none'); document.getElementById(id).style.display='flex'; }
+        function openPriceModal(tier) { openModal('pricing-modal'); document.querySelectorAll('.price-tier').forEach(p => p.style.display='none'); const t=document.getElementById(tier+'-box'); if(t) t.style.display='block'; }
+        function closeModal(id) { document.getElementById(id).style.display='none'; }
+        function closeOnBg(e,id) { if(e.target.id===id) closeModal(id); }
         function switchLang(lang) {
-            document.querySelectorAll('.sub-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.sub-text').forEach(el => el.style.display='none');
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('lang-active'));
-            const desc = document.getElementById('desc-' + lang);
-            if(desc) desc.style.display = 'block';
+            const desc=document.getElementById('desc-'+lang);
+            if(desc) desc.style.display='block';
             event.target.classList.add('lang-active');
         }
     </script>
